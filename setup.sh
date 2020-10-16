@@ -102,7 +102,7 @@ case $1 in
             # To get access to this feature, uncomment the area below
             #
             # cp ~/vrl-package/byob-server.service /etc/systemd/system/
-            # sudo chmod root:root /etc/systemd/system/byob-server.service
+            # sudo chown root:root /etc/systemd/system/byob-server.service
             # sudo systemctl daemon-reload
             #
             sleep 2
