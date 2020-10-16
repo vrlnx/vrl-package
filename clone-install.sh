@@ -66,6 +66,6 @@ case $serverBoot in
     echo "                                                  |___/             ";
     sleep 1
     cd ~/byob/web-gui
-    ./startup.sh
+    ./startup.sh > ~/bootspool.log
     ;;
 esac
