@@ -1,4 +1,8 @@
 # vrl-package
+
+### This is not an sulotion, but ratcher a hack to make it work.
+
+
 VRL Package - A Carepackage for the BYOB Open Source project
 
 You are having a hard time installing everything 100% perfect for BYOB?
@@ -7,4 +11,5 @@ Well me too. So i created a automatic script that does loads of fancy stuff that
 Saves you loads of time googling and even remove you from needing to know Linux.
 
 This is a 100% Linux-only repo, I will not help Windows users.
+
 -vrlnx
