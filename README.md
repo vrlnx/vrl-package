@@ -1,6 +1,6 @@
 # vrl-package
 
-### This is not an solution, but ratcher a hack to make it work.
+### This is not an solution, but rather an hack to make it just work.
 
 
 VRL Package - A Carepackage for the BYOB Open Source project
