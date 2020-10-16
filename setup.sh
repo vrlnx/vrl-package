@@ -97,6 +97,7 @@ case $1 in
             sudo apt install docker -y
             echo "Installing Python3..."
             sudo apt install python3 python3-pip python3-opencv -y
+            # 
             # Make a system service
             # Allows for quick access to BYOB
             # To get access to this feature, uncomment the area below
@@ -104,6 +105,9 @@ case $1 in
             # cp ~/vrl-package/byob-server.service /etc/systemd/system/
             # sudo chown root:root /etc/systemd/system/byob-server.service
             # sudo systemctl daemon-reload
+            # sudo cp ~/vrl-package/byob.sh /usr/bin/byob
+            # sudo chmod +x /usr/bin/byob
+            # sudo chown root:root /usr/bin/byob
             #
             sleep 2
             echo ""
