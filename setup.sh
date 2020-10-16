@@ -135,6 +135,8 @@ case $1 in
             echo "Continue by running the next script."
             echo "Run 'cd'"
             echo "After then"
+            echo "chmod +x installer.sh"
+            echo "After then"
             echo "Run './installer.sh'"
             sleep 5
             sudo su byob
