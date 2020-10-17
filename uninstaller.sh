@@ -20,7 +20,7 @@ case $uninstall in
     echo "Deleting byob command"
     sudo rm -rf /usr/bin/byob
     cd
-    rm -rf /vrl-package
+    rm -rf ~/vrl-package
     ;;
     *)
     echo "Nothing has been done"

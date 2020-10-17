@@ -135,6 +135,7 @@ case $1 in
             echo "        |_|                            |___/       ";
             echo "Installing dependencies..."
             sleep .3
+            sudo touch /opt/byob/bootspool.log
             sudo apt install docker -y
             sudo apt install python3 python3-pip python3-opencv -y
             sudo apt install neofetch htop avahi-daemon -y
@@ -151,17 +152,6 @@ case $1 in
             sleep .3
             clear
             cd
-            echo "  _                        _                     ";
-            echo " | |                      (_)                    ";
-            echo " | |        ___     __ _   _   _ __              ";
-            echo " | |       / _ \   / _\` | | | | '_ \             ";
-            echo " | |____  | (_) | | (_| | | | | | | |  _   _   _ ";
-            echo " |______|  \___/   \__, | |_| |_| |_| (_) (_) (_)";
-            echo "                    __/ |                        ";
-            echo "                   |___/                         ";
-            echo ""
-            echo "Run the command"
-            echo "#1 './byob/web-gui/startup.sh'"
             sudo chown byob:byob -R /opt/byob
             sudo chmod +x /opt/byob/byob/web-gui/startup.sh
             cd /opt/byob
@@ -195,6 +185,20 @@ case $1 in
                 echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|";
                 echo "                                                                     ";
                 echo "                                                                     ";
+                echo "  _                        _                     ";
+                echo " | |                      (_)                    ";
+                echo " | |        ___     __ _   _   _ __              ";
+                echo " | |       / _ \   / _\` | | | | '_ \             ";
+                echo " | |____  | (_) | | (_| | | | | | | |  _   _   _ ";
+                echo " |______|  \___/   \__, | |_| |_| |_| (_) (_) (_)";
+                echo "                    __/ |                        ";
+                echo "                   |___/                         ";
+                echo ""
+                echo "Run the command"
+                echo "#1 'sudo su byob'"
+                echo "#2 'cd'"
+                echo "#3 'cd byob/web-gui'"
+                echo "#4 './startup.sh'"
                 ;;
             esac
             ;;
