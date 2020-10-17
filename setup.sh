@@ -56,8 +56,6 @@ case $1 in
         sudo cp byob /usr/bin/
         sleep .2
         echo "MAKE SURE YOUR SYSTEM IS UPDATED"
-        echo "Not sure? Run ./setup.sh updateMe"
-        echo " "
         cd
         echo "Current Directory:"
         pwd
@@ -103,13 +101,15 @@ case $1 in
             echo " "
             echo "User created, Password set..."
             sleep .5
-            read -p "Have you updated your system? [y/N]" updated
+            read -p "Have you upgraded or updated your system? [y/N]" updated
             case $updated in
                 y|Y)
                 continue
                 ;;
                 *)
                 sudo apt update && sudo apt upgrade -y
+                sudo apt update && sudo apt upgrade -full-upgrade -y
+                sudo apt autoremove -y
                 clear
                 echo "  _____      _                 _   ";
                 echo " |  __ \    | |               | |  ";
@@ -119,7 +119,7 @@ case $1 in
                 echo " |_|  \_\___|_.__/ \___/ \___/ \__|";
                 echo "                                   ";
                 echo "                                   ";
-                sleep .4
+                sleep .2
                 read -p "Your system must now reboot (Press [enter])"
                 sudo reboot now
                 ;;
@@ -137,18 +137,17 @@ case $1 in
             sleep .3
             sudo apt install docker -y
             sudo apt install python3 python3-pip python3-opencv -y
-            sudo pip3 install flask
-            sudo pip3 install flask-bcrypt
             sudo apt install neofetch htop avahi-daemon -y
             sudo systemctl start avahi-daemon
             sudo systemctl enable avahi-daemon
             sudo usermod -aG sudo byob
-            cd /opt/byob
-            sudo git clone https://github.com/malwaredllc/byob.git
-            cd /opt/byob/byob
-            python3 setup.py
-            pip3 install requirements.txt
-            pip3 install colorama
+            sudo git -C /opt/byob/ clone https://github.com/malwaredllc/byob.git
+            cd /opt/byob/byob/byob
+            sudo python3 setup.py
+            sudo pip3 install requirements.txt
+            sudo pip3 install colorama
+            sudo pip3 install flask
+            sudo pip3 install flask-bcrypt
             sleep .3
             clear
             cd
@@ -207,23 +206,6 @@ case $1 in
         echo "./setup.sh help"
         echo "./setup.sh install - Start installing"
         ;;
-    updateme|updateMe|UpdateMe|Updateme)
-        sudo apt update && sudo apt upgrade -y
-        sudo apt update && sudo apt upgrade -full-upgrade -y
-        sudo apt autoremove -y
-        clear
-        echo "Your system is now ready for install"
-        read -p "Do you want to reboot now? [Yes/No*]: " installerNow
-        case $installerNow in
-            Yes|YES|yes)
-            sudo reboot now
-            ;;
-            *)
-            echo "Still HIGHLY recommended to restart the pc."
-            echo "To start installing './setup.sh install'"
-            ;;
-        esac
-        ;;
     rules)
         echo "DO NOT USE ROOT USER!"
         echo ""
@@ -233,7 +215,7 @@ case $1 in
         echo "Use common sense, if you think it's against the rules, don't do it."
         echo "By reading messages you are agreeing to this."
         echo ""
-        echo "> use './setup.sh help' to get help"
+        echo "> use './setup.sh install' to start installing"
         ;; 
     *)
     echo "DO NOT USE ROOT USER!"
