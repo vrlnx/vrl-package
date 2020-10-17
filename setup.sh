@@ -171,7 +171,6 @@ case $1 in
             echo "#2 'cd'"
             echo "#3 'cd byob/web-gui'"
             echo "#4 './startup.sh'"
-            esac
             ;;
         esac
         ;;
