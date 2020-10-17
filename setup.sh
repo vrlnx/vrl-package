@@ -137,6 +137,7 @@ case $1 in
             sleep .3
             sudo touch /opt/byob/bootspool.log
             sudo apt install docker -y
+            sudo apt install gcc -y
             sudo apt install python3 python3-pip python3-opencv -y
             sudo apt install neofetch htop avahi-daemon -y
             sudo systemctl start avahi-daemon
@@ -150,56 +151,26 @@ case $1 in
             sudo pip3 install flask
             sudo pip3 install flask-bcrypt
             sleep .3
-            clear
-            cd
-            sudo chown byob:byob -R /opt/byob
             sudo chmod +x /opt/byob/byob/web-gui/startup.sh
-            cd /opt/byob
+            sudo chown byob:byob -R /opt/byob
             sleep .2
             cd
-            read -p "Do you want to start web-gui?[y/N]" webGUI
-            case $webGUI in
-                y)
-                clear
-                echo "   _____   _                    _     _                             ";
-                echo "  / ____| | |                  | |   (_)                            ";
-                echo " | (___   | |_    __ _   _ __  | |_   _   _ __     __ _             ";
-                echo "  \___ \  | __|  / _\` | | '__| | __| | | | '_ \   / _\` |            ";
-                echo "  ____) | | |_  | (_| | | |    | |_  | | | | | | | (_| |  _   _   _ ";
-                echo " |_____/   \__|  \__,_| |_|     \__| |_| |_| |_|  \__, | (_) (_) (_)";
-                echo "                                                   __/ |            ";
-                echo "                                                  |___/             ";
-                sleep .2
-                echo "Running BYOB - Open Source"
-                echo "Hidden mode enabled"
-                echo "logfile /opt/byob/bootspool.log"
-                sudo ./opt/byob/byob/web-gui/startup.sh > /opt/byob/bootspool.log
-                ;;
-                *)
-                clear
-                echo "  ______     ______  ____    _____           _        _ _          _ ";
-                echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |";
-                echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |";
-                echo " |  _ < \   /| |  | |  _ <    | | | '_ \/ __| __/ _\` | | |/ _ \/ _\` |";
-                echo " | |_) | | | | |__| | |_) |  _| |_| | | \__ \ || (_| | | |  __/ (_| |";
-                echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|";
-                echo "                                                                     ";
-                echo "                                                                     ";
-                echo "  _                        _                     ";
-                echo " | |                      (_)                    ";
-                echo " | |        ___     __ _   _   _ __              ";
-                echo " | |       / _ \   / _\` | | | | '_ \             ";
-                echo " | |____  | (_) | | (_| | | | | | | |  _   _   _ ";
-                echo " |______|  \___/   \__, | |_| |_| |_| (_) (_) (_)";
-                echo "                    __/ |                        ";
-                echo "                   |___/                         ";
-                echo ""
-                echo "Run the command"
-                echo "#1 'sudo su byob'"
-                echo "#2 'cd'"
-                echo "#3 'cd byob/web-gui'"
-                echo "#4 './startup.sh'"
-                ;;
+            clear
+            echo "  ______     ______  ____    _____           _        _ _          _ ";
+            echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |";
+            echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |";
+            echo " |  _ < \   /| |  | |  _ <    | | | '_ \/ __| __/ _\` | | |/ _ \/ _\` |";
+            echo " | |_) | | | | |__| | |_) |  _| |_| | | \__ \ || (_| | | |  __/ (_| |";
+            echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|";
+            echo "                                                                     ";
+            echo "                                                                     ";
+            echo ""
+            sleep .2
+            echo "Run the command"
+            echo "#1 'sudo su byob'"
+            echo "#2 'cd'"
+            echo "#3 'cd byob/web-gui'"
+            echo "#4 './startup.sh'"
             esac
             ;;
         esac
