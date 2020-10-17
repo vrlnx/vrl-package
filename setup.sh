@@ -163,6 +163,7 @@ case $1 in
             echo "Run the command"
             echo "#1 './byob/web-gui/startup.sh'"
             sudo chown byob:byob -R /opt/byob
+            sudo chmod +x /opt/byob/byob/web-gui/startup.sh
             cd /opt/byob
             sleep .2
             cd
@@ -178,12 +179,11 @@ case $1 in
                 echo " |_____/   \__|  \__,_| |_|     \__| |_| |_| |_|  \__, | (_) (_) (_)";
                 echo "                                                   __/ |            ";
                 echo "                                                  |___/             ";
-                sleep 1
-                cd /opt/byob/byob/web-gui
+                sleep .2
                 echo "Running BYOB - Open Source"
                 echo "Hidden mode enabled"
                 echo "logfile /opt/byob/bootspool.log"
-                sudo sh /opt/byob/byob/web-gui/startup.sh > /opt/byob/bootspool.log
+                sudo ./opt/byob/byob/web-gui/startup.sh > /opt/byob/bootspool.log
                 ;;
                 *)
                 clear
