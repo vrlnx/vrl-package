@@ -19,6 +19,8 @@ case $uninstall in
     sleep .2
     echo "Deleting byob command"
     sudo rm -rf /usr/bin/byob
+    cd
+    rm -rf /vrl-package
     ;;
     *)
     echo "Nothing has been done"
