@@ -3,17 +3,12 @@ Description=BYOB Server - Open Source
 After=network.target
 
 [Service]
+Type=simple
 User=byob
-Nice=1
-KillMode=none
-SuccessExitStatus=0 1
-ProtectHome=true
-ProtectSystem=full
-PrivateDevices=true
-NoNewPrivileges=true
-WorkingDirectory=/opt/byob/byob/web-gui
-ExecStart=sh /opt/byob/byob/web-gui/startup.sh
-ExecStop=sudo pkill byob-server.service
+Group=byob
+WorkingDirectory=/opt/byob/
+ExecStart=./opt/byob/byob/web-gui/startup.sh
+ExecStop=/bin/kill -s QUIT $MAINPID
 Restart=always
 RestartSec=5
 

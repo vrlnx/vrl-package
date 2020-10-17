@@ -84,6 +84,7 @@ case $1 in
             sudo useradd -r -m -U -d /opt/byob -s /bin/bash byob # Adds the user here
             echo "Finished... Added byob..."
             sudo cp ~/vrl-package/clone-install.sh /opt/byob/installer.sh
+            sudo cp ~/vrl-package/packageBoot.sh /opt/byob/run.sh
             sudo chown byob:byob /opt/byob/installer.sh
             echo " "
             echo "It's needed that you set a password"

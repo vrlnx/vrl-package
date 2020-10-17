@@ -44,14 +44,8 @@ echo "Installing python dependencies"
 echo ""
 cd ~/byob/byob
 python3 setup.py
-read -p " Did you get any errors [Yes/No*]: " moreStuff
-case $moreStuff in
-    yes|Yes|YES)
-    pip3 install requirements.txt
-    pip3 install colorama
-    ;;
-    *) echo " "; echo "Skipping...";;
-esac
+pip3 install requirements.txt
+pip3 install colorama
 read -p "Do you want to startup the BYOB - GUI? [Yes/No*]: " serverBoot
 case $serverBoot in
     yes|Yes|YES)
