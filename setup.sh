@@ -175,6 +175,7 @@ case $1 in
                 echo "Hidden mode enabled"
                 echo "logfile /opt/byob/bootspool.log"
                 ./startup.sh > /opt/byob/bootspool.log
+                ;;
                 *)
                 clear
                 echo "  ______     ______  ____    _____           _        _ _          _ ";
@@ -185,6 +186,7 @@ case $1 in
                 echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|";
                 echo "                                                                     ";
                 echo "                                                                     ";
+                ;;
             esac
             ;;
             *)
