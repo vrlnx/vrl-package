@@ -12,13 +12,13 @@ read -p "You are about uninstall Byob? [y/N*]: " uninstall
 case $uninstall in
     yes|Yes|YES|y|Y)
     if []
-    sleep 3
+    sleep .3
     echo "Deleting byob user and deleting it's host files"
     sudo userdel -rf byob
-    sleep 3
+    sleep .3
     echo "Deleting service files"
     sudo rm -f /usr/bin/byob-server.service
-    sleep 3
+    sleep .2
     echo "Deleting "
     sudo rm 
     ;;

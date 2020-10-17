@@ -71,7 +71,7 @@ case $1 in
             echo "Adding byob user to your Linux tenant..."
             sudo useradd -r -m -U -d /opt/byob -s /bin/bash byob # Adds the user here
             echo "Finished... Added byob..."
-            sleep .3
+            sleep 3
             clear
             echo "   _____      _                                               _ ";
             echo "  / ____|    | |                                             | |";
@@ -128,7 +128,7 @@ case $1 in
             sudo systemctl enable avahi-daemon
             sudo usermod -aG sudo byob
             cd /opt/byob
-            git clone https://github.com/malwaredllc/byob.git
+            sudo git clone https://github.com/malwaredllc/byob.git
             cd /opt/byob/byob
             python3 setup.py
             pip3 install requirements.txt
@@ -150,22 +150,36 @@ case $1 in
             sudo chown byob:byob -R /opt/byob
             cd /opt/byob
             sleep .2
-            read -p "Do you want to start web-gui?"
-            clear
-            echo "   _____   _                    _     _                             ";
-            echo "  / ____| | |                  | |   (_)                            ";
-            echo " | (___   | |_    __ _   _ __  | |_   _   _ __     __ _             ";
-            echo "  \___ \  | __|  / _\` | | '__| | __| | | | '_ \   / _\` |            ";
-            echo "  ____) | | |_  | (_| | | |    | |_  | | | | | | | (_| |  _   _   _ ";
-            echo " |_____/   \__|  \__,_| |_|     \__| |_| |_| |_|  \__, | (_) (_) (_)";
-            echo "                                                   __/ |            ";
-            echo "                                                  |___/             ";
-            sleep 1
-            cd /opt/byob/web-gui
-            echo "Running BYOB - Open Source"
-            echo "Hidden mode enabled"
-            echo "logfile /opt/byob/bootspool.log"
-            ./startup.sh > /opt/byob/bootspool.log
+            cd
+            read -p "Do you want to start web-gui?[y/N]" webGUI
+            case $webGUI in
+                y)
+                clear
+                echo "   _____   _                    _     _                             ";
+                echo "  / ____| | |                  | |   (_)                            ";
+                echo " | (___   | |_    __ _   _ __  | |_   _   _ __     __ _             ";
+                echo "  \___ \  | __|  / _\` | | '__| | __| | | | '_ \   / _\` |            ";
+                echo "  ____) | | |_  | (_| | | |    | |_  | | | | | | | (_| |  _   _   _ ";
+                echo " |_____/   \__|  \__,_| |_|     \__| |_| |_| |_|  \__, | (_) (_) (_)";
+                echo "                                                   __/ |            ";
+                echo "                                                  |___/             ";
+                sleep 1
+                cd /opt/byob/web-gui
+                echo "Running BYOB - Open Source"
+                echo "Hidden mode enabled"
+                echo "logfile /opt/byob/bootspool.log"
+                ./startup.sh > /opt/byob/bootspool.log
+                *)
+                clear
+                echo "  ______     ______  ____    _____           _        _ _          _ ";
+                echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |";
+                echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |";
+                echo " |  _ < \   /| |  | |  _ <    | | | '_ \/ __| __/ _\` | | |/ _ \/ _\` |";
+                echo " | |_) | | | | |__| | |_) |  _| |_| | | \__ \ || (_| | | |  __/ (_| |";
+                echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|";
+                echo "                                                                     ";
+                echo "                                                                     ";
+            esac
             ;;
             *)
             echo "  _____           _        _ _       _   _                         _                _           _    ";
