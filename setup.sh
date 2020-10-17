@@ -136,7 +136,7 @@ case $1 in
             echo "Installing dependencies..."
             sleep .3
             sudo touch /opt/byob/bootspool.log
-            sudo apt install docker.io -y
+            sudo apt install docker -y
             sudo apt install gcc -y
             sudo apt install python3 python3-pip python3-opencv -y
             sudo apt install neofetch htop avahi-daemon -y
