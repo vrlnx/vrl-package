@@ -62,9 +62,19 @@ case $1 in
         echo "Current Directory:"
         pwd
         sleep .5
-        read -p "You are about to install BYOB [Yes/No*]: " agreeTo
+        read -p "You are about to install BYOB [Y/n]: " agreeTo
         case $agreeTo in
-            yes|Yes|YES)
+            n|N)
+            echo "  _____           _        _ _       _                             _ ";
+            echo " |_   _|         | |      | | |     | |                           | |";
+            echo "   | |  _ __  ___| |_ __ _| | |  ___| |_ ___  _ __  _ __   ___  __| |";
+            echo "   | | | '_ \/ __| __/ _\` | | | / __| __/ _ \| '_ \| '_ \ / _ \/ _\` |";
+            echo "  _| |_| | | \__ \ || (_| | | | \__ \ || (_) | |_) | |_) |  __/ (_| |";
+            echo " |_____|_| |_|___/\__\__,_|_|_| |___/\__\___/| .__/| .__/ \___|\__,_|";
+            echo "                                             | |   | |               ";
+            echo "                                             |_|   |_|               ";
+            ;;
+            *)
             clear
             echo "  __  __       _                              ";
             echo " |  \/  |     | |                             ";
@@ -189,23 +199,12 @@ case $1 in
                 ;;
             esac
             ;;
-            *)
-            echo "  _____           _        _ _       _   _                         _                _           _    ";
-            echo " |_   _|         | |      | | |     | | (_)                       | |              | |         | |   ";
-            echo "   | |  _ __  ___| |_ __ _| | | __ _| |_ _  ___  _ __         __ _| |__   ___  _ __| |_ ___  __| |   ";
-            echo "   | | | '_ \/ __| __/ _\` | | |/ _\` | __| |/ _ \| '_ \       / _\` | '_ \ / _ \| '__| __/ _ \/ _\` |   ";
-            echo "  _| |_| | | \__ \ || (_| | | | (_| | |_| | (_) | | | |     | (_| | |_) | (_) | |  | ||  __/ (_| |   ";
-            echo " |_____|_| |_|___/\__\__,_|_|_|\__,_|\__|_|\___/|_| |_|      \__,_|_.__/ \___/|_|   \__\___|\__,_|   ";
-            echo "                                                                                                     ";
-            echo "                                                                                                     ";
-            ;;
         esac
         ;;
     help)
         echo "DO NOT USE ROOT USER!"
         echo "Commands around this setup:"
         echo "./setup.sh help"
-        echo "./setup.sh updateMe - Ready your system before install"
         echo "./setup.sh install - Start installing"
         ;;
     updateme|updateMe|UpdateMe|Updateme)
