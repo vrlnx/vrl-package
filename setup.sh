@@ -180,11 +180,11 @@ case $1 in
                 echo "                                                   __/ |            ";
                 echo "                                                  |___/             ";
                 sleep 1
-                cd /opt/byob/web-gui
+                cd /opt/byob/byob/web-gui
                 echo "Running BYOB - Open Source"
                 echo "Hidden mode enabled"
                 echo "logfile /opt/byob/bootspool.log"
-                ./startup.sh > /opt/byob/bootspool.log
+                sudo sh /opt/byob/byob/web-gui/startup.sh > /opt/byob/bootspool.log
                 ;;
                 *)
                 clear
