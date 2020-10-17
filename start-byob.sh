@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo sh /opt/byob/web-gui/startup.sh > ~/bootspool.log
+sudo sh /opt/byob/byob/web-gui/startup.sh > ~/bootspool.log
