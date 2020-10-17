@@ -11,6 +11,7 @@ echo "                                                                       ";
 read -p "You are about uninstall Byob? [y/N*]: " uninstall
 case $uninstall in
     yes|Yes|YES|y|Y)
+    rm  ~/bootspool.log
     echo "Deleting byob user and deleting it's host files"
     sudo userdel -rf byob
     sleep .3
