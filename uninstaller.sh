@@ -19,7 +19,10 @@ case $uninstall in
     echo "Deleting service files"
     sudo rm -f /usr/bin/byob-server.service
     sleep .2
-    echo "Deleting "
-    sudo rm 
+    echo "Deleting byob command"
+    sudo rm -rf /usr/bin/byob
+    ;;
+    *)
+    echo "Nothing has been done"
     ;;
 esac

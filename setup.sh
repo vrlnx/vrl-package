@@ -48,6 +48,12 @@ case $1 in
         echo "                                                            ";
         echo "                                                            ";
         echo " "
+        chmod +x uninstaller.sh
+        chmod +x start-byob.sh
+        sudo chown root:root byob-server.service
+        sudo chown root:root byob
+        sudo cp byob-server.service /etc/systemd/system/
+        sudo cp byob /usr/bin/
         sleep .2
         echo "MAKE SURE YOUR SYSTEM IS UPDATED"
         echo "Not sure? Run ./setup.sh updateMe"
