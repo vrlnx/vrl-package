@@ -1,1 +1,0 @@
-git -C ~/ clone https://github.com/vrlnx/byob.git > /dev/null
