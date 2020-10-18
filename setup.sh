@@ -84,6 +84,8 @@ case $1 in
             echo "                                              ";
             echo "Adding byob user to your Linux tenant..."
             sudo useradd -r -m -U -d /opt/byob -s /bin/bash byob # Adds the user here
+            sudo usermod -aG sudo byob
+            sudo usermod -aG docker byob
             echo "Finished... Added byob..."
             sleep 3
             clear
@@ -137,19 +139,23 @@ case $1 in
             sleep .3
             sudo touch /opt/byob/bootspool.log
             sudo apt install docker -y
-            sudo apt install gcc -y
-            sudo apt install python3 python3-pip python3-opencv -y
+            sudo apt install gcc cmake make -y
+            sudo apt install upx-ucl build-essential zlib1g-dev -y
+            sudo apt install python3 python3-pip python3-opencv python3-wheel python3-setuptools python3-dev python3-distutils python3-venv -y
             sudo apt install neofetch htop avahi-daemon -y
             sudo systemctl start avahi-daemon
             sudo systemctl enable avahi-daemon
             sudo usermod -aG sudo byob
-            sudo git -C /opt/byob/ clone https://github.com/malwaredllc/byob.git
+            sudo git -C /opt/byob/ clone https://github.com/vrlnx/byob.git
             cd /opt/byob/byob/byob
             sudo python3 setup.py
             sudo pip3 install requirements.txt
             sudo pip3 install colorama
+            sudo pip3 pyinstaller==3.6
             sudo pip3 install flask
             sudo pip3 install flask-bcrypt
+            sudo pip3 install flask-login
+            sudo pip3 install flask-sqlalchemy
             sleep .3
             sudo chmod +x /opt/byob/byob/web-gui/startup.sh
             sudo chown byob:byob -R /opt/byob
