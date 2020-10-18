@@ -50,8 +50,8 @@ case $1 in
         echo " "
         sudo cp byob-server.service /etc/systemd/system/
         sudo cp byob /usr/bin/
-        sudo chown $USER:$USER /etc/systemd/system/byob-server.service
-        sudo chown $USER:$USER /usr/bin/byob
+        sudo chown root:root /etc/systemd/system/byob-server.service
+        sudo chown root:root /usr/bin/byob
         sleep .2
         echo "MAKE SURE YOUR SYSTEM IS UPDATED"
         cd
@@ -72,18 +72,6 @@ case $1 in
             ;;
             *)
             clear
-            echo "  __  __       _                              ";
-            echo " |  \/  |     | |                             ";
-            echo " | \  / | __ _| | _____   _   _ ___  ___ _ __ ";
-            echo " | |\/| |/ _\` | |/ / _ \ | | | / __|/ _ \ '__|";
-            echo " | |  | | (_| |   <  __/ | |_| \__ \  __/ |   ";
-            echo " |_|  |_|\__,_|_|\_\___|  \__,_|___/\___|_|   ";
-            echo "                                              ";
-            echo "                                              ";
-            echo "Setting up $USER to with your Linux tenant..."
-            sudo usermod -aG sudo $USER
-            sudo usermod -aG docker $USER
-            echo "Finished... $USER is linked now..."
             sleep 1
             echo " "
             echo " "
@@ -122,7 +110,6 @@ case $1 in
             echo "        |_|                            |___/       ";
             echo "Installing dependencies..."
             sleep .3
-            touch ~/bootspool.log
             sudo apt install docker gcc cmake make upx-ucl build-essential zlib1g-dev neofetch htop avahi-daemon -y
             sudo apt install python3 python3-pip python3-opencv python3-wheel python3-setuptools python3-dev python3-distutils python3-venv -y
             sudo systemctl start avahi-daemon
@@ -141,10 +128,9 @@ case $1 in
             sleep .3
             chmod +x ~/byob/web-gui/startup.sh
             sleep .2
-            cd ~/vrl-package
             clear
-            chmod +x uninstaller.sh
-            chmod +x start-byob.sh
+            chmod +x ~/vrl-package/uninstaller.sh
+            chmod +x ~/vrl-package/start-byob.sh
             cd
             echo "  ______     ______  ____    _____           _        _ _          _ ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |";

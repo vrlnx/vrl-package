@@ -13,7 +13,6 @@ case $uninstall in
     yes|Yes|YES|y|Y)
     rm  ~/bootspool.log
     echo "Deleting byob user and deleting it's host files"
-    sudo userdel -rf byob
     sleep .3
     echo "Deleting service files"
     sudo rm -f /usr/bin/byob-server.service
@@ -21,6 +20,7 @@ case $uninstall in
     echo "Deleting byob command"
     sudo rm -rf /usr/bin/byob
     cd
+    rm -rf ~/byob
     rm -rf ~/vrl-package
     ;;
     *)
