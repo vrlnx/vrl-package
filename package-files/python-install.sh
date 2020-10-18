@@ -1,6 +1,6 @@
 sleep .5
 echo "Python installer..."
-cd $HOME/byob/byob/
+cd ~/byob/byob
 python3 setup.py |> /dev/null
 # Installing pip3 python add-ons
 pip3 install requirements.txt |> /dev/null

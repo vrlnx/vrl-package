@@ -48,17 +48,9 @@ case $1 in
         echo "                                                            ";
         echo "                                                            ";
         echo " "
-        sudo chown -R $USER:$USER *.*
-        cd ~/vrl-package/package-files/
-        sudo chmod +x *.*
-        cd ~/vrl-package
-        sudo cp byob-server.service /etc/systemd/system/
-        sudo cp byob /usr/bin/
-        sudo chown root:root /etc/systemd/system/byob-server.service
-        sudo chown root:root /usr/bin/byob
         sleep .2
         echo "MAKE SURE YOUR SYSTEM IS UPDATED"
-        echo ""
+        echo " "
         sleep .5
         read -p "You are about to install BYOB [Y/n]: " agreeTo
         case $agreeTo in
@@ -94,6 +86,12 @@ case $1 in
                 sudo reboot now
                 ;;
             esac
+            sudo chown -R $USER:$USER ~/*.*
+            sudo chmod -R +x ~/vrl-package/package-files/*.*
+            sudo cp ~/vrl-package/byob-server.service /etc/systemd/system/
+            sudo cp ~/vrl-package/byob /usr/bin/
+            sudo chown root:root /etc/systemd/system/byob-server.service
+            sudo chown root:root /usr/bin/byob
             clear
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
@@ -106,12 +104,18 @@ case $1 in
             echo "Installing dependencies..."
             sleep .5
             # Installing dependencies
-            cd ~/vrl-package/package-files/
-            ./git-byob-clone.sh
-            ./python-install.sh
-            ./permissions.sh
-            ./ownership.sh
-            sleep 1
+            echo "Trying to install git..."
+            sleep 5
+            . ~/vrl-package/package-files/git-byob-clone.sh
+            echo "Trying to install python3..."
+            sleep 5
+            . ~/vrl-package/package-files/python-install.sh
+            echo "Trying to set permissions..."
+            sleep 5
+            . ~/vrl-package/package-files/permissions.sh
+            echo "Trying to transfer ownership..."
+            sleep 5
+            . ~/vrl-package/package-files/ownership.sh
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
