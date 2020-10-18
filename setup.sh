@@ -106,28 +106,46 @@ case $1 in
             # Installing dependencies
             sudo apt install docker gcc cmake make upx-ucl build-essential zlib1g-dev neofetch htop avahi-daemon -y
             sudo apt install python3 python3-pip python3-opencv python3-wheel python3-setuptools python3-dev python3-distutils python3-venv -y
+            echo "."
             sudo systemctl start avahi-daemon
+            echo "."
             sudo systemctl enable avahi-daemon
+            echo "."
             sudo systemctl start docker
+            echo "."
             sudo systemctl enable docker
             # Adding user to docker group
+            echo "."
             sudo usermod -aG docker $USER
+            echo "."
             newgrp docker
+            echo "."
             # Downloading latest git
             git -C ~/ clone https://github.com/vrlnx/byob.git
+            echo "."
             sleep .1
             # Probing python3 dependencies
             cd ~/byob/byob
+            echo "."
             python3 setup.py
+            echo "."
             # Installing pip3 python add-ons
             pip3 install requirements.txt
+            echo "."
             pip3 install colorama
+            echo "."
             pip3 pyinstaller==3.6
+            echo "."
             pip3 install flask
+            echo "."
             pip3 install flask-bcrypt
+            echo "."
             pip3 install flask-login
+            echo "."
             pip3 install flask-sqlalchemy
+            echo "."
             cd ~
+            echo "."
             # Making linux files executable
             chmod +x ~/byob/web-gui/startup.sh
             chmod +x ~/vrl-package/uninstaller.sh
