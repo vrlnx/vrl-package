@@ -131,7 +131,7 @@ case $1 in
             clear
             chmod +x ~/vrl-package/uninstaller.sh
             chmod +x ~/vrl-package/start-byob.sh
-            sudo chmod $USER:$USER -R ~/byob
+            sudo chown $USER:$USER -R ~/byob
             newgrp docker
             cd
             echo "  ______     ______  ____    _____           _        _ _          _ ";
