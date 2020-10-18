@@ -49,7 +49,8 @@ case $1 in
         echo "                                                            ";
         echo " "
         cd ~/vrl-package/package-files/
-        sudo chown $USER:$USER *
+        sudo chown $USER:$USER ./*
+        sudo chmod +x ./*
         cd
         sudo cp byob-server.service /etc/systemd/system/
         sudo cp byob /usr/bin/
@@ -106,18 +107,15 @@ case $1 in
             echo "        | |                             __/ |      ";
             echo "        |_|                            |___/       ";
             echo "Installing dependencies..."
+            sleep .5
             # Installing dependencies
             cd ~/vrl-package/package-files/
-            echo "in package files"
-            sleep 2
             ./git-byob-clone.sh
             ./python-install.sh
             ./permissions.sh
             ./ownership.sh
-            # Finish the script with fancy message
-            echo "Enabled uninstaller and start-byob files"
+            sleep 1
             clear
-            sleep .5
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
             echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |  ";
