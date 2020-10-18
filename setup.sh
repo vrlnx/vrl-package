@@ -177,7 +177,7 @@ case $1 in
             echo "Enabled start-byob.sh"
             echo "Your website will open on ""$HOSTNAME"".local:5000"" when server is started."
             cd ~/vrl-package
-            read -p "Do you want to start BYOB - Open Source web-server? [y/N]" webServer
+            read -p "Do you want to start BYOB - Open Source web-server? [Y/n]" webServer
             case $webServer in
                 n|N)
                 echo "You start BYOB - Open Source Webserver by running"
