@@ -106,16 +106,16 @@ case $1 in
             # Installing dependencies
             echo "Trying to install git..."
             sleep 5
-            . ~/vrl-package/package-files/git-byob-clone.sh
+            . ~/vrl-package/package-files/git-byob-clone.sh |> /dev/null
             echo "Trying to install python3..."
             sleep 5
-            . ~/vrl-package/package-files/python-install.sh
+            . ~/vrl-package/package-files/python-install.sh |> /dev/null
             echo "Trying to set permissions..."
             sleep 5
-            . ~/vrl-package/package-files/permissions.sh
+            . ~/vrl-package/package-files/permissions.sh |> /dev/null
             echo "Trying to transfer ownership..."
             sleep 5
-            . ~/vrl-package/package-files/ownership.sh
+            . ~/vrl-package/package-files/ownership.sh |> /dev/null
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
