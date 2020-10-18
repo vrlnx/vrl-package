@@ -94,7 +94,6 @@ case $1 in
                 echo " |_|  \_\___|_.__/ \___/ \___/ \__|";
                 echo "                                   ";
                 echo "                                   ";
-                sleep .2
                 read -p "Your system must now reboot (Press [enter])"
                 sudo reboot now
                 ;;
@@ -109,44 +108,46 @@ case $1 in
             echo "        | |                             __/ |      ";
             echo "        |_|                            |___/       ";
             echo "Installing dependencies..."
-            sleep .3
+            # Installing dependencies
             sudo apt install docker gcc cmake make upx-ucl build-essential zlib1g-dev neofetch htop avahi-daemon -y
             sudo apt install python3 python3-pip python3-opencv python3-wheel python3-setuptools python3-dev python3-distutils python3-venv -y
             sudo systemctl start avahi-daemon
             sudo systemctl enable avahi-daemon
+            # Adding user to docker group
             sudo usermod -aG docker $USER
+            newgrp docker
+            # Downloading latest git
             git -C ~/ clone https://github.com/vrlnx/byob.git
             sleep .1
-            cd ~/byob/byob
-            sleep .1
+            # Probing python3 dependencies
             python3 setup.py
-            pip3 install requirements.txt
+            # Installing pip3 python add-ons
+            pip3 install ~/byob/byob/requirements.txt
             pip3 install colorama
             pip3 pyinstaller==3.6
             pip3 install flask
             pip3 install flask-bcrypt
             pip3 install flask-login
             pip3 install flask-sqlalchemy
-            sleep .1
+            # Making linux files executable
             chmod +x ~/byob/web-gui/startup.sh
-            sleep .1
-            clear
             chmod +x ~/vrl-package/uninstaller.sh
             chmod +x ~/vrl-package/start-byob.sh
+            # Add ownership to the byob folder
             sudo chown $USER:$USER -R ~/byob
+            # Finish the script with fancy message
             echo "Enabled uninstaller and start-byob files"
-            newgrp docker
             clear
             sleep .5
-            echo "  ______     ______  ____    _____           _        _ _          _ ";
-            echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |";
-            echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |";
+            echo "  ______     ______  ____    _____           _        _ _          _   ";
+            echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
+            echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |  ";
             echo " |  _ < \   /| |  | |  _ <    | | | '_ \/ __| __/ _\` | | |/ _ \/ _\` |";
-            echo " | |_) | | | | |__| | |_) |  _| |_| | | \__ \ || (_| | | |  __/ (_| |";
-            echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|";
-            echo "                                                                     ";
-            echo "                                                                     ";
-            echo ""
+            echo " | |_) | | | | |__| | |_) |  _| |_| | | \__ \ || (_| | | |  __/ (_| |  ";
+            echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|  ";
+            echo "                                                                       ";
+            echo "                                                                       ";
+            echo " "
             cd ~/vrl-package
             echo "Run the following cmd"
             echo "#1 './start-byob.sh'"
