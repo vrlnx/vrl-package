@@ -128,7 +128,8 @@ case $1 in
             echo " "
             cd $HOME/vrl-package
             echo "Run the following cmd"
-            echo "#1 './start-byob.sh'"
+            echo "#1 'newgrp docker'"
+            echo "#2 './start-byob.sh'"
             ;;
         esac
         ;;
