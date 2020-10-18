@@ -90,12 +90,11 @@ case $1 in
                 ;;
             esac
             echo "Applying pre-perms to service files"
-                sudo cp ~/vrl-package/byob-server.service /etc/systemd/system/
-                sudo cp ~/vrl-package/byob /usr/bin/
-                sudo chown root:root /etc/systemd/system/byob-server.service
-                sudo chown root:root /usr/bin/byob
-            sleep 5
-            clear
+                sudo cp ~/vrl-package/byob-server.service /etc/systemd/system/ > /dev/null
+                sudo cp ~/vrl-package/byob /usr/bin/ > /dev/null
+                sudo chown root:root /etc/systemd/system/byob-server.service > /dev/null
+                sudo chown root:root /usr/bin/byob > /dev/null
+            sleep .5
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
             echo " | |  | |_ __   __| | __ _| |_ _ _ __   __ _       ";
@@ -104,24 +103,37 @@ case $1 in
             echo "  \____/| .__/ \__,_|\__,_|\__|_|_| |_|\__, (_|_|_)";
             echo "        | |                             __/ |      ";
             echo "        |_|                            |___/       ";
-            sleep 2
+            sleep .5
             echo "Installing dependencies..."
+                echo "Fetching fresh meat..."
+                    sudo apt install docker \
+                    git gcc cmake make upx-ucl \
+                    build-essential zlib1g-dev \
+                    neofetch htop avahi-daemon -qy  > /dev/null
+                echo "Picking python repos..."
+                    sudo apt install python3 python3-pip python3-opencv python3-wheel \
+                    python3-setuptools python3-dev python3-distutils python3-venv -qy  > /dev/null
+                echo "Doing magic..."
+                    sudo systemctl start avahi-daemon  > /dev/null
+                    sudo systemctl enable avahi-daemon  > /dev/null
+                    sudo systemctl start docker  > /dev/null
+                    sudo systemctl enable docker > /dev/null
                 echo "Cloning vrlnx/BYOB files..."
                     sleep .4
-                    git -C ~/ clone https://github.com/vrlnx/byob.git
-                echo "Install Python3..."
+                    git -C ~/ clone https://github.com/vrlnx/byob.git > /dev/null
+                echo "Installing BYOB dependencies..."
                     cd ~/byob/byob
-                    sleep 2
-                    python3 setup.py
-                    pip3 install requirements.txt
-                    pip3 install colorama
-                    pip3 install pyinstaller==3.6
-                    pip3 install numpy 
-                    pip3 install requests
-                    pip3 install flask
-                    pip3 install flask-bcrypt
-                    pip3 install flask-login
-                    pip3 install flask-sqlalchemy
+                    sleep .5
+                    python3 setup.py  > /dev/null
+                    pip3 install requirements.txt  > /dev/null
+                    pip3 install colorama  > /dev/null
+                    pip3 install pyinstaller==3.6  > /dev/null
+                    pip3 install numpy > /dev/null
+                    pip3 install requests > /dev/null
+                    pip3 install flask > /dev/null
+                    pip3 install flask-bcrypt > /dev/null
+                    pip3 install flask-login > /dev/null
+                    pip3 install flask-sqlalchemy > /dev/null
                     cd
                 echo "Set permissions..."
                     sleep 2
@@ -129,8 +141,8 @@ case $1 in
                     chmod +x ~/vrl-package/start-byob.sh
                 echo "Transfer Ownership..."
                     echo "Current user: $USER"
-                    sudo usermod -aG docker $USER
-                    sudo chown -R $USER:$USER ~/byob
+                    sudo usermod -aG docker $USER > /dev/null
+                    sudo chown -R $USER:$USER ~/byob > /dev/null
                     read -p "Are you ready to use the system? (Enter to continue)"
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
@@ -147,12 +159,12 @@ case $1 in
             cd ~/vrl-package
             read -p "Do you want to start BYOB - Open Source web-server? [y/N]" webServer
             case $webServer in
-                y|Y)
-                ./start-byob.sh
-                ;;
-                *)
+                n|N)
                 echo "You start BYOB - Open Source Webserver by running"
                 echo "'./start-byob.sh' inside 'vrl-package' folder"
+                ;;
+                *)
+                ./start-byob.sh
                 ;;
             esac
             ;;
