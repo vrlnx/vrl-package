@@ -1,12 +1,9 @@
-sleep .5
-echo "Python installer..."
 cd ~/byob/byob
-python3 setup.py |> /dev/null
-# Installing pip3 python add-ons
-pip3 install requirements.txt |> /dev/null
-pip3 install colorama |> /dev/null
-pip3 pyinstaller==3.6 |> /dev/null
-pip3 install flask |> /dev/null
-pip3 install flask-bcrypt |> /dev/null
-pip3 install flask-login |> /dev/null
-pip3 install flask-sqlalchemy |> /dev/null
+python3 setup.py
+pip3 install requirements.txt
+pip3 install colorama
+pip3 pyinstaller==3.6
+pip3 install flask
+pip3 install flask-bcrypt
+pip3 install flask-login
+pip3 install flask-sqlalchemy

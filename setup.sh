@@ -71,6 +71,10 @@ case $1 in
                 continue
                 ;;
                 *)
+                cd
+                # Don't do any actions before user agrees to the terms.
+                sudo chown -R $USER:$USER ~/*.*
+                sudo chmod -R +x ~/vrl-package/package-files/*.*
                 sudo apt update && sudo apt upgrade -y && sudo apt upgrade -full-upgrade -y
                 sudo apt autoremove -y
                 clear
@@ -86,12 +90,7 @@ case $1 in
                 sudo reboot now
                 ;;
             esac
-            sudo chown -R $USER:$USER ~/*.*
-            sudo chmod -R +x ~/vrl-package/package-files/*.*
-            sudo cp ~/vrl-package/byob-server.service /etc/systemd/system/
-            sudo cp ~/vrl-package/byob /usr/bin/
-            sudo chown root:root /etc/systemd/system/byob-server.service
-            sudo chown root:root /usr/bin/byob
+            . ~/vrl-package/package/pre-perms.sh > /dev/null
             clear
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
@@ -102,20 +101,15 @@ case $1 in
             echo "        | |                             __/ |      ";
             echo "        |_|                            |___/       ";
             echo "Installing dependencies..."
-            sleep .5
-            # Installing dependencies
-            echo "Trying to install git..."
+            echo "Trying to install BYOB files..."
+            . ~/vrl-package/package-files/git-byob-clone.sh > /dev/null
+            echo "Trying to install Python3..."
+            . ~/vrl-package/package-files/python-install.sh > /dev/null
+            echo "Trying to set Permissions..."
+            . ~/vrl-package/package-files/permissions.sh > /dev/null
+            echo "Trying to transfer Ownership..."
+            . ~/vrl-package/package-files/ownership.sh > /dev/null
             sleep 5
-            . ~/vrl-package/package-files/git-byob-clone.sh |> /dev/null
-            echo "Trying to install python3..."
-            sleep 5
-            . ~/vrl-package/package-files/python-install.sh |> /dev/null
-            echo "Trying to set permissions..."
-            sleep 5
-            . ~/vrl-package/package-files/permissions.sh |> /dev/null
-            echo "Trying to transfer ownership..."
-            sleep 5
-            . ~/vrl-package/package-files/ownership.sh |> /dev/null
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
