@@ -126,7 +126,6 @@ case $1 in
             pip3 install flask-bcrypt |> /dev/null
             pip3 install flask-login |> /dev/null
             pip3 install flask-sqlalchemy |> /dev/null
-            echo "yay"
             cd $HOME
             # Making linux files executable
             chmod +x $HOME/byob/web-gui/startup.sh
