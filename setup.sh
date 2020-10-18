@@ -48,12 +48,10 @@ case $1 in
         echo "                                                            ";
         echo "                                                            ";
         echo " "
-        chmod +x uninstaller.sh
-        chmod +x start-byob.sh
-        sudo chown root:root byob-server.service
-        sudo chown root:root byob
         sudo cp byob-server.service /etc/systemd/system/
         sudo cp byob /usr/bin/
+        sudo chown $USER:$USER /etc/systemd/system/byob-server.service
+        sudo chown $USER:$USER /usr/bin/byob
         sleep .2
         echo "MAKE SURE YOUR SYSTEM IS UPDATED"
         cd
@@ -82,27 +80,14 @@ case $1 in
             echo " |_|  |_|\__,_|_|\_\___|  \__,_|___/\___|_|   ";
             echo "                                              ";
             echo "                                              ";
-            echo "Adding byob user to your Linux tenant..."
-            sudo useradd -r -m -U -d /opt/byob -s /bin/bash byob # Adds the user here
-            sudo usermod -aG sudo byob
-            sudo usermod -aG docker byob
-            echo "Finished... Added byob..."
-            sleep 3
-            clear
-            echo "   _____      _                                               _ ";
-            echo "  / ____|    | |                                             | |";
-            echo " | (___   ___| |_   _ __   __ _ ___ _____      _____  _ __ __| |";
-            echo "  \___ \ / _ \ __| | '_ \ / _\` / __/ __\ \ /\ / / _ \| '__/ _\` |";
-            echo "  ____) |  __/ |_  | |_) | (_| \__ \__ \\ V  V / (_) | | | (_| |";
-            echo " |_____/ \___|\__| | .__/ \__,_|___/___/ \_/\_/ \___/|_|  \__,_|";
-            echo "                   | |                                          ";
-            echo "                   |_|                                          ";
+            echo "Setting up $USER to with your Linux tenant..."
+            sudo usermod -aG sudo $USER
+            sudo usermod -aG docker $USER
+            echo "Finished... $USER is linked now..."
+            sleep 1
             echo " "
-            echo "It's needed that you set a password..."
-            sudo passwd byob
             echo " "
-            echo "User created, Password set..."
-            sleep .5
+            echo " "
             read -p "Have you upgraded or updated your system? [y/N]" updated
             case $updated in
                 y|Y)
@@ -137,31 +122,30 @@ case $1 in
             echo "        |_|                            |___/       ";
             echo "Installing dependencies..."
             sleep .3
-            sudo touch /opt/byob/bootspool.log
-            sudo apt install docker -y
-            sudo apt install gcc cmake make -y
-            sudo apt install upx-ucl build-essential zlib1g-dev -y
+            touch ~/bootspool.log
+            sudo apt install docker gcc cmake make upx-ucl build-essential zlib1g-dev neofetch htop avahi-daemon -y
             sudo apt install python3 python3-pip python3-opencv python3-wheel python3-setuptools python3-dev python3-distutils python3-venv -y
-            sudo apt install neofetch htop avahi-daemon -y
             sudo systemctl start avahi-daemon
             sudo systemctl enable avahi-daemon
-            sudo usermod -aG sudo byob
-            sudo git -C /opt/byob/ clone https://github.com/vrlnx/byob.git
-            cd /opt/byob/byob/byob
-            sudo python3 setup.py
-            sudo pip3 install requirements.txt
-            sudo pip3 install colorama
-            sudo pip3 pyinstaller==3.6
-            sudo pip3 install flask
-            sudo pip3 install flask-bcrypt
-            sudo pip3 install flask-login
-            sudo pip3 install flask-sqlalchemy
+            sudo usermod -aG docker $USER
+            git -C ~/ clone https://github.com/vrlnx/byob.git
+            cd ~/byob/byob
+            python3 setup.py
+            pip3 install requirements.txt
+            pip3 install colorama
+            pip3 pyinstaller==3.6
+            pip3 install flask
+            pip3 install flask-bcrypt
+            pip3 install flask-login
+            pip3 install flask-sqlalchemy
             sleep .3
-            sudo chmod +x /opt/byob/byob/web-gui/startup.sh
-            sudo chown byob:byob -R /opt/byob
+            chmod +x ~/byob/web-gui/startup.sh
             sleep .2
-            cd
+            cd ~/vrl-package
             clear
+            chmod +x uninstaller.sh
+            chmod +x start-byob.sh
+            cd
             echo "  ______     ______  ____    _____           _        _ _          _ ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |";
             echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |";
