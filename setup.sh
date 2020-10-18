@@ -54,7 +54,7 @@ case $1 in
         sleep .5
         read -p "You are about to install BYOB [Y/n]: " agreeTo
         case $agreeTo in
-            n|N)
+            n|N|no|No|NO)
             echo "  _____           _        _ _                   _                _           _    ";
             echo " |_   _|         | |      | | |                 | |              | |         | |   ";
             echo "   | |  _ __  ___| |_ __ _| | | ___ _ __    __ _| |__   ___  _ __| |_ ___  __| |   ";
@@ -66,9 +66,9 @@ case $1 in
             ;;
             *)
             cd && sudo chown -R $USER:$USER ~/* ; sudo chown -R $USER:$USER ~/.*
-            read -p "Do you want to update the system? [Y/n]" updated
+            read -p "Do you want to update the system? [Y/n]: " updated
             case $updated in
-                n|N)
+                n|N|no|No|NO)
                 echo "Moving on..."
                 PATH=$PATH:~/.local/bin
                 ;;
