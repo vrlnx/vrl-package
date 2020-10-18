@@ -122,6 +122,7 @@ case $1 in
                 sleep .2
                 read -p "Your system must now reboot (Press [enter])"
                 sudo reboot now
+                clear
                 ;;
             esac
             clear
