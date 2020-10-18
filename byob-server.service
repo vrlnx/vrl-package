@@ -3,10 +3,10 @@ Description=BYOB Server - Open Source
 After=network.target
 
 [Service]
-User=byob
-Group=byob
-WorkingDirectory=/opt/byob/
-ExecStart=sudo sh /opt/byob/byob/web-gui/startup.sh > /opt/byob/bootspool.log
+User=root
+Group=root
+WorkingDirectory=~/byob
+ExecStart=./web-gui/startup.sh > ~/bootspool.log
 ExecStop=/bin/kill -s QUIT $MAINPID
 Restart=always
 RestartSec=5

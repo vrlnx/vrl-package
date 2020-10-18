@@ -15,6 +15,8 @@ sudo apt install python3-pip -y
 > install git
 > install docker
 > start and enable docker
+> sudo docker login
+> login to docker
 > get python3, pip3 and pyinstaller
 > get pip3 requierments.txt
 > get pip3 colorama

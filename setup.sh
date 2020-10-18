@@ -48,17 +48,9 @@ case $1 in
         echo "                                                            ";
         echo "                                                            ";
         echo " "
-        chmod +x uninstaller.sh
-        chmod +x start-byob.sh
-        sudo chown root:root byob-server.service
-        sudo chown root:root byob
-        sudo cp byob-server.service /etc/systemd/system/
-        sudo cp byob /usr/bin/
         sleep .2
         echo "MAKE SURE YOUR SYSTEM IS UPDATED"
-        cd
-        echo "Current Directory:"
-        pwd
+        echo " "
         sleep .5
         read -p "You are about to install BYOB [Y/n]: " agreeTo
         case $agreeTo in
@@ -73,42 +65,13 @@ case $1 in
             echo "                                             |_|   |_|               ";
             ;;
             *)
-            clear
-            echo "  __  __       _                              ";
-            echo " |  \/  |     | |                             ";
-            echo " | \  / | __ _| | _____   _   _ ___  ___ _ __ ";
-            echo " | |\/| |/ _\` | |/ / _ \ | | | / __|/ _ \ '__|";
-            echo " | |  | | (_| |   <  __/ | |_| \__ \  __/ |   ";
-            echo " |_|  |_|\__,_|_|\_\___|  \__,_|___/\___|_|   ";
-            echo "                                              ";
-            echo "                                              ";
-            echo "Adding byob user to your Linux tenant..."
-            sudo useradd -r -m -U -d /opt/byob -s /bin/bash byob # Adds the user here
-            echo "Finished... Added byob..."
-            sleep 3
-            clear
-            echo "   _____      _                                               _ ";
-            echo "  / ____|    | |                                             | |";
-            echo " | (___   ___| |_   _ __   __ _ ___ _____      _____  _ __ __| |";
-            echo "  \___ \ / _ \ __| | '_ \ / _\` / __/ __\ \ /\ / / _ \| '__/ _\` |";
-            echo "  ____) |  __/ |_  | |_) | (_| \__ \__ \\ V  V / (_) | | | (_| |";
-            echo " |_____/ \___|\__| | .__/ \__,_|___/___/ \_/\_/ \___/|_|  \__,_|";
-            echo "                   | |                                          ";
-            echo "                   |_|                                          ";
-            echo " "
-            echo "It's needed that you set a password..."
-            sudo passwd byob
-            echo " "
-            echo "User created, Password set..."
-            sleep .5
             read -p "Have you upgraded or updated your system? [y/N]" updated
             case $updated in
                 y|Y)
                 continue
                 ;;
                 *)
-                sudo apt update && sudo apt upgrade -y
-                sudo apt update && sudo apt upgrade -full-upgrade -y
+                sudo apt update && sudo apt upgrade -y && sudo apt upgrade -full-upgrade -y
                 sudo apt autoremove -y
                 clear
                 echo "  _____      _                 _   ";
@@ -119,59 +82,55 @@ case $1 in
                 echo " |_|  \_\___|_.__/ \___/ \___/ \__|";
                 echo "                                   ";
                 echo "                                   ";
-                sleep .2
                 read -p "Your system must now reboot (Press [enter])"
                 sudo reboot now
                 clear
                 ;;
             esac
+            sudo chown -R $USER:$USER ~/*.*
+            sudo chmod -R +x ~/vrl-package/package-files/*.*
+            sudo cp ~/vrl-package/byob-server.service /etc/systemd/system/
+            sudo cp ~/vrl-package/byob /usr/bin/
+            sudo chown root:root /etc/systemd/system/byob-server.service
+            sudo chown root:root /usr/bin/byob
             clear
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
             echo " | |  | |_ __   __| | __ _| |_ _ _ __   __ _       ";
-            echo " | |  | | '_ \ / _\` |/ _\` | __| | '_ \ / _\` |      ";
+            echo " | |  | | '_ \ / _\` |/ _\` | __| | '_ \ / _\` |   ";
             echo " | |__| | |_) | (_| | (_| | |_| | | | | (_| |_ _ _ ";
             echo "  \____/| .__/ \__,_|\__,_|\__|_|_| |_|\__, (_|_|_)";
             echo "        | |                             __/ |      ";
             echo "        |_|                            |___/       ";
             echo "Installing dependencies..."
-            sleep .3
-            sudo touch /opt/byob/bootspool.log
-            sudo apt install docker -y
-            sudo apt install gcc -y
-            sudo apt install python3 python3-pip python3-opencv -y
-            sudo apt install neofetch htop avahi-daemon -y
-            sudo systemctl start avahi-daemon
-            sudo systemctl enable avahi-daemon
-            sudo usermod -aG sudo byob
-            sudo git -C /opt/byob/ clone https://github.com/malwaredllc/byob.git
-            cd /opt/byob/byob/byob
-            sudo python3 setup.py
-            sudo pip3 install requirements.txt
-            sudo pip3 install colorama
-            sudo pip3 install flask
-            sudo pip3 install flask-bcrypt
-            sleep .3
-            sudo chmod +x /opt/byob/byob/web-gui/startup.sh
-            sudo chown byob:byob -R /opt/byob
-            sleep .2
-            cd
+            sleep .5
+            # Installing dependencies
+            echo "Trying to install git..."
+            sleep 5
+            . ~/vrl-package/package-files/git-byob-clone.sh |> /dev/null
+            echo "Trying to install python3..."
+            sleep 5
+            . ~/vrl-package/package-files/python-install.sh |> /dev/null
+            echo "Trying to set permissions..."
+            sleep 5
+            . ~/vrl-package/package-files/permissions.sh |> /dev/null
+            echo "Trying to transfer ownership..."
+            sleep 5
+            . ~/vrl-package/package-files/ownership.sh |> /dev/null
             clear
-            echo "  ______     ______  ____    _____           _        _ _          _ ";
-            echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |";
-            echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |";
+            echo "  ______     ______  ____    _____           _        _ _          _   ";
+            echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
+            echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |  ";
             echo " |  _ < \   /| |  | |  _ <    | | | '_ \/ __| __/ _\` | | |/ _ \/ _\` |";
-            echo " | |_) | | | | |__| | |_) |  _| |_| | | \__ \ || (_| | | |  __/ (_| |";
-            echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|";
-            echo "                                                                     ";
-            echo "                                                                     ";
-            echo ""
-            sleep .2
-            echo "Run the command"
-            echo "#1 'sudo su byob'"
-            echo "#2 'cd'"
-            echo "#3 'cd byob/web-gui'"
-            echo "#4 './startup.sh'"
+            echo " | |_) | | | | |__| | |_) |  _| |_| | | \__ \ || (_| | | |  __/ (_| |  ";
+            echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|  ";
+            echo "                                                                       ";
+            echo "                                                                       ";
+            echo " "
+            cd $HOME/vrl-package
+            echo "Run the following cmd"
+            echo "#1 'newgrp docker'"
+            echo "#2 './start-byob.sh'"
             ;;
         esac
         ;;
