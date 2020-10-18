@@ -108,6 +108,8 @@ case $1 in
             echo "Installing dependencies..."
             # Installing dependencies
             cd ~/vrl-package/package-files/
+            echo "in package files"
+            sleep 2
             ./git-byob-clone.sh
             ./python-install.sh
             ./permissions.sh
