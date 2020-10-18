@@ -116,6 +116,8 @@ case $1 in
                     pip3 install requirements.txt
                     pip3 install colorama
                     pip3 install pyinstaller==3.6
+                    pip3 install numpy 
+                    pip3 install requests
                     pip3 install flask
                     pip3 install flask-bcrypt
                     pip3 install flask-login
