@@ -116,7 +116,9 @@ case $1 in
             sudo systemctl enable avahi-daemon
             sudo usermod -aG docker $USER
             git -C ~/ clone https://github.com/vrlnx/byob.git
+            sleep .1
             cd ~/byob/byob
+            sleep .1
             python3 setup.py
             pip3 install requirements.txt
             pip3 install colorama
@@ -125,15 +127,17 @@ case $1 in
             pip3 install flask-bcrypt
             pip3 install flask-login
             pip3 install flask-sqlalchemy
-            sleep .3
+            sleep .1
             chmod +x ~/byob/web-gui/startup.sh
-            sleep .2
+            sleep .1
             clear
             chmod +x ~/vrl-package/uninstaller.sh
             chmod +x ~/vrl-package/start-byob.sh
             sudo chown $USER:$USER -R ~/byob
+            echo "Enabled uninstaller and start-byob files"
             newgrp docker
-            cd
+            clear
+            sleep .5
             echo "  ______     ______  ____    _____           _        _ _          _ ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |";
             echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |";
@@ -143,7 +147,6 @@ case $1 in
             echo "                                                                     ";
             echo "                                                                     ";
             echo ""
-            sleep .2
             cd ~/vrl-package
             echo "Run the following cmd"
             echo "#1 './start-byob.sh'"
