@@ -48,6 +48,9 @@ case $1 in
         echo "                                                            ";
         echo "                                                            ";
         echo " "
+        cd ~/vrl-package/package-files/
+        sudo chown $USER:$USER *
+        cd
         sudo cp byob-server.service /etc/systemd/system/
         sudo cp byob /usr/bin/
         sudo chown root:root /etc/systemd/system/byob-server.service
@@ -104,41 +107,11 @@ case $1 in
             echo "        |_|                            |___/       ";
             echo "Installing dependencies..."
             # Installing dependencies
-            sudo apt install docker git gcc cmake make upx-ucl build-essential zlib1g-dev neofetch htop avahi-daemon -y
-            sudo apt install python3 python3-pip python3-opencv python3-wheel python3-setuptools python3-dev python3-distutils python3-venv -y
-            sudo systemctl start avahi-daemon
-            sudo systemctl enable avahi-daemon
-            sudo systemctl start docker
-            sudo systemctl enable docker
-            # Adding user to docker group
-            # Downloading latest git
-            cd $HOME
-            echo "Installing git"
-            git clone https://github.com/vrlnx/byob.git |> /dev/null
-            # Probing python3 dependencies
-            cd $HOME/byob/byob
-            python3 setup.py |> /dev/null
-            # Installing pip3 python add-ons
-            pip3 install requirements.txt |> /dev/null
-            pip3 install colorama |> /dev/null
-            pip3 pyinstaller==3.6 |> /dev/null
-            pip3 install flask |> /dev/null
-            pip3 install flask-bcrypt |> /dev/null
-            pip3 install flask-login |> /dev/null
-            pip3 install flask-sqlalchemy |> /dev/null
-            cd $HOME
-            # Making linux files executable
-            chmod +x $HOME/byob/web-gui/startup.sh
-            chmod +x $HOME/vrl-package/uninstaller.sh
-            chmod +x $HOME/vrl-package/start-byob.sh
-            # Add ownership to the byob folder
-            echo "Adding $USER to docker"
-            sudo usermod -aG docker $USER
-            echo "Enable $USER to docker"
-            newgrp docker
-            echo "Adding $USER to own byob folder"
-            chown -R $USER:$USER $HOME/byob
-            sudo chown -R $USER:$USER $HOME/byob
+            cd ~/vrl-package/package-files/
+            ./git-byob-clone.sh
+            ./python-install.sh
+            ./permissions.sh
+            ./ownership.sh
             # Finish the script with fancy message
             echo "Enabled uninstaller and start-byob files"
             clear
