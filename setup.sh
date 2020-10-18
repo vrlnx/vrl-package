@@ -66,11 +66,11 @@ case $1 in
             ;;
             *)
             cd && sudo chown -R $USER:$USER ~/* ; sudo chown -R $USER:$USER ~/.*
-            chmod -R +x ~/vrl-package/package-files
             read -p "Do you want to update the system? [Y/n]" updated
             case $updated in
                 n|N)
-                continue
+                echo "Moving on..."
+                PATH=$PATH:~/.local/bin
                 ;;
                 *)
                 # Don't do any actions before user agrees to the terms.
