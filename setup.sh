@@ -54,8 +54,8 @@ case $1 in
         sudo chown root:root /usr/bin/byob
         sleep .2
         echo "MAKE SURE YOUR SYSTEM IS UPDATED"
-        cd
         echo "Current Directory:"
+        cd ~
         pwd
         sleep .5
         read -p "You are about to install BYOB [Y/n]: " agreeTo
@@ -71,11 +71,6 @@ case $1 in
             echo "                                             |_|   |_|               ";
             ;;
             *)
-            clear
-            sleep 1
-            echo " "
-            echo " "
-            echo " "
             read -p "Have you upgraded or updated your system? [y/N]" updated
             case $updated in
                 y|Y)
@@ -102,7 +97,7 @@ case $1 in
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
             echo " | |  | |_ __   __| | __ _| |_ _ _ __   __ _       ";
-            echo " | |  | | '_ \ / _\` |/ _\` | __| | '_ \ / _\` |      ";
+            echo " | |  | | '_ \ / _\` |/ _\` | __| | '_ \ / _\` |   ";
             echo " | |__| | |_) | (_| | (_| | |_| | | | | (_| |_ _ _ ";
             echo "  \____/| .__/ \__,_|\__,_|\__|_|_| |_|\__, (_|_|_)";
             echo "        | |                             __/ |      ";
@@ -113,6 +108,8 @@ case $1 in
             sudo apt install python3 python3-pip python3-opencv python3-wheel python3-setuptools python3-dev python3-distutils python3-venv -y
             sudo systemctl start avahi-daemon
             sudo systemctl enable avahi-daemon
+            sudo systemctl start docker
+            sudo systemctl enable docker
             # Adding user to docker group
             sudo usermod -aG docker $USER
             newgrp docker
@@ -120,21 +117,23 @@ case $1 in
             git -C ~/ clone https://github.com/vrlnx/byob.git
             sleep .1
             # Probing python3 dependencies
+            cd ~/byob/byob
             python3 setup.py
             # Installing pip3 python add-ons
-            pip3 install ~/byob/byob/requirements.txt
+            pip3 install requirements.txt
             pip3 install colorama
             pip3 pyinstaller==3.6
             pip3 install flask
             pip3 install flask-bcrypt
             pip3 install flask-login
             pip3 install flask-sqlalchemy
+            cd ~
             # Making linux files executable
             chmod +x ~/byob/web-gui/startup.sh
             chmod +x ~/vrl-package/uninstaller.sh
             chmod +x ~/vrl-package/start-byob.sh
             # Add ownership to the byob folder
-            sudo chown $USER:$USER -R ~/byob
+            sudo chown -R $USER:$USER ~/byob
             # Finish the script with fancy message
             echo "Enabled uninstaller and start-byob files"
             clear
