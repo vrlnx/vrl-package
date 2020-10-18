@@ -11,7 +11,6 @@ echo "                                                                       ";
 read -p "You are about uninstall Byob? [y/N*]: " uninstall
 case $uninstall in
     yes|Yes|YES|y|Y)
-    rm  ~/bootspool.log
     echo "Deleting byob user and deleting it's host files"
     sleep .3
     echo "Deleting service files"
@@ -22,6 +21,7 @@ case $uninstall in
     cd
     rm -rf ~/byob
     rm -rf ~/vrl-package
+    rm  ~/bootspool.log
     ;;
     *)
     echo "Nothing has been done"

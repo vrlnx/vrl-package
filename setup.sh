@@ -131,6 +131,8 @@ case $1 in
             clear
             chmod +x ~/vrl-package/uninstaller.sh
             chmod +x ~/vrl-package/start-byob.sh
+            sudo chmod $USER:$USER -R ~/byob
+            newgrp docker
             cd
             echo "  ______     ______  ____    _____           _        _ _          _ ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |";
@@ -142,11 +144,9 @@ case $1 in
             echo "                                                                     ";
             echo ""
             sleep .2
-            echo "Run the command"
-            echo "#1 'sudo su byob'"
-            echo "#2 'cd'"
-            echo "#3 'cd byob/web-gui'"
-            echo "#4 './startup.sh'"
+            cd ~/vrl-package
+            echo "Run the following cmd"
+            echo "#1 './start-byob.sh'"
             ;;
         esac
         ;;
