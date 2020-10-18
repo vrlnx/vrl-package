@@ -106,7 +106,7 @@ case $1 in
             sleep .5
             echo "Installing dependencies..."
                 echo "Fetching fresh meat..."
-                    sudo apt install docker \
+                    sudo apt install docker.io \
                     git gcc cmake make upx-ucl \
                     build-essential zlib1g-dev \
                     neofetch htop avahi-daemon -qy  > /dev/null
@@ -131,6 +131,8 @@ case $1 in
                     pip3 install numpy > /dev/null
                     pip3 install requests > /dev/null
                     pip3 install flask > /dev/null
+                    pip3 install flask_wtf > /dev/null
+                    pip3 install flask_mail > /dev/null
                     pip3 install flask-bcrypt > /dev/null
                     pip3 install flask-login > /dev/null
                     pip3 install flask-sqlalchemy > /dev/null
