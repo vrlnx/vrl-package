@@ -143,7 +143,7 @@ case $1 in
                     cd ~/byob/byob
                     sleep .5
                     python3 setup.py  > /dev/null
-                    pip3 install requirements.txt  > /dev/null
+                    pip3 install -r requirements.txt  > /dev/null
                     pip3 install colorama  > /dev/null
                     pip3 install pyinstaller==3.6  > /dev/null
                     pip3 install numpy > /dev/null

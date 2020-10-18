@@ -1,5 +1,4 @@
 #!/bin/bash
-PATH=$PATH:~/.local/bin
 cd ~/byob/web-gui
 echo "When the server is running open Chrome or Firefox: "
 echo "URL in browser: ""$HOSTNAME"".local:5000"
