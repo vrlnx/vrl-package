@@ -48,19 +48,17 @@ case $1 in
         echo "                                                            ";
         echo "                                                            ";
         echo " "
+        sudo chown -R $USER:$USER *.*
         cd ~/vrl-package/package-files/
-        sudo chown $USER:$USER ./*
-        sudo chmod +x ./*
-        cd
+        sudo chmod +x *.*
+        cd ~/vrl-package
         sudo cp byob-server.service /etc/systemd/system/
         sudo cp byob /usr/bin/
         sudo chown root:root /etc/systemd/system/byob-server.service
         sudo chown root:root /usr/bin/byob
         sleep .2
         echo "MAKE SURE YOUR SYSTEM IS UPDATED"
-        echo "Current Directory:"
-        cd $HOME
-        pwd
+        echo ""
         sleep .5
         read -p "You are about to install BYOB [Y/n]: " agreeTo
         case $agreeTo in
@@ -81,8 +79,7 @@ case $1 in
                 continue
                 ;;
                 *)
-                sudo apt update && sudo apt upgrade -y
-                sudo apt update && sudo apt upgrade -full-upgrade -y
+                sudo apt update && sudo apt upgrade -y && sudo apt upgrade -full-upgrade -y
                 sudo apt autoremove -y
                 clear
                 echo "  _____      _                 _   ";
