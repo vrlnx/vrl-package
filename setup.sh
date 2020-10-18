@@ -39,14 +39,14 @@
 case $1 in
     install)
         clear
-        echo "  _____           _        _ _                  ___    ___  ";
-        echo " |_   _|         | |      | | |                |__ \  / _ \ ";
-        echo "   | |  _ __  ___| |_ __ _| | | ___ _ __  __   __ ) || | | |";
-        echo "   | | | '_ \/ __| __/ _\` | | |/ _ \ '__| \ \ / // / | | | |";
-        echo "  _| |_| | | \__ \ || (_| | | |  __/ |     \ V // /_ | |_| |";
-        echo " |_____|_| |_|___/\__\__,_|_|_|\___|_|      \_/|____(_)___/ ";
-        echo "                                                            ";
-        echo "                                                            ";
+        echo "  _____           _        _ _                  ___    ___   ";
+        echo " |_   _|         | |      | | |                |__ \  |__ \  ";
+        echo "   | |  _ __  ___| |_ __ _| | | ___ _ __  __   __ ) |    ) | ";
+        echo "   | | | '_ \/ __| __/ _\` | | |/ _ \ '__| \ \ / // /    / /  ";
+        echo "  _| |_| | | \__ \ || (_| | | |  __/ |     \ V // /_ _ / /_  ";
+        echo " |_____|_| |_|___/\__\__,_|_|_|\___|_|      \_/|____(_)____| ";
+        echo "                                                             ";
+        echo "                                                             ";
         echo " "
         sleep .2
         echo "MAKE SURE YOUR SYSTEM IS UPDATED"
@@ -55,26 +55,25 @@ case $1 in
         read -p "You are about to install BYOB [Y/n]: " agreeTo
         case $agreeTo in
             n|N)
-            echo "  _____           _        _ _       _                             _ ";
-            echo " |_   _|         | |      | | |     | |                           | |";
-            echo "   | |  _ __  ___| |_ __ _| | |  ___| |_ ___  _ __  _ __   ___  __| |";
-            echo "   | | | '_ \/ __| __/ _\` | | | / __| __/ _ \| '_ \| '_ \ / _ \/ _\` |";
-            echo "  _| |_| | | \__ \ || (_| | | | \__ \ || (_) | |_) | |_) |  __/ (_| |";
-            echo " |_____|_| |_|___/\__\__,_|_|_| |___/\__\___/| .__/| .__/ \___|\__,_|";
-            echo "                                             | |   | |               ";
-            echo "                                             |_|   |_|               ";
+            echo "  _____           _        _ _                   _                _           _    ";
+            echo " |_   _|         | |      | | |                 | |              | |         | |   ";
+            echo "   | |  _ __  ___| |_ __ _| | | ___ _ __    __ _| |__   ___  _ __| |_ ___  __| |   ";
+            echo "   | | | '_ \/ __| __/ _\` | | |/ _ \ '__|  / _\` | '_ \ / _ \| '__| __/ _ \/ _\` |";
+            echo "  _| |_| | | \__ \ || (_| | | |  __/ |    | (_| | |_) | (_) | |  | ||  __/ (_| |   ";
+            echo " |_____|_| |_|___/\__\__,_|_|_|\___|_|     \__,_|_.__/ \___/|_|   \__\___|\__,_|   ";
+            echo "                                                                                   ";
+            echo "                                                                                   ";
             ;;
             *)
-            read -p "Have you upgraded or updated your system? [y/N]" updated
+            cd && sudo chown -R $USER:$USER ~/* ; sudo chown -R $USER:$USER ~/.*
+            chmod -R +x ~/vrl-package/package-files
+            read -p "Do you want to update the system? [Y/n]" updated
             case $updated in
-                y|Y)
+                n|N)
                 continue
                 ;;
                 *)
-                cd
                 # Don't do any actions before user agrees to the terms.
-                sudo chown -R $USER:$USER ~/*.*
-                sudo chmod -R +x ~/vrl-package/package-files/*.*
                 sudo apt update && sudo apt upgrade -y && sudo apt upgrade -full-upgrade -y
                 sudo apt autoremove -y
                 clear
@@ -90,7 +89,12 @@ case $1 in
                 sudo reboot now
                 ;;
             esac
-            . ~/vrl-package/package/pre-perms.sh > /dev/null
+            echo "Applying pre-perms to service files"
+                sudo cp ~/vrl-package/byob-server.service /etc/systemd/system/
+                sudo cp ~/vrl-package/byob /usr/bin/
+                sudo chown root:root /etc/systemd/system/byob-server.service
+                sudo chown root:root /usr/bin/byob
+            sleep 3
             clear
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
@@ -100,16 +104,32 @@ case $1 in
             echo "  \____/| .__/ \__,_|\__,_|\__|_|_| |_|\__, (_|_|_)";
             echo "        | |                             __/ |      ";
             echo "        |_|                            |___/       ";
+            sleep 2
             echo "Installing dependencies..."
-            echo "Trying to install BYOB files..."
-            . ~/vrl-package/package-files/git-byob-clone.sh > /dev/null
-            echo "Trying to install Python3..."
-            . ~/vrl-package/package-files/python-install.sh > /dev/null
-            echo "Trying to set Permissions..."
-            . ~/vrl-package/package-files/permissions.sh > /dev/null
-            echo "Trying to transfer Ownership..."
-            . ~/vrl-package/package-files/ownership.sh > /dev/null
-            sleep 5
+                echo "Cloning vrlnx/BYOB files..."
+                    sleep .4
+                    git -C ~/ clone https://github.com/vrlnx/byob.git
+                echo "Install Python3..."
+                    cd ~/byob/byob
+                    sleep 2
+                    python3 setup.py
+                    pip3 install requirements.txt
+                    pip3 install colorama
+                    pip3 install pyinstaller==3.6
+                    pip3 install flask
+                    pip3 install flask-bcrypt
+                    pip3 install flask-login
+                    pip3 install flask-sqlalchemy
+                    cd
+                echo "Set permissions..."
+                    sleep 2
+                    chmod +x ~/vrl-package/uninstaller.sh
+                    chmod +x ~/vrl-package/start-byob.sh
+                echo "Transfer Ownership..."
+                    echo "Current user: $USER"
+                    sudo usermod -aG docker $USER
+                    sudo chown -R $USER:$USER ~/byob
+                    read "Are you ready to use the system? (Enter to continue)"
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
@@ -120,10 +140,9 @@ case $1 in
             echo "                                                                       ";
             echo "                                                                       ";
             echo " "
-            cd $HOME/vrl-package
-            echo "Run the following cmd"
-            echo "#1 'newgrp docker'"
-            echo "#2 './start-byob.sh'"
+            echo "Enabled start-byob.sh"
+            echo "Your website will open on ""$HOSTNAME"".local:5000"" when server is started."
+            cd ~/vrl-package
             ;;
         esac
         ;;
