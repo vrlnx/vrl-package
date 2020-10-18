@@ -74,7 +74,7 @@ case $1 in
                 ;;
                 *)
                 # Don't do any actions before user agrees to the terms.
-                sudo apt update && sudo apt upgrade -y && sudo apt upgrade -full-upgrade -y
+                sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
                 sudo apt autoremove -y
                 clear
                 echo "  _____      _                 _   ";
@@ -94,7 +94,7 @@ case $1 in
                 sudo cp ~/vrl-package/byob /usr/bin/
                 sudo chown root:root /etc/systemd/system/byob-server.service
                 sudo chown root:root /usr/bin/byob
-            sleep 3
+            sleep 5
             clear
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
@@ -131,7 +131,7 @@ case $1 in
                     echo "Current user: $USER"
                     sudo usermod -aG docker $USER
                     sudo chown -R $USER:$USER ~/byob
-                    read "Are you ready to use the system? (Enter to continue)"
+                    read -p "Are you ready to use the system? (Enter to continue)"
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
@@ -153,6 +153,7 @@ case $1 in
         echo "Commands around this setup:"
         echo "./setup.sh help"
         echo "./setup.sh install - Start installing"
+        echo "./setup.sh rules - Show EULA"
         ;;
     rules)
         echo "DO NOT USE ROOT USER!"
