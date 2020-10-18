@@ -55,7 +55,7 @@ case $1 in
         sleep .2
         echo "MAKE SURE YOUR SYSTEM IS UPDATED"
         echo "Current Directory:"
-        cd ~
+        cd $HOME
         pwd
         sleep .5
         read -p "You are about to install BYOB [Y/n]: " agreeTo
@@ -104,37 +104,41 @@ case $1 in
             echo "        |_|                            |___/       ";
             echo "Installing dependencies..."
             # Installing dependencies
-            sudo apt install docker gcc cmake make upx-ucl build-essential zlib1g-dev neofetch htop avahi-daemon -y
+            sudo apt install docker git gcc cmake make upx-ucl build-essential zlib1g-dev neofetch htop avahi-daemon -y
             sudo apt install python3 python3-pip python3-opencv python3-wheel python3-setuptools python3-dev python3-distutils python3-venv -y
             sudo systemctl start avahi-daemon
             sudo systemctl enable avahi-daemon
             sudo systemctl start docker
             sudo systemctl enable docker
             # Adding user to docker group
-            sudo usermod -aG docker $USER
-            newgrp docker
             # Downloading latest git
-            cd
-            git clone https://github.com/vrlnx/byob.git
-            sleep .1
+            cd $HOME
+            echo "Installing git"
+            git clone https://github.com/vrlnx/byob.git |> /dev/null
             # Probing python3 dependencies
-            cd ~/byob/byob
-            python3 setup.py
+            cd $HOME/byob/byob
+            python3 setup.py |> /dev/null
             # Installing pip3 python add-ons
-            pip3 install requirements.txt
-            pip3 install colorama
-            pip3 pyinstaller==3.6
-            pip3 install flask
-            pip3 install flask-bcrypt
-            pip3 install flask-login
-            pip3 install flask-sqlalchemy
-            cd ~
+            pip3 install requirements.txt |> /dev/null
+            pip3 install colorama |> /dev/null
+            pip3 pyinstaller==3.6 |> /dev/null
+            pip3 install flask |> /dev/null
+            pip3 install flask-bcrypt |> /dev/null
+            pip3 install flask-login |> /dev/null
+            pip3 install flask-sqlalchemy |> /dev/null
+            cd $HOME
             # Making linux files executable
-            chmod +x ~/byob/web-gui/startup.sh
-            chmod +x ~/vrl-package/uninstaller.sh
-            chmod +x ~/vrl-package/start-byob.sh
+            chmod +x $HOME/byob/web-gui/startup.sh
+            chmod +x $HOME/vrl-package/uninstaller.sh
+            chmod +x $HOME/vrl-package/start-byob.sh
             # Add ownership to the byob folder
-            sudo chown -R $USER:$USER ~/byob
+            echo "Adding $USER to docker"
+            sudo usermod -aG docker $USER
+            echo "Enable $USER to docker"
+            newgrp docker
+            echo "Adding $USER to own byob folder"
+            chown -R $USER:$USER $HOME/byob
+            sudo chown -R $USER:$USER $HOME/byob
             # Finish the script with fancy message
             echo "Enabled uninstaller and start-byob files"
             clear
@@ -148,7 +152,7 @@ case $1 in
             echo "                                                                       ";
             echo "                                                                       ";
             echo " "
-            cd ~/vrl-package
+            cd $HOME/vrl-package
             echo "Run the following cmd"
             echo "#1 './start-byob.sh'"
             ;;
