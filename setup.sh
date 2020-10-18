@@ -35,18 +35,6 @@
 #            _/ |       __/ |    
 #           |__/       |___/     
 
-
-echo "  _   _  ____    _____   ____   ____ _______   _    _  _____ ______ _____   ";
-echo " | \ | |/ __ \  |  __ \ / __ \ / __ \__   __| | |  | |/ ____|  ____|  __ \  ";
-echo " |  \| | |  | | | |__) | |  | | |  | | | |    | |  | | (___ | |__  | |__) | ";
-echo " | . \` | |  | | |  _  /| |  | | |  | | | |    | |  | |\___ \|  __| |  _  / ";
-echo " | |\  | |__| | | | \ \| |__| | |__| | | |    | |__| |____) | |____| | \ \  ";
-echo " |_| \_|\____/  |_|  \_\\____/ \____/  |_|     \____/|_____/|______|_|  \_\ ";
-echo "                                                                            ";
-echo "                                                                            ";
-sleep 10
-
-
 case $1 in
     install)
         clear
@@ -146,7 +134,7 @@ case $1 in
                     pip3 install -r requirements.txt  > /dev/null
                     pip3 install colorama  > /dev/null
                     pip3 install pyinstaller==3.6  > /dev/null
-                    pip3 install numpy > /dev/null
+                    pip3 install numpy==1.17.3 > /dev/null
                     pip3 install requests > /dev/null
                     pip3 install flask > /dev/null
                     pip3 install flask_wtf > /dev/null
