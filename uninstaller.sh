@@ -8,7 +8,7 @@ echo " | |__| | | | | | | | | | | | \__ \ | |_  | (_| | | | | | |  __/ | |   ";
 echo "  \____/  |_| |_| |_| |_| |_| |___/  \__|  \__,_| |_| |_|  \___| |_|   ";
 echo "                                                                       ";
 echo "                                                                       ";
-read -p "You are about uninstall Byob? [y/N*]: " uninstall
+read -p "You are about uninstall Byob? [y/N]: " uninstall
 case $uninstall in
     yes|Yes|YES|y|Y)
     echo "Deleting byob user and deleting it's host files"
