@@ -8,18 +8,29 @@ echo " | |_) |    | |    | |__| | | |_) |    ____) | |  __/ | |     \ V /  |  __
 echo " |____/     |_|     \____/  |____/    |_____/   \___| |_|      \_/    \___| |_|   ";
 echo "                                                                                  ";
 echo "                                                                                  ";
-read -p "State your action [start/stop/follow/inspect]" act
-case $act in
+case $1 in
     run|start)
-    sudo systemctl start byob-server.service
+    sudo systemctl start byob-server
     ;;
     halt|stop)
-    sudo systemctl stop byob-server.service
+    sudo systemctl stop byob-server
     ;;
-    follow)
-    journalctl byob-server.service -f
+    status)
+    sudo systemctl status byob-server
     ;;
     inspect)
-    tail /opt/byob/bootspool.log -f
+    tail ~/bootspool.log -f
     ;;
+    help)
+        echo "Commands around byob:"
+        echo "byob help"
+        echo "byob start - Start your byob"
+        echo "byob stop - Stop your byob"
+        echo "byob status - Get byob status"
+        echo "byob tail - Tail the boot of your byob"
+        ;;
+    *) echo "> Use 'byob help' to get help";;
+esac
+
+    
 esac

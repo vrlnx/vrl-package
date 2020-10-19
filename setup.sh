@@ -88,7 +88,6 @@ case $1 in
                 sudo cp ~/vrl-package/byob-server.service /etc/systemd/system/ > /dev/null
                 sudo cp ~/vrl-package/byob /usr/bin/ > /dev/null
                 sudo chown root:root /etc/systemd/system/byob-server.service > /dev/null
-                sudo chown root:root /usr/bin/byob > /dev/null
             sleep .5
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";

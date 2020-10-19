@@ -1,12 +1,13 @@
+
 [Unit]
-Description=BYOB Server - Open Source 
+Description=BYOB Server - Open Source
 After=network.target
 
 [Service]
-User=root
-Group=root
-WorkingDirectory=~/byob
-ExecStart=./web-gui/startup.sh > ~/bootspool.log
+User=$USER
+Group=$USER
+WorkingDirectory=~/byob/web-gui/docker-pyinstaller1
+ExecStart=sh ~/byob/web-gui/startup.sh > /home/pi/bootspool.log
 ExecStop=/bin/kill -s QUIT $MAINPID
 Restart=always
 RestartSec=5
