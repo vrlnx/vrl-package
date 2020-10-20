@@ -38,9 +38,9 @@
 case $1 in
     install)
     cd ~
-    if [ $USER == "root"; ] then
+    if [ $USER == "root" ]; then
         clear
-        echo "DO NOT USE ROOT"
+        echo "                               DO NOT USE ROOT                                     ";
         echo "  _____           _        _ _                   _                _           _    ";
         echo " |_   _|         | |      | | |                 | |              | |         | |   ";
         echo "   | |  _ __  ___| |_ __ _| | | ___ _ __    __ _| |__   ___  _ __| |_ ___  __| |   ";
@@ -49,8 +49,7 @@ case $1 in
         echo " |_____|_| |_|___/\__\__,_|_|_|\___|_|     \__,_|_.__/ \___/|_|   \__\___|\__,_|   ";
         echo "                                                                                   ";
         echo "                                                                                   ";
-        echo "DO NOT USE ROOT"
-        exit
+        echo "                               DO NOT USE ROOT                                     ";
     fi
     clear
         echo " __      _______  _        _____           _        _ _            ";
@@ -77,10 +76,10 @@ case $1 in
             *)
             cd
             sudo chown -R $USER:$USER ~/* ; sudo chown -R $USER:$USER ~/.*
-            if [ -d "byob"; ] then
+            if [ -d "byob" ]; then
                 rm -rf ~/byob
             fi
-            if ! sudo apt update | grep -woc "All packages are up to date" >; then
+            if ! sudo apt update | grep -woc "All packages are up to date"; then
                 # Don't do any actions before user agrees to the terms.
                 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
                 sudo apt autoremove -y
@@ -121,7 +120,7 @@ case $1 in
             neofetch htop avahi-daemon \
             python3 python3-pip python3-opencv python3-wheel python3-setuptools \
             python3-dev python3-distutils python3-venv -y > /dev/null
-            ; sudo systemctl start avahi-daemon \
+            sudo systemctl start avahi-daemon \
             ; sudo systemctl enable avahi-daemon \
             ; sudo systemctl start docker \
             ; sudo systemctl enable docker \
@@ -162,6 +161,7 @@ case $1 in
             cd ~/vrl-package
             ;;
         esac
+        ;;
     help)
         clear
         echo "Commands around this setup:"
