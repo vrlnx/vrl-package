@@ -78,7 +78,6 @@ case $1 in
             ;;
             *)
             cd
-            sudo chown -R $USER:$USER ~/* ; sudo chown -R $USER:$USER ~/.*
             if ! sudo apt update | grep -woc "All packages are up to date"; then
                 # Don't do any actions before user agrees to the terms.
                 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
@@ -96,11 +95,12 @@ case $1 in
                 sudo reboot now
                 exit
             fi
-            PATH=$PATH:~/.local/bin
             echo "Applying pre-perms to service files"
-            sudo cp ~/vrl-package/byob-server.service /etc/systemd/system/ \
-            ; sudo cp ~/vrl-package/byob /usr/bin/ \
-            ; sudo chown root:root /etc/systemd/system/byob-server.service > /dev/null
+            sudo cp ~/vrl-package/byob.service /etc/systemd/system/ \
+            ; sudo cp ~/vrl-package/byob /usr/local/bin/ \
+            ; sudo chown root:root /usr/local/bin/byob \
+            ; sudo chmod 755 /usr/local/bin/byob \
+            ; sudo chown root:root /etc/systemd/system/byob.service > /dev/null
             clear
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
@@ -142,10 +142,10 @@ case $1 in
             ; cd \
             ; chmod +x ~/vrl-package/uninstaller.sh \
             ; chmod +x ~/vrl-package/start-byob.sh \
-            ; sudo usermod -aG docker $USER \
-            ; sudo chown -R $USER:$USER ~/byob > /dev/null
-            clear
+            ; sudo usermod -aG docker $USER  > /dev/null
             chmod -x ~/vrl-package/setup.sh
+            PATH=$PATH:~/.local/bin
+            clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
             echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |  ";
@@ -171,7 +171,9 @@ case $1 in
         ;;
     rules)
         clear
-        echo "VRLinux, the owner, support team,"
+        echo "vrl-package TOS (Terms of Service)"
+        echo " "
+        echo "VRLinux, the owner of byob, support team,"
         echo "or anyone else is not responsible for your use of this framework."
         echo ""
         echo "Use common sense, if you think it's against the rules, don't do it."
@@ -183,6 +185,6 @@ case $1 in
     clear
     echo "> Welcome to VRL Installer"
     echo "> This installer need you to read our rules."
-    echo "> Type './setup.sh rules' to read EULA"
+    echo "> Type './setup.sh rules' to read vrl-package TOS"
     ;;
 esac
