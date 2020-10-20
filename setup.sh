@@ -38,7 +38,7 @@
 case $1 in
     install)
     cd ~
-    if [ $USER == "root" ] then
+    if [ $USER == "root"; ] then
         clear
         echo "DO NOT USE ROOT"
         echo "  _____           _        _ _                   _                _           _    ";
@@ -77,7 +77,7 @@ case $1 in
             *)
             cd
             sudo chown -R $USER:$USER ~/* ; sudo chown -R $USER:$USER ~/.*
-            if [ -d "byob" ]; then
+            if [ -d "byob"; ] then
                 rm -rf ~/byob
             fi
             if ! sudo apt update | grep -woc "All packages are up to date" >; then
