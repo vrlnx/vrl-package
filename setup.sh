@@ -95,6 +95,7 @@ case $1 in
                 echo "                                   ";
                 read -p "Your system must now reboot (Press [enter])"
                 sudo reboot now
+
             fi
             PATH=$PATH:~/.local/bin
             echo "Applying pre-perms to service files"
