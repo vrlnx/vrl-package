@@ -100,8 +100,8 @@ case $1 in
             echo "Applying pre-perms to service files"
             sudo cp ~/vrl-package/byob-server.service /etc/systemd/system/ \
             ; sudo cp ~/vrl-package/byob /usr/bin/ \
-            ; sudo chown root:root /etc/systemd/system/byob-server.service \
-            ; clear > /dev/null
+            ; sudo chown root:root /etc/systemd/system/byob-server.service > /dev/null
+            clear
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
             echo " | |  | |_ __   __| | __ _| |_ _ _ __   __ _       ";
@@ -120,25 +120,25 @@ case $1 in
             neofetch htop avahi-daemon \
             python3 python3-pip python3-opencv python3-wheel python3-setuptools \
             python3-dev python3-distutils python3-venv -y > /dev/null
-            sudo systemctl start avahi-daemon \
-            ; sudo systemctl enable avahi-daemon \
-            ; sudo systemctl start docker \
-            ; sudo systemctl enable docker \
-            ; git -C ~/ clone https://github.com/vrlnx/byob.git \
+            sudo systemctl start avahi-daemon > /dev/null \
+            ; sudo systemctl enable avahi-daemon > /dev/null \
+            ; sudo systemctl start docker > /dev/null \
+            ; sudo systemctl enable docker > /dev/null \
+            ; git -C ~/ clone https://github.com/vrlnx/byob.git > /dev/null \
             ; cd ~/byob/byob \
-            ; python3 setup.py \
-            ; pip3 install -r requirements.txt \
-            ; pip3 install colorama \
-            ; pip3 install pyinstaller==3.6 \
-            ; pip3 install numpy==1.17.3 \
-            ; pip3 install requests \
-            ; pip3 install flask \
-            ; pip3 install flask_wtf \
-            ; pip3 install flask_mail \
-            ; pip3 install flask-bcrypt \
-            ; pip3 install flask-login \
-            ; pip3 install flask-sqlalchemy \
-            ; pip3 install wtforms \
+            ; python3 setup.py > /dev/null \
+            ; pip3 install -r requirements.txt > /dev/null \
+            ; pip3 install colorama > /dev/null \
+            ; pip3 install pyinstaller==3.6 > /dev/null \
+            ; pip3 install numpy==1.17.3 > /dev/null \
+            ; pip3 install requests > /dev/null \
+            ; pip3 install flask > /dev/null \
+            ; pip3 install flask_wtf > /dev/null \
+            ; pip3 install flask_mail > /dev/null \
+            ; pip3 install flask-bcrypt > /dev/null \
+            ; pip3 install flask-login > /dev/null \
+            ; pip3 install flask-sqlalchemy > /dev/null \
+            ; pip3 install wtforms > /dev/null \
             ; cd \
             ; chmod +x ~/vrl-package/uninstaller.sh \
             ; chmod +x ~/vrl-package/start-byob.sh \
