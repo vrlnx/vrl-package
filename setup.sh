@@ -34,22 +34,25 @@
 #  \____|_| |_| |\___/ \__, | (_)
 #            _/ |       __/ |    
 #           |__/       |___/     
-
+if [ "$USER" == "root" ]; then
+    clear
+    echo "                               DO NOT USE ROOT                                     ";
+    echo "  _____           _        _ _                   _                _           _    ";
+    echo " |_   _|         | |      | | |                 | |              | |         | |   ";
+    echo "   | |  _ __  ___| |_ __ _| | | ___ _ __    __ _| |__   ___  _ __| |_ ___  __| |   ";
+    echo "   | | | '_ \/ __| __/ _\` | | |/ _ \ '__|  / _\` | '_ \ / _ \| '__| __/ _ \/ _\` |";
+    echo "  _| |_| | | \__ \ || (_| | | |  __/ |    | (_| | |_) | (_) | |  | ||  __/ (_| |   ";
+    echo " |_____|_| |_|___/\__\__,_|_|_|\___|_|     \__,_|_.__/ \___/|_|   \__\___|\__,_|   ";
+    echo "                                                                                   ";
+    echo "                                                                                   ";
+    echo "                               DO NOT USE ROOT                                     ";
+    exit
+fi
 case $1 in
     install)
     cd ~
-    if [ $USER == "root" ]; then
-        clear
-        echo "                               DO NOT USE ROOT                                     ";
-        echo "  _____           _        _ _                   _                _           _    ";
-        echo " |_   _|         | |      | | |                 | |              | |         | |   ";
-        echo "   | |  _ __  ___| |_ __ _| | | ___ _ __    __ _| |__   ___  _ __| |_ ___  __| |   ";
-        echo "   | | | '_ \/ __| __/ _\` | | |/ _ \ '__|  / _\` | '_ \ / _ \| '__| __/ _ \/ _\` |";
-        echo "  _| |_| | | \__ \ || (_| | | |  __/ |    | (_| | |_) | (_) | |  | ||  __/ (_| |   ";
-        echo " |_____|_| |_|___/\__\__,_|_|_|\___|_|     \__,_|_.__/ \___/|_|   \__\___|\__,_|   ";
-        echo "                                                                                   ";
-        echo "                                                                                   ";
-        echo "                               DO NOT USE ROOT                                     ";
+    if [ -d "byob" ]; then
+        rm -rf ~/byob
     fi
     clear
         echo " __      _______  _        _____           _        _ _            ";
@@ -76,9 +79,6 @@ case $1 in
             *)
             cd
             sudo chown -R $USER:$USER ~/* ; sudo chown -R $USER:$USER ~/.*
-            if [ -d "byob" ]; then
-                rm -rf ~/byob
-            fi
             if ! sudo apt update | grep -woc "All packages are up to date"; then
                 # Don't do any actions before user agrees to the terms.
                 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
