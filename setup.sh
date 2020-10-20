@@ -116,51 +116,51 @@ case $1 in
             echo " "
             echo "Sit back and enjoy a drink, this may take a while..."
             echo "Do not cancel... (If not installed after 1 hour, then there is trouble...)"
-                sudo apt install docker.io git gcc cmake make upx-ucl build-essential zlib1g-dev \
-                neofetch htop avahi-daemon \
-                python3 python3-pip python3-opencv python3-wheel python3-setuptools \
-                python3-dev python3-distutils python3-venv -y > /dev/null
-                ; sudo systemctl start avahi-daemon \
-                ; sudo systemctl enable avahi-daemon \
-                ; sudo systemctl start docker \
-                ; sudo systemctl enable docker \
-                ; git -C ~/ clone https://github.com/vrlnx/byob.git \
-                ; cd ~/byob/byob \
-                ; python3 setup.py \
-                ; pip3 install -r requirements.txt \
-                ; pip3 install colorama \
-                ; pip3 install pyinstaller==3.6 \
-                ; pip3 install numpy==1.17.3 \
-                ; pip3 install requests \
-                ; pip3 install flask \
-                ; pip3 install flask_wtf \
-                ; pip3 install flask_mail \
-                ; pip3 install flask-bcrypt \
-                ; pip3 install flask-login \
-                ; pip3 install flask-sqlalchemy \
-                ; pip3 install wtforms \
-                ; cd \
-                ; chmod +x ~/vrl-package/uninstaller.sh \
-                ; chmod +x ~/vrl-package/start-byob.sh \
-                ; sudo usermod -aG docker $USER \
-                ; sudo chown -R $USER:$USER ~/byob > /dev/null
-        clear
-        chmod -x ~/vrl-package/setup.sh
-        echo "  ______     ______  ____    _____           _        _ _          _   ";
-        echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
-        echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |  ";
-        echo " |  _ < \   /| |  | |  _ <    | | | '_ \/ __| __/ _\` | | |/ _ \/ _\` |";
-        echo " | |_) | | | | |__| | |_) |  _| |_| | | \__ \ || (_| | | |  __/ (_| |  ";
-        echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|  ";
-        echo "                                                                       ";
-        echo "                                                                       ";
-        echo " "
-        echo "Enabled start-byob.sh"
-        echo "#1 Type 'newgrp docker', hit enter"
-        echo "#2 Type './start-byob.sh', hit enter"
-        cd ~/vrl-package
+            sudo apt install docker.io git gcc cmake make upx-ucl build-essential zlib1g-dev \
+            neofetch htop avahi-daemon \
+            python3 python3-pip python3-opencv python3-wheel python3-setuptools \
+            python3-dev python3-distutils python3-venv -y > /dev/null
+            ; sudo systemctl start avahi-daemon \
+            ; sudo systemctl enable avahi-daemon \
+            ; sudo systemctl start docker \
+            ; sudo systemctl enable docker \
+            ; git -C ~/ clone https://github.com/vrlnx/byob.git \
+            ; cd ~/byob/byob \
+            ; python3 setup.py \
+            ; pip3 install -r requirements.txt \
+            ; pip3 install colorama \
+            ; pip3 install pyinstaller==3.6 \
+            ; pip3 install numpy==1.17.3 \
+            ; pip3 install requests \
+            ; pip3 install flask \
+            ; pip3 install flask_wtf \
+            ; pip3 install flask_mail \
+            ; pip3 install flask-bcrypt \
+            ; pip3 install flask-login \
+            ; pip3 install flask-sqlalchemy \
+            ; pip3 install wtforms \
+            ; cd \
+            ; chmod +x ~/vrl-package/uninstaller.sh \
+            ; chmod +x ~/vrl-package/start-byob.sh \
+            ; sudo usermod -aG docker $USER \
+            ; sudo chown -R $USER:$USER ~/byob > /dev/null
+            clear
+            chmod -x ~/vrl-package/setup.sh
+            echo "  ______     ______  ____    _____           _        _ _          _   ";
+            echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
+            echo " | |_) \ \_/ / |  | | |_) |   | |  _ __  ___| |_ __ _| | | ___  __| |  ";
+            echo " |  _ < \   /| |  | |  _ <    | | | '_ \/ __| __/ _\` | | |/ _ \/ _\` |";
+            echo " | |_) | | | | |__| | |_) |  _| |_| | | \__ \ || (_| | | |  __/ (_| |  ";
+            echo " |____/  |_|  \____/|____/  |_____|_| |_|___/\__\__,_|_|_|\___|\__,_|  ";
+            echo "                                                                       ";
+            echo "                                                                       ";
+            echo " "
+            echo "Enabled start-byob.sh"
+            echo "#1 Type 'newgrp docker', hit enter"
+            echo "#2 Type './start-byob.sh', hit enter"
+            cd ~/vrl-package
+            ;;
         esac
-        ;;
     help)
         clear
         echo "Commands around this setup:"
