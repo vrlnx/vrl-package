@@ -100,8 +100,8 @@ case $1 in
             echo "Applying pre-perms to service files"
             sudo cp ~/vrl-package/byob-server.service /etc/systemd/system/ \
             ; sudo cp ~/vrl-package/byob /usr/bin/ \
-            ; sudo chown root:root /etc/systemd/system/byob-server.service \
-            ; clear > /dev/null
+            ; sudo chown root:root /etc/systemd/system/byob-server.service > /dev/null
+            clear
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
             echo " | |  | |_ __   __| | __ _| |_ _ _ __   __ _       ";
