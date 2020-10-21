@@ -18,9 +18,6 @@ case $1 in
     status)
     sudo systemctl status byob
     ;;
-    tail)
-    tail ~/bootspool.log -f
-    ;;
     follow)
     journalctl -f _SYSTEMD_UNIT=byob.service
     ;;
@@ -30,8 +27,7 @@ case $1 in
         echo "byob start - Start your byob"
         echo "byob stop - Stop your byob"
         echo "byob status - Get byob status"
-        echo "byob tail - Tail the boot of your byob"
-        echo "byob follow - Follow the boot of your byob"
+        echo "byob follow - Follow your byob log and server"
         ;;
     *) echo "> Use 'byob help' to get help";;
 esac
