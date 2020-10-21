@@ -34,6 +34,7 @@
 #  \____|_| |_| |\___/ \__, | (_)
 #            _/ |       __/ |    
 #           |__/       |___/     
+USERNAME = $USER
 if [ "$USER" == "root" ]; then
     clear
     echo "                               DO NOT USE ROOT                                     ";
@@ -52,7 +53,9 @@ case $1 in
     install)
     cd ~
     if [ -d "byob" ]; then
-        rm -rf ~/byob
+        rm -rf /home/$USERNAME/byob
+    else
+        echo "No byob folder found..."
     fi
     clear
         echo " __      _______  _        _____           _        _ _            ";
@@ -77,7 +80,6 @@ case $1 in
             echo "                                                                                   ";
             ;;
             *)
-            cd
             if ! sudo apt update | grep -woc "All packages are up to date"; then
                 # Don't do any actions before user agrees to the terms.
                 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
@@ -97,9 +99,9 @@ case $1 in
             fi
             echo "Applying pre-perms to service files"
             sudo cp ~/vrl-package/byob.service /etc/systemd/system/ \
-            ; sudo cp ~/vrl-package/byob /usr/local/bin/ \
-            ; sudo chown root:root /usr/local/bin/byob \
-            ; sudo chmod 755 /usr/local/bin/byob \
+            ; sudo cp ~/vrl-package/byob /usr/bin/ \
+            ; sudo chown root:root /usr/bin/byob \
+            ; sudo chmod 755 /usr/bin/byob \
             ; sudo chown root:root /etc/systemd/system/byob.service > /dev/null
             clear
             echo "  _    _           _       _   _                   ";
@@ -130,7 +132,7 @@ case $1 in
             ; pip3 install -r requirements.txt > /dev/null \
             ; pip3 install colorama > /dev/null \
             ; pip3 install pyinstaller==3.6 > /dev/null \
-            ; pip3 install numpy==1.17.3 > /dev/null \
+            ; pip3 install numpy==1.18.1 > /dev/null \
             ; pip3 install requests > /dev/null \
             ; pip3 install flask > /dev/null \
             ; pip3 install flask_wtf > /dev/null \
@@ -142,9 +144,9 @@ case $1 in
             ; cd \
             ; chmod +x ~/vrl-package/uninstaller.sh \
             ; chmod +x ~/vrl-package/start-byob.sh \
-            ; sudo usermod -aG docker $USER  > /dev/null
+            ; sudo usermod -aG docker $USERNAME  > /dev/null
             chmod -x ~/vrl-package/setup.sh
-            PATH=$PATH:~/.local/bin
+            PATH=$PATH:/home/$USERNAME/.local/bin
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
