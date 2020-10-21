@@ -3,9 +3,9 @@ Description=BYOB Server - Open Source
 After=network.target
 
 [Service]
-User=byob
-WorkingDirectory=/opt/byob/byob/web-gui/docker-pyinstaller1
-ExecStart=sh /opt/byob/byob/web-gui/startup.sh > /opt/byob/bootspool.log
+User=REPLACE_USERNAME_HERE
+WorkingDirectory=~/byob/web-gui/docker-pyinstaller1
+ExecStart=sh ~/byob/web-gui/startup.sh > ~/bootspool.log
 ExecStop=/bin/kill -s QUIT $MAINPID
 Restart=always
 RestartSec=5

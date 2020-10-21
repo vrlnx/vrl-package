@@ -90,9 +90,6 @@ case $1 in
                 sudo reboot now
                 exit
             fi
-            # sudo useradd -m -r -U -d /opt/byob -s /bin/bash byob \
-            # ; echo "Type a password for your new byob user. (Remember this)" \
-            # ; sudo password byob
             echo "Applying pre-perms to service files"
             sudo cp ~/vrl-package/byob.service /etc/systemd/system/ \
             ; sudo cp ~/vrl-package/byob /usr/bin/ \
