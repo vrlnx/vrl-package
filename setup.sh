@@ -35,9 +35,9 @@
 #            _/ |       __/ |    
 #           |__/       |___/     
 USERNAME = $USER
-if [ "$USER" == "root" ]; then
+if [ $USERNAME == "root" ]; then
     clear
-    echo "                               DO NOT USE ROOT                                     ";
+    echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
     echo "  _____           _        _ _                   _                _           _    ";
     echo " |_   _|         | |      | | |                 | |              | |         | |   ";
     echo "   | |  _ __  ___| |_ __ _| | | ___ _ __    __ _| |__   ___  _ __| |_ ___  __| |   ";
@@ -46,17 +46,11 @@ if [ "$USER" == "root" ]; then
     echo " |_____|_| |_|___/\__\__,_|_|_|\___|_|     \__,_|_.__/ \___/|_|   \__\___|\__,_|   ";
     echo "                                                                                   ";
     echo "                                                                                   ";
-    echo "                               DO NOT USE ROOT                                     ";
+    echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
     exit
 fi
 case $1 in
     install)
-    cd ~
-    if [ -d "byob" ]; then
-        rm -rf /home/$USERNAME/byob
-    else
-        echo "No byob folder found..."
-    fi
     clear
         echo " __      _______  _        _____           _        _ _            ";
         echo " \ \    / /  __ \| |      |_   _|         | |      | | |           ";
@@ -81,7 +75,6 @@ case $1 in
             ;;
             *)
             if ! sudo apt update | grep -woc "All packages are up to date"; then
-                # Don't do any actions before user agrees to the terms.
                 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
                 sudo apt autoremove -y
                 clear
@@ -97,6 +90,9 @@ case $1 in
                 sudo reboot now
                 exit
             fi
+            # sudo useradd -m -r -U -d /opt/byob -s /bin/bash byob \
+            # ; echo "Type a password for your new byob user. (Remember this)" \
+            # ; sudo password byob
             echo "Applying pre-perms to service files"
             sudo cp ~/vrl-package/byob.service /etc/systemd/system/ \
             ; sudo cp ~/vrl-package/byob /usr/bin/ \
@@ -118,6 +114,7 @@ case $1 in
             echo " "
             echo "Sit back and enjoy a drink, this may take a while..."
             echo "Do not cancel... (If not installed after 1 hour, then there is trouble...)"
+            echo "Slow PC even longer..."
             sudo apt install docker.io git gcc cmake make upx-ucl build-essential zlib1g-dev \
             neofetch htop avahi-daemon \
             python3 python3-pip python3-opencv python3-wheel python3-setuptools \
