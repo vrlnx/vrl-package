@@ -1,5 +1,4 @@
 #!/bin/bash
-
 echo "  _    _           _                 _             _   _               ";
 echo " | |  | |         (_)               | |           | | | |              ";
 echo " | |  | |  _ __    _   _ __    ___  | |_    __ _  | | | |   ___   _ __ ";
@@ -14,7 +13,7 @@ case $uninstall in
     echo "Deleting byob user and deleting it's host files"
     sleep .3
     echo "Deleting service files"
-    sudo rm -f /usr/bin/byob-server.service
+    sudo rm -f /usr/bin/byob.service
     sleep .2
     echo "Deleting byob command"
     sudo rm -rf /usr/bin/byob

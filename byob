@@ -10,15 +10,15 @@ echo "                                                                          
 echo "                                                                                  ";
 case $1 in
     run|start)
-    sudo systemctl start byob-server
+    sudo systemctl start byob
     ;;
     halt|stop)
-    sudo systemctl stop byob-server
+    sudo systemctl stop byob
     ;;
     status)
-    sudo systemctl status byob-server
+    sudo systemctl status byob
     ;;
-    inspect)
+    tail)
     tail ~/bootspool.log -f
     ;;
     help)
@@ -30,7 +30,4 @@ case $1 in
         echo "byob tail - Tail the boot of your byob"
         ;;
     *) echo "> Use 'byob help' to get help";;
-esac
-
-    
 esac
