@@ -1,4 +1,0 @@
-*Deployment of auto-installer*
-```
-git clone https://github.com/vrlnx/vrl-package.git && chmod +x ~/vrl-package/setup.sh ; clear ; cd ~/vrl-package ; ./setup.sh
-```
