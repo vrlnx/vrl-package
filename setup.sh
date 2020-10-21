@@ -112,35 +112,25 @@ case $1 in
             echo "Sit back and enjoy a drink, this may take a while..."
             echo "Do not cancel... (If not installed after 1 hour, then there is trouble...)"
             echo "Slow PC even longer..."
-            sudo apt install docker.io git gcc cmake make upx-ucl build-essential zlib1g-dev \
-            neofetch htop avahi-daemon \
-            python3 python3-pip python3-opencv python3-wheel python3-setuptools \
-            python3-dev python3-distutils python3-venv -y > /dev/null
-            sudo systemctl start avahi-daemon > /dev/null \
+            sudo xargs apt install -y < req.txt > /dev/null \
+            ; sudo systemctl start avahi-daemon > /dev/null \
             ; sudo systemctl enable avahi-daemon > /dev/null \
             ; sudo systemctl start docker > /dev/null \
             ; sudo systemctl enable docker > /dev/null \
             ; git -C ~/ clone https://github.com/vrlnx/byob.git > /dev/null \
             ; cd ~/byob/byob \
-            ; python3 setup.py > /dev/null \
-            ; pip3 install -r requirements.txt > /dev/null \
-            ; pip3 install colorama > /dev/null \
-            ; pip3 install pyinstaller==3.6 > /dev/null \
-            ; pip3 install numpy==1.18.1 > /dev/null \
-            ; pip3 install requests > /dev/null \
-            ; pip3 install flask > /dev/null \
-            ; pip3 install flask_wtf > /dev/null \
-            ; pip3 install flask_mail > /dev/null \
-            ; pip3 install flask-bcrypt > /dev/null \
-            ; pip3 install flask-login > /dev/null \
-            ; pip3 install flask-sqlalchemy > /dev/null \
-            ; pip3 install wtforms > /dev/null \
+            ; python3 ~/byob/byob/setup.py > /dev/null \
+            ; python3 -m pip install -r requirements.txt > /dev/null \
+            ; cd ~/vrl-package \
+            ; python3 -m pip install -r reqs-pip.txt > /dev/null \
             ; cd \
             ; chmod +x ~/vrl-package/uninstaller.sh \
             ; chmod +x ~/vrl-package/start-byob.sh \
             ; sudo usermod -aG docker $USERNAME  > /dev/null
             chmod -x ~/vrl-package/setup.sh
             PATH=$PATH:/home/$USERNAME/.local/bin
+            sudo chown $USER:$USER -R /home/$USER/byob
+            sudo chown $USER:$USER /home/$USER/bootspool.log
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
