@@ -1,0 +1,11 @@
+colorama
+pyinstaller==3.6
+numpy==1.18.1
+requests
+flask
+flask_wtf
+flask_mail
+flask-bcrypt
+flask-login
+flask-sqlalchemy
+wtforms

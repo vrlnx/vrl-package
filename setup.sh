@@ -34,8 +34,8 @@
 #  \____|_| |_| |\___/ \__, | (_)
 #            _/ |       __/ |    
 #           |__/       |___/     
-USERNAME = $USER
-if [ $USERNAME == "root" ]; then
+USERNAME=$USER
+if [ "$USER" == "root" ]; then
     clear
     echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
     echo "  _____           _        _ _                   _                _           _    ";
@@ -60,7 +60,6 @@ case $1 in
         echo "     \/   |_|  \_\______| |_____|_| |_|___/\__\__,_|_|_|\___|_|    ";
         echo "                                                                   ";
         echo "                                                                   ";
-        sleep .5
         read -p "You are about to install BYOB [Y/n]: " agreeTo
         case $agreeTo in
             n|N|no|No|NO)
@@ -112,35 +111,25 @@ case $1 in
             echo "Sit back and enjoy a drink, this may take a while..."
             echo "Do not cancel... (If not installed after 1 hour, then there is trouble...)"
             echo "Slow PC even longer..."
-            sudo apt install docker.io git gcc cmake make upx-ucl build-essential zlib1g-dev \
-            neofetch htop avahi-daemon \
-            python3 python3-pip python3-opencv python3-wheel python3-setuptools \
-            python3-dev python3-distutils python3-venv -y > /dev/null
-            sudo systemctl start avahi-daemon > /dev/null \
+            sudo xargs apt install -y < reqs.txt > /dev/null \
+            ; sudo systemctl start avahi-daemon > /dev/null \
             ; sudo systemctl enable avahi-daemon > /dev/null \
             ; sudo systemctl start docker > /dev/null \
             ; sudo systemctl enable docker > /dev/null \
             ; git -C ~/ clone https://github.com/vrlnx/byob.git > /dev/null \
             ; cd ~/byob/byob \
-            ; python3 setup.py > /dev/null \
-            ; pip3 install -r requirements.txt > /dev/null \
-            ; pip3 install colorama > /dev/null \
-            ; pip3 install pyinstaller==3.6 > /dev/null \
-            ; pip3 install numpy==1.18.1 > /dev/null \
-            ; pip3 install requests > /dev/null \
-            ; pip3 install flask > /dev/null \
-            ; pip3 install flask_wtf > /dev/null \
-            ; pip3 install flask_mail > /dev/null \
-            ; pip3 install flask-bcrypt > /dev/null \
-            ; pip3 install flask-login > /dev/null \
-            ; pip3 install flask-sqlalchemy > /dev/null \
-            ; pip3 install wtforms > /dev/null \
+            ; python3 ~/byob/byob/setup.py > /dev/null \
+            ; python3 -m pip install -r requirements.txt > /dev/null \
+            ; cd ~/vrl-package \
+            ; python3 -m pip install -r reqs-pip.txt > /dev/null \
             ; cd \
             ; chmod +x ~/vrl-package/uninstaller.sh \
             ; chmod +x ~/vrl-package/start-byob.sh \
             ; sudo usermod -aG docker $USERNAME  > /dev/null
             chmod -x ~/vrl-package/setup.sh
             PATH=$PATH:/home/$USERNAME/.local/bin
+            sudo chown $USERNAME:$USERNAME -R /home/$USERNAME/byob
+            sudo chown $USERNAME:$USERNAME /home/$USERNAME/bootspool.log
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
