@@ -74,7 +74,7 @@ case $1 in
             echo "                                                                                   ";
             ;;
             *)
-            if ! sudo apt update | grep -woc "All packages are up to date"; then
+            if ! sudo apt update -qq | grep -x "All packages are up to date."; then
                 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
                 sudo apt autoremove -y
                 clear
