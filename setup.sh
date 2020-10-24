@@ -73,9 +73,10 @@ case $1 in
             echo "                                                                                   ";
             ;;
             *)
-            if ! sudo apt update | grep -woc "All packages are up to date"; then
-                sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
-                sudo apt autoremove -y
+            if ! sudo apt update | grep "All packages are up to date"; then
+                sudo apt update -qq \
+                && sudo apt upgrade -y \
+                && sudo apt autoremove -y
                 clear
                 echo "  _____      _                 _   ";
                 echo " |  __ \    | |               | |  ";
