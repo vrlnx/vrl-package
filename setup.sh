@@ -150,6 +150,7 @@ case $1 in
             chmod -x ~/vrl-package/setup.sh
             PATH=$PATH:$HOME/.local/bin
             sudo chown $USER:$USER -R $HOME/byob
+            touch $HOME/bootspool.log
             sudo chown $USER:$USER $HOME/bootspool.log
             kill -9 $SPIN_PID
             clear
