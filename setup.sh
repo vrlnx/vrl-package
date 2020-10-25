@@ -47,8 +47,7 @@ spin()
     done
   done
 }  
-USERNAME=$USER
-if [ "$USER" == "root" ]; then
+if [ $(whoami) == "root" ]; then
     clear
     echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
     echo "  _____           _        _ _                   _                _           _    ";
