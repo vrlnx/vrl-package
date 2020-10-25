@@ -42,8 +42,9 @@ spin()
     for i in `seq 0 7`
     do
       echo -n "${spinner:$i:1}"
+      echo 
       echo -en "\010"
-      sleep .3
+      sleep .15
     done
   done
 }  
