@@ -148,9 +148,9 @@ case $1 in
             ; chmod +x ~/vrl-package/start-byob.sh \
             ; sudo usermod -aG docker $USER  > /dev/null
             chmod -x ~/vrl-package/setup.sh
-            PATH=$PATH:/home/$USER/.local/bin
-            sudo chown $USER:$USER -R /home/$USER/byob
-            sudo chown $USER:$USER /home/$USER/bootspool.log
+            PATH=$PATH:$HOME/.local/bin
+            sudo chown $USER:$USER -R $HOME/byob
+            sudo chown $USER:$USER $HOME/bootspool.log
             kill -9 $SPIN_PID
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
