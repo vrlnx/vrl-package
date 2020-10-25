@@ -33,7 +33,20 @@
 #  | |__| | | | | (_) | |_| | |_|
 #  \____|_| |_| |\___/ \__, | (_)
 #            _/ |       __/ |    
-#           |__/       |___/     
+#           |__/       |___/   
+spin()
+{
+  spinner="/|\\-/|\\-"
+  while :
+  do
+    for i in `seq 0 7`
+    do
+      echo -n "${spinner:$i:1}"
+      echo -en "\010"
+      sleep .6
+    done
+  done
+}  
 USERNAME=$USER
 if [ "$USER" == "root" ]; then
     clear
@@ -112,6 +125,8 @@ case $1 in
             echo "Sit back and enjoy a drink, this may take a while..."
             echo "Do not cancel... (If not installed after 1 hour, then there is trouble...)"
             echo "Slow PC even longer..."
+            spin &
+            SPIN_PID=$!
             sudo xargs apt install -y < reqs.txt > /dev/null \
             ; sudo systemctl start avahi-daemon > /dev/null \
             ; sudo systemctl enable avahi-daemon > /dev/null \
@@ -131,6 +146,7 @@ case $1 in
             PATH=$PATH:/home/$USERNAME/.local/bin
             sudo chown $USERNAME:$USERNAME -R /home/$USERNAME/byob
             sudo chown $USERNAME:$USERNAME /home/$USERNAME/bootspool.log
+            kill -9 $SPIN_PID
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
