@@ -34,19 +34,6 @@
 #  \____|_| |_| |\___/ \__, | (_)
 #            _/ |       __/ |    
 #           |__/       |___/   
-spin()
-{
-  spinner="/|\\-/|\\-"
-  while :
-  do
-    for i in `seq 0 7`
-    do
-      echo -n "${spinner:$i:1}"
-      echo -en "\010"
-      sleep .15
-    done
-  done
-}  
 if [ $(whoami) == "root" ]; then
     clear
     echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
@@ -61,11 +48,11 @@ if [ $(whoami) == "root" ]; then
     echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
     exit
 fi
-[ $OSTYPE == "linux-gnu" ] || echo "You are trying to run this in a unsupported OS" ; exit
 case $1 in
     install)
-    clear
-        [ -d "~/byob" ] && clear ; echo "" ; echo "You have already installed a version of byob." ; exit
+        clear
+        [ ! -d "$HOME/byob" ] || echo "You have already installed a version of byob." ; exit
+        [ $OSTYPE == "linux-gnu" ] && echo "" || echo "You are trying to run this in a unsupported OS" ; exit
         echo " __      _______  _        _____           _        _ _            ";
         echo " \ \    / /  __ \| |      |_   _|         | |      | | |           ";
         echo "  \ \  / /| |__) | |        | |  _ __  ___| |_ __ _| | | ___ _ __  ";
@@ -111,6 +98,19 @@ case $1 in
             ; sudo chmod 755 /usr/bin/byob \
             ; sudo chown root:root /etc/systemd/system/byob.service > /dev/null
             clear
+            spin()
+            {
+            spinner="/|\\-/|\\-"
+            while :
+            do
+                for i in `seq 0 7`
+                do
+                echo -n "${spinner:$i:1}"
+                echo -en "\010"
+                sleep .15
+                done
+            done
+            } 
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
             echo " | |  | |_ __   __| | __ _| |_ _ _ __   __ _       ";
