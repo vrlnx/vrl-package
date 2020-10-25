@@ -51,7 +51,7 @@ fi
 case $1 in
     install)
     clear
-        [ -d "~/byob" ] && clear ; echo "" ; echo "You have already installed a version of byob." ; exit
+        [  -d "$HOME/byob" ] && clear ; echo "" ; echo "You have already installed a version of byob." ; exit
         [ $OSTYPE == "linux-gnu" ] && echo "" || echo "You are trying to run this in a unsupported OS" ; exit
         echo " __      _______  _        _____           _        _ _            ";
         echo " \ \    / /  __ \| |      |_   _|         | |      | | |           ";
