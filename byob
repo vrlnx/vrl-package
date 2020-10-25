@@ -31,7 +31,7 @@ case $1 in
     ;;
     help)
         echo "Commands around byob:"
-        echo "byob help"
+        echo "byob help - This help page"
         echo "byob start - Start your byob"
         echo "byob stop - Stop your byob"
         echo "byob enable - Enable your byob so it start on server bootup"
