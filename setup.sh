@@ -43,7 +43,7 @@ spin()
     do
       echo -n "${spinner:$i:1}"
       echo -en "\010"
-      sleep .6
+      sleep .3
     done
   done
 }  
