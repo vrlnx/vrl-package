@@ -61,11 +61,11 @@ if [ $(whoami) == "root" ]; then
     echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
     exit
 fi
-[ $OSTYPE == "linux-gnu" ] || echo "You are trying to run this in a unsupported OS" ; exit
 case $1 in
     install)
     clear
         [ -d "~/byob" ] && clear ; echo "" ; echo "You have already installed a version of byob." ; exit
+        [ $OSTYPE == "linux-gnu" ] && echo "" || echo "You are trying to run this in a unsupported OS" ; exit
         echo " __      _______  _        _____           _        _ _            ";
         echo " \ \    / /  __ \| |      |_   _|         | |      | | |           ";
         echo "  \ \  / /| |__) | |        | |  _ __  ___| |_ __ _| | | ___ _ __  ";
