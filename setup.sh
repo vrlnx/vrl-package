@@ -51,6 +51,12 @@ fi
 case $1 in
     install)
         clear
+        # Does not work atm [ ! -d "$HOME/byob" ] || echo "You have already installed a version of byob." ; exit
+        # Does not work atm [ $OSTYPE == "linux-gnu" ] && echo "" || echo "You are trying to run this in a unsupported OS" ; exit
+        if [ -d "~/byob"]; then
+
+        fi
+        clear
         echo " __      _______  _        _____           _        _ _            ";
         echo " \ \    / /  __ \| |      |_   _|         | |      | | |           ";
         echo "  \ \  / /| |__) | |        | |  _ __  ___| |_ __ _| | | ___ _ __  ";
@@ -140,11 +146,11 @@ case $1 in
             ; cd \
             ; chmod +x ~/vrl-package/uninstaller.sh \
             ; chmod +x ~/vrl-package/start-byob.sh \
-            ; sudo usermod -aG docker $USERNAME  > /dev/null
+            ; sudo usermod -aG docker $USER  > /dev/null
             chmod -x ~/vrl-package/setup.sh
-            PATH=$PATH:/home/$USERNAME/.local/bin
-            sudo chown $USERNAME:$USERNAME -R /home/$USERNAME/byob
-            sudo chown $USERNAME:$USERNAME /home/$USERNAME/bootspool.log
+            PATH=$PATH:/home/$USER/.local/bin
+            sudo chown $USER:$USER -R /home/$USER/byob
+            sudo chown $USER:$USER /home/$USER/bootspool.log
             kill -9 $SPIN_PID
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
