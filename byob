@@ -20,6 +20,12 @@ case $1 in
     status)
     sudo systemctl status byob
     ;;
+    enable)
+    sudo systemctl enable byob
+    ;;
+    disable)
+    sudo systemctl disable byob
+    ;;
     follow)
     journalctl -f _SYSTEMD_UNIT=byob.service
     ;;
@@ -28,6 +34,8 @@ case $1 in
         echo "byob help"
         echo "byob start - Start your byob"
         echo "byob stop - Stop your byob"
+        echo "byob enable - Enable your byob so it start on server bootup"
+        echo "byob diable - Diable your byob from starting on server bootup"
         echo "byob status - Get byob status"
         echo "byob follow - Follow your byob log and server"
         ;;
