@@ -53,9 +53,9 @@ case $1 in
         clear
         # Does not work atm [ ! -d "$HOME/byob" ] || echo "You have already installed a version of byob." ; exit
         # Does not work atm [ $OSTYPE == "linux-gnu" ] && echo "" || echo "You are trying to run this in a unsupported OS" ; exit
-        if [ -d "~/byob"]; then
+        # if [ -d "~/byob"]; then
 
-        fi
+        # fi
         clear
         echo " __      _______  _        _____           _        _ _            ";
         echo " \ \    / /  __ \| |      |_   _|         | |      | | |           ";
