@@ -10,9 +10,11 @@ echo "                                                                          
 echo "                                                                                  ";
 case $1 in
     run|start)
+    echo "Starting your byob server with vrl-package"
     sudo systemctl start byob
     ;;
     halt|stop)
+    echo "Halting your byob server with vrl-package"
     sudo systemctl stop byob
     ;;
     status)
