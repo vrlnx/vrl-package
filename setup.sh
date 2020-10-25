@@ -34,19 +34,6 @@
 #  \____|_| |_| |\___/ \__, | (_)
 #            _/ |       __/ |    
 #           |__/       |___/   
-spin()
-{
-  spinner="/|\\-/|\\-"
-  while :
-  do
-    for i in `seq 0 7`
-    do
-      echo -n "${spinner:$i:1}"
-      echo -en "\010"
-      sleep .15
-    done
-  done
-}  
 if [ $(whoami) == "root" ]; then
     clear
     echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
@@ -111,6 +98,19 @@ case $1 in
             ; sudo chmod 755 /usr/bin/byob \
             ; sudo chown root:root /etc/systemd/system/byob.service > /dev/null
             clear
+            spin()
+            {
+            spinner="/|\\-/|\\-"
+            while :
+            do
+                for i in `seq 0 7`
+                do
+                echo -n "${spinner:$i:1}"
+                echo -en "\010"
+                sleep .15
+                done
+            done
+            } 
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
             echo " | |  | |_ __   __| | __ _| |_ _ _ __   __ _       ";
