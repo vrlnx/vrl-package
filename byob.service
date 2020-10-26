@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=REPLACE_THIS_USERNAME
 WorkingDirectory=/home/REPLACE_THIS_USERNAME/byob/web-gui/
-ExecStart=python3 /home/REPLACE_THIS_USERNAME/byob/web-gui/run.py
+ExecStart=sh /home/REPLACE_THIS_USERNAME/byob/web-gui/service.sh
 ExecStop=/bin/kill -s QUIT $MAINPID
 Restart=always
 RestartSec=5
