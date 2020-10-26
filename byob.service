@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 User=REPLACE_THIS_USERNAME
-WorkingDirectory=$HOME/byob/web-gui/
-ExecStart=/usr/bin/sh $HOME/byob/web-gui/service.sh
+WorkingDirectory=/home/REPLACE_THIS_USERNAME/byob/web-gui/
+ExecStart=/usr/bin/sh /home/REPLACE_THIS_USERNAME/byob/web-gui/service.sh
 Restart=always
 RestartSec=5
 
