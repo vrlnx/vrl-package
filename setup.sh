@@ -117,6 +117,7 @@ case $1 in
             ; sudo chmod 755 /usr/bin/byob \
             ; sudo chown root:root /etc/systemd/system/byob.service > /dev/null
             kill -9 $SPIN_PID >& /dev/null
+            sleep .05
             clear
             # fortheimpatient() {
             #     pid=$1
@@ -165,8 +166,9 @@ case $1 in
             echo "Fetching fresh meat..."
             sleep .5
             echo "Doing magic..."
-            echo " "
+            echo ""
             echo "Sit back and enjoy a drink, this may take a while..."
+            echo ""
             echo "Do not cancel..."
             spin & SPIN_PID=$!
             sudo xargs apt install -y < reqs.txt >& /dev/null \
