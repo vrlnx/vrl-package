@@ -34,6 +34,7 @@
 #  \____|_| |_| |\___/ \__, | (_)
 #            _/ |       __/ |    
 #           |__/       |___/   
+var_user=$(whoami)
 if [ $(whoami) == "root" ]; then
     clear
     echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
@@ -50,6 +51,12 @@ if [ $(whoami) == "root" ]; then
 fi
 case $1 in
     install)
+        clear
+        # Does not work atm [ ! -d "$HOME/byob" ] || echo "You have already installed a version of byob." ; exit
+        # Does not work atm [ $OSTYPE == "linux-gnu" ] && echo "" || echo "You are trying to run this in a unsupported OS" ; exit
+        # if [ -d "~/byob"]; then
+
+        # fi
         clear
         echo " __      _______  _        _____           _        _ _            ";
         echo " \ \    / /  __ \| |      |_   _|         | |      | | |           ";
@@ -89,13 +96,6 @@ case $1 in
                 sudo reboot now
                 exit
             fi
-            echo "Applying pre-perms to service files"
-            sudo cp ~/vrl-package/byob.service /etc/systemd/system/ \
-            ; sudo cp ~/vrl-package/byob /usr/bin/ \
-            ; sudo chown root:root /usr/bin/byob \
-            ; sudo chmod 755 /usr/bin/byob \
-            ; sudo chown root:root /etc/systemd/system/byob.service > /dev/null
-            clear
             spin()
             {
             spinner="/|\\-/|\\-"
@@ -108,7 +108,53 @@ case $1 in
                 sleep .15
                 done
             done
-            } 
+            }
+            spin & SPIN_PID=$!
+            echo "Applying pre-perms to service files"
+            sudo cp ~/vrl-package/byob.service /etc/systemd/system/ \
+            ; sudo cp ~/vrl-package/byob /usr/bin/ \
+            ; sudo chown root:root /usr/bin/byob \
+            ; sudo chmod 755 /usr/bin/byob \
+            ; sudo chown root:root /etc/systemd/system/byob.service > /dev/null
+            kill -9 $SPIN_PID >& /dev/null
+            sleep .05
+            clear
+            # fortheimpatient() {
+            #     pid=$1
+            #     status="   ... ${@:2}"
+            #     echo -ne "  |$status\r"
+            #     echo -n "| "
+            #     inset=1
+            #     spinner=(
+            #         '⠋'
+            #         '⠙'
+            #         '⠹'
+            #         '⠸'
+            #         '⠼'
+            #         '⠴'
+            #         '⠦'
+            #         '⠧'
+            #         '⠇'
+            #         '⠏'
+            #     )
+            #     while kill -0 $pid 2> /dev/null; do
+            #         for state in ${spinner[@]}; do
+            #             echo -ne "\b$state"
+            #             sleep 0.05
+            #         done
+            #     done
+            #     wait $pid
+            #     retc=$?
+            #     bkset=0
+            #     bkspc=""
+            #     while [ $bkset -le $inset ]; do
+            #         bkspc="$bkspc\b"
+            #         bkset=$((bkset + 1))
+            #     done
+            #     echo -ne "$bkspc"
+            #     if [ $retc -ne 0 ]; then feedback 2 "$2 failed with errorcode: $retc -/- Check log.build_environment for details."; fi
+            # }
+            # fortheimpatient $! "Setting up system"
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
             echo " | |  | |_ __   __| | __ _| |_ _ _ __   __ _       ";
@@ -120,32 +166,35 @@ case $1 in
             echo "Fetching fresh meat..."
             sleep .5
             echo "Doing magic..."
-            echo " "
+            echo ""
             echo "Sit back and enjoy a drink, this may take a while..."
-            echo "Do not cancel... (If not installed after 1 hour, then there is trouble...)"
-            echo "Slow PC even longer..."
-            spin &
-            SPIN_PID=$!
-            sudo xargs apt install -y < reqs.txt > /dev/null \
-            ; sudo systemctl start avahi-daemon > /dev/null \
-            ; sudo systemctl enable avahi-daemon > /dev/null \
-            ; sudo systemctl start docker > /dev/null \
-            ; sudo systemctl enable docker > /dev/null \
-            ; git -C ~/ clone https://github.com/vrlnx/byob.git > /dev/null \
+            echo ""
+            echo "Do not cancel..."
+            spin & SPIN_PID=$!
+            sudo xargs apt install -y < reqs.txt >& /dev/null \
+            ; sudo systemctl start avahi-daemon >& /dev/null \
+            ; sudo systemctl enable avahi-daemon >& /dev/null \
+            ; sudo systemctl start docker >& /dev/null \
+            ; sudo systemctl enable docker >& /dev/null \
+            ; git -C ~/ clone https://github.com/vrlnx/byob.git >& /dev/null \
             ; cd ~/byob/byob \
-            ; python3 ~/byob/byob/setup.py > /dev/null \
-            ; python3 -m pip install -r requirements.txt > /dev/null \
+            ; python3 ~/byob/byob/setup.py >& /dev/null \
+            ; python3 -m pip install -r requirements.txt >& /dev/null \
+            ; cd ~/byob/web-gui/ \
+            ; python3 -m pip install -r requirements.txt >& /dev/null \
             ; cd ~/vrl-package \
-            ; python3 -m pip install -r reqs-pip.txt > /dev/null \
+            ; python3 -m pip install -r reqs-pip.txt >& /dev/null \
             ; cd \
             ; chmod +x ~/vrl-package/uninstaller.sh \
             ; chmod +x ~/vrl-package/start-byob.sh \
-            ; sudo usermod -aG docker $USERNAME  > /dev/null
-            chmod -x ~/vrl-package/setup.sh
-            PATH=$PATH:/home/$USERNAME/.local/bin
-            sudo chown $USERNAME:$USERNAME -R /home/$USERNAME/byob
-            sudo chown $USERNAME:$USERNAME /home/$USERNAME/bootspool.log
-            kill -9 $SPIN_PID
+            ; sudo usermod -aG docker $var_user  >& /dev/null
+            chmod -x ~/vrl-package/setup.sh \
+            ; PATH=$PATH:$HOME/.local/bin >& /dev/null \
+            ; sudo chown $var_user:$var_user -R $HOME/byob >& /dev/null \
+            ; touch $HOME/bootspool.log >& /dev/null \
+            ; sudo chown $var_user:$var_user $HOME/bootspool.log >& /dev/null \
+            ; kill -9 $SPIN_PID > /dev/null
+            sleep .05
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
@@ -158,7 +207,8 @@ case $1 in
             echo " "
             echo "Enabled start-byob.sh"
             echo "#1 Type 'newgrp docker', hit enter"
-            echo "#2 Type './start-byob.sh', hit enter"
+            echo "#2 Type 'cd vrl-package', hit enter"
+            echo "#3 Type './start-byob.sh', hit enter"
             cd ~/vrl-package
             ;;
         esac
