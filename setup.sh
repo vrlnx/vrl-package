@@ -177,6 +177,8 @@ case $1 in
             ; cd ~/byob/byob \
             ; python3 ~/byob/byob/setup.py >& /dev/null \
             ; python3 -m pip install -r requirements.txt >& /dev/null \
+            ; cd ~/byob/web-gui/ \
+            ; python3 -m pip install -r requirements.txt >& /dev/null
             ; cd ~/vrl-package \
             ; python3 -m pip install -r reqs-pip.txt >& /dev/null \
             ; cd \
