@@ -11,6 +11,8 @@ case $1 in
     echo "                                                                                  ";
     echo "                                                                                  ";
     echo "Starting your byob server with vrl-package"
+    echo ""
+    echo "Open URL in browser: ""$HOSTNAME"".local:5000"
     sudo systemctl start byob
     ;;
     halt|stop)
