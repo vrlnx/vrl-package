@@ -37,10 +37,11 @@ case $1 in
         echo "byob help - This help page"
         echo "byob start - Start your byob"
         echo "byob stop - Stop your byob"
-        echo "byob enable - Enable your byob so it start on server bootup"
-        echo "byob diable - Diable your byob from starting on server bootup"
         echo "byob status - Get byob status"
         echo "byob follow - Follow your byob log and server"
+        echo "byob enable - Enable your byob so it start on server bootup"
+        echo "byob diable - Diable your byob from starting on server bootup"
+        echo ""
         ;;
     *) echo "> Use 'byob help' to get help";;
 esac
