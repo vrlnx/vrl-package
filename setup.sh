@@ -193,7 +193,7 @@ case $1 in
             ; sudo chown $var_user:$var_user -R $HOME/byob >& /dev/null \
             ; touch $HOME/bootspool.log >& /dev/null \
             ; sudo chown $var_user:$var_user $HOME/bootspool.log >& /dev/null \
-            ; kill -9 $SPIN_PID >& /dev/null
+            ; kill -9 $SPIN_PID > /dev/null
             sleep .05
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
