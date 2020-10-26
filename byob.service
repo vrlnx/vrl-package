@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 User=REPLACE_THIS_USERNAME
-WorkingDirectory=/home/REPLACE_THIS_USERNAME/byob/web-gui/docker-pyinstaller1
-ExecStart=sh /home/REPLACE_THIS_USERNAME/byob/web-gui/startup.sh > /home/REPLACE_THIS_USERNAME/bootspool.log
+WorkingDirectory=/home/REPLACE_THIS_USERNAME/byob/web-gui/
+ExecStart=python3 /home/REPLACE_THIS_USERNAME/byob/web-gui/run.py
 ExecStop=/bin/kill -s QUIT $MAINPID
 Restart=always
 RestartSec=5
