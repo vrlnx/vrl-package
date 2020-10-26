@@ -6,7 +6,6 @@ After=network.target
 User=REPLACE_THIS_USERNAME
 WorkingDirectory=$HOME/byob/web-gui/
 ExecStart=/usr/bin/sh $HOME/byob/web-gui/service.sh
-ExecStop=/bin/kill -s QUIT $MAINPID
 Restart=always
 RestartSec=5
 
