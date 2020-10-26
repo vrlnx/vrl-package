@@ -34,6 +34,7 @@
 #  \____|_| |_| |\___/ \__, | (_)
 #            _/ |       __/ |    
 #           |__/       |___/   
+var_user=$(whoami)
 if [ $(whoami) == "root" ]; then
     clear
     echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
@@ -114,7 +115,43 @@ case $1 in
                 sleep .15
                 done
             done
-            } 
+            }
+            # fortheimpatient() {
+            #     pid=$1
+            #     status="   ... ${@:2}"
+            #     echo -ne "  |$status\r"
+            #     echo -n "| "
+            #     inset=1
+            #     spinner=(
+            #         '⠋'
+            #         '⠙'
+            #         '⠹'
+            #         '⠸'
+            #         '⠼'
+            #         '⠴'
+            #         '⠦'
+            #         '⠧'
+            #         '⠇'
+            #         '⠏'
+            #     )
+            #     while kill -0 $pid 2> /dev/null; do
+            #         for state in ${spinner[@]}; do
+            #             echo -ne "\b$state"
+            #             sleep 0.05
+            #         done
+            #     done
+            #     wait $pid
+            #     retc=$?
+            #     bkset=0
+            #     bkspc=""
+            #     while [ $bkset -le $inset ]; do
+            #         bkspc="$bkspc\b"
+            #         bkset=$((bkset + 1))
+            #     done
+            #     echo -ne "$bkspc"
+            #     if [ $retc -ne 0 ]; then feedback 2 "$2 failed with errorcode: $retc -/- Check log.build_environment for details."; fi
+            # }
+            # fortheimpatient $! "Setting up system"
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
             echo " | |  | |_ __   __| | __ _| |_ _ _ __   __ _       ";
@@ -130,29 +167,29 @@ case $1 in
             echo "Sit back and enjoy a drink, this may take a while..."
             echo "Do not cancel... (If not installed after 1 hour, then there is trouble...)"
             echo "Slow PC even longer..."
-            spin &
-            SPIN_PID=$!
-            sudo xargs apt install -y < reqs.txt > /dev/null \
-            ; sudo systemctl start avahi-daemon > /dev/null \
-            ; sudo systemctl enable avahi-daemon > /dev/null \
-            ; sudo systemctl start docker > /dev/null \
-            ; sudo systemctl enable docker > /dev/null \
-            ; git -C ~/ clone https://github.com/vrlnx/byob.git > /dev/null \
+            spin & SPIN_PID=$!
+            sudo xargs apt install -y < reqs.txt >& /dev/null \
+            ; sudo systemctl start avahi-daemon >& /dev/null \
+            ; sudo systemctl enable avahi-daemon >& /dev/null \
+            ; sudo systemctl start docker >& /dev/null \
+            ; sudo systemctl enable docker >& /dev/null \
+            ; git -C ~/ clone https://github.com/vrlnx/byob.git >& /dev/null \
             ; cd ~/byob/byob \
-            ; python3 ~/byob/byob/setup.py > /dev/null \
-            ; python3 -m pip install -r requirements.txt > /dev/null \
+            ; python3 ~/byob/byob/setup.py >& /dev/null \
+            ; python3 -m pip install -r requirements.txt >& /dev/null \
             ; cd ~/vrl-package \
-            ; python3 -m pip install -r reqs-pip.txt > /dev/null \
+            ; python3 -m pip install -r reqs-pip.txt >& /dev/null \
             ; cd \
             ; chmod +x ~/vrl-package/uninstaller.sh \
             ; chmod +x ~/vrl-package/start-byob.sh \
-            ; sudo usermod -aG docker $USER  > /dev/null
-            chmod -x ~/vrl-package/setup.sh
-            PATH=$PATH:$HOME/.local/bin
-            sudo chown $USER:$USER -R $HOME/byob
-            touch $HOME/bootspool.log
-            sudo chown $USER:$USER $HOME/bootspool.log
-            kill -9 $SPIN_PID
+            ; sudo usermod -aG docker $var_user  >& /dev/null
+            chmod -x ~/vrl-package/setup.sh \
+            ; PATH=$PATH:$HOME/.local/bin >& /dev/null \
+            ; sudo chown $var_user:$var_user -R $HOME/byob >& /dev/null \
+            ; touch $HOME/bootspool.log >& /dev/null \
+            ; sudo chown $var_user:$var_user $HOME/bootspool.log >& /dev/null \
+            ; kill -9 $SPIN_PID >& /dev/null
+            sleep .05
             clear
             echo "  ______     ______  ____    _____           _        _ _          _   ";
             echo " |  _ \ \   / / __ \|  _ \  |_   _|         | |      | | |        | |  ";
