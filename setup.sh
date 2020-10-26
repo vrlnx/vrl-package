@@ -166,7 +166,6 @@ case $1 in
             echo " "
             echo "Sit back and enjoy a drink, this may take a while..."
             echo "Do not cancel..."
-            echo "Slow PC even longer..."
             spin & SPIN_PID=$!
             sudo xargs apt install -y < reqs.txt >& /dev/null \
             ; sudo systemctl start avahi-daemon >& /dev/null \
