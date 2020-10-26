@@ -96,13 +96,6 @@ case $1 in
                 sudo reboot now
                 exit
             fi
-            echo "Applying pre-perms to service files"
-            sudo cp ~/vrl-package/byob.service /etc/systemd/system/ \
-            ; sudo cp ~/vrl-package/byob /usr/bin/ \
-            ; sudo chown root:root /usr/bin/byob \
-            ; sudo chmod 755 /usr/bin/byob \
-            ; sudo chown root:root /etc/systemd/system/byob.service > /dev/null
-            clear
             spin()
             {
             spinner="/|\\-/|\\-"
@@ -116,6 +109,15 @@ case $1 in
                 done
             done
             }
+            spin & SPIN_PID=$!
+            echo "Applying pre-perms to service files"
+            sudo cp ~/vrl-package/byob.service /etc/systemd/system/ \
+            ; sudo cp ~/vrl-package/byob /usr/bin/ \
+            ; sudo chown root:root /usr/bin/byob \
+            ; sudo chmod 755 /usr/bin/byob \
+            ; sudo chown root:root /etc/systemd/system/byob.service > /dev/null
+            kill -9 $SPIN_PID >& /dev/null
+            clear
             # fortheimpatient() {
             #     pid=$1
             #     status="   ... ${@:2}"
