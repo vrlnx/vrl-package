@@ -26,6 +26,9 @@ case $1 in
     disable)
     sudo systemctl disable byob
     ;;
+    reload)
+    sudo systemctl daemon-reload
+    ;;
     follow)
     journalctl -f _SYSTEMD_UNIT=byob.service
     ;;
