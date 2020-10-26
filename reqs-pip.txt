@@ -5,7 +5,6 @@ flask-bcrypt
 flask-login
 flask-sqlalchemy
 flask-session
-colorama
 pyinstaller==3.6
 wtforms
 mss==3.3.0
