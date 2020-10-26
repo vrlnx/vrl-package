@@ -1,12 +1,12 @@
-docker.io
+avahi-daemon
 gcc
 cmake
 neofetch
 htop
-avahi-daemon
 upx-ucl
 build-essential
 zlib1g-dev
+docker.io
 python3
 python3-pip
 python3-opencv
