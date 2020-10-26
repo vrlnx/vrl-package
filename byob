@@ -29,6 +29,9 @@ case $1 in
     reload)
     sudo systemctl daemon-reload
     ;;
+    edit)
+    sudo nano /etc/systemd/system/byob.service
+    ;;
     follow)
     journalctl -f _SYSTEMD_UNIT=byob.service
     ;;
