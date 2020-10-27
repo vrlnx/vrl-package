@@ -80,9 +80,50 @@ case $1 in
             ;;
             *)
             if ! sudo apt update | grep "All packages are up to date"; then
+                spin()
+                {
+                spinner="/|\\-/|\\-"
+                while :
+                do
+                    for i in `seq 0 7`
+                    do
+                    echo -n "${spinner:$i:1}"
+                    echo -en "\010"
+                    sleep .15
+                    done
+                done
+                }
+                spin & SPIN_PID=$!
                 sudo apt update -qq \
-                && sudo apt upgrade -y \
-                && sudo apt autoremove -y
+                && sudo apt upgrade --force \
+                && sudo apt update -qq \
+                && sudo apt autoremove -y \
+                && sudo apt update -qq \
+                && sudo apt full-upgrade --force \
+                && sudo apt update -qq \
+                && sudo apt upgrade -y --allow-change-held-packages \
+                && sudo apt update -qq
+                # Oof something went wrong...
+                if ! sudo apt update | grep "All packages are up to date"; then
+                clear
+                echo "   _____                      _   _     _              ";
+                echo "  / ____|                    | | | |   (_)             ";
+                echo " | (___   ___  _ __ ___   ___| |_| |__  _ _ __   __ _  ";
+                echo "  \___ \ / _ \| '_ \` _ \ / _ \ __| '_ \| | '_ \ / _\` | ";
+                echo "  ____) | (_) | | | | | |  __/ |_| | | | | | | | (_| | ";
+                echo " |_____/ \___/|_|_|_| |_|\___|\__|_| |_|_|_| |_|\__, | ";
+                echo " \ \ /\ / / _ \ '_ \| __|                        __/ | ";
+                echo "  \ V  V /  __/ | | | |_                        |___/  ";
+                echo " __\_/\_/_\___|_|_|_|\__|   __ _                       ";
+                echo " \ \ /\ / / '__/ _ \| '_ \ / _\` |                     ";
+                echo "  \ V  V /| | | (_) | | | | (_| |                      ";
+                echo "   \_/\_/ |_|  \___/|_| |_|\__, |                      ";
+                echo "                            __/ |                      ";
+                echo "                           |___/                       ";
+                exit
+                fi
+                kill -9 $SPIN_PID >& /dev/null
+                sleep .05
                 clear
                 echo "  _____      _                 _   ";
                 echo " |  __ \    | |               | |  ";
