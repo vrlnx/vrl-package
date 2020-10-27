@@ -34,7 +34,41 @@
 #  \____|_| |_| |\___/ \__, | (_)
 #            _/ |       __/ |    
 #           |__/       |___/   
-var_user=$(whoami)
+fortheimpatient() {
+    pid=$1
+    status="   ... ${@:2}"
+    echo -ne "  |$status\r"
+    echo -n "| "
+    inset=1
+    spinner=(
+        '⠋'
+        '⠙'
+        '⠹'
+        '⠸'
+        '⠼'
+        '⠴'
+        '⠦'
+        '⠧'
+        '⠇'
+        '⠏'
+    )
+    while kill -0 $pid 2> /dev/null; do
+        for state in ${spinner[@]}; do
+            echo -ne "\b$state"
+            sleep .05
+        done
+    done
+    wait $pid
+    retc=$?
+    bkset=0
+    bkspc=""
+    while [ $bkset -le $inset ]; do
+        bkspc="$bkspc\b"
+        bkset=$((bkset + 1))
+    done
+    echo -ne "$bkspc"
+    if [ $retc -ne 0 ]; then feedback 2 "$2 failed with errorcode: $retc -/- No details for you."; fi
+}
 if [ $(whoami) == "root" ]; then
     clear
     echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
@@ -51,12 +85,6 @@ if [ $(whoami) == "root" ]; then
 fi
 case $1 in
     install)
-        clear
-        # Does not work atm [ ! -d "$HOME/byob" ] || echo "You have already installed a version of byob." ; exit
-        # Does not work atm [ $OSTYPE == "linux-gnu" ] && echo "" || echo "You are trying to run this in a unsupported OS" ; exit
-        # if [ -d "~/byob"]; then
-
-        # fi
         clear
         echo " __      _______  _        _____           _        _ _            ";
         echo " \ \    / /  __ \| |      |_   _|         | |      | | |           ";
@@ -95,13 +123,9 @@ case $1 in
                 }
                 spin & SPIN_PID=$!
                 sudo apt update -qq \
-                && sudo apt upgrade --force \
-                && sudo apt update -qq \
+                && sudo apt upgrade -y \
                 && sudo apt autoremove -y \
-                && sudo apt update -qq \
-                && sudo apt full-upgrade --force \
-                && sudo apt update -qq \
-                && sudo apt upgrade -y --allow-change-held-packages \
+                && sudo apt upgrade -y \
                 && sudo apt update -qq
                 # Oof something went wrong...
                 if ! sudo apt update | grep "All packages are up to date"; then
@@ -152,6 +176,7 @@ case $1 in
             }
             spin & SPIN_PID=$!
             echo "Applying pre-perms to service files"
+            sed -i "s/REPLACE_THIS_USERNAME/$(whoami)/g" ~/vrl-package/byob.service
             sudo cp ~/vrl-package/byob.service /etc/systemd/system/ \
             ; sudo cp ~/vrl-package/byob /usr/bin/ \
             ; sudo chown root:root /usr/bin/byob \
@@ -160,41 +185,6 @@ case $1 in
             kill -9 $SPIN_PID >& /dev/null
             sleep .05
             clear
-            # fortheimpatient() {
-            #     pid=$1
-            #     status="   ... ${@:2}"
-            #     echo -ne "  |$status\r"
-            #     echo -n "| "
-            #     inset=1
-            #     spinner=(
-            #         '⠋'
-            #         '⠙'
-            #         '⠹'
-            #         '⠸'
-            #         '⠼'
-            #         '⠴'
-            #         '⠦'
-            #         '⠧'
-            #         '⠇'
-            #         '⠏'
-            #     )
-            #     while kill -0 $pid 2> /dev/null; do
-            #         for state in ${spinner[@]}; do
-            #             echo -ne "\b$state"
-            #             sleep 0.05
-            #         done
-            #     done
-            #     wait $pid
-            #     retc=$?
-            #     bkset=0
-            #     bkspc=""
-            #     while [ $bkset -le $inset ]; do
-            #         bkspc="$bkspc\b"
-            #         bkset=$((bkset + 1))
-            #     done
-            #     echo -ne "$bkspc"
-            #     if [ $retc -ne 0 ]; then feedback 2 "$2 failed with errorcode: $retc -/- Check log.build_environment for details."; fi
-            # }
             # fortheimpatient $! "Setting up system"
             echo "  _    _           _       _   _                   ";
             echo " | |  | |         | |     | | (_)                  ";
