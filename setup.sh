@@ -201,6 +201,7 @@ case $1 in
             echo "Sit back and enjoy a drink, this may take a while..."
             echo ""
             echo "Do not cancel..."
+            fortheimpatient $! "Pepe install..."
             spin & SPIN_PID=$!
             sudo xargs apt install -y < reqs.txt >& /dev/null \
             ; sudo systemctl start avahi-daemon >& /dev/null \
