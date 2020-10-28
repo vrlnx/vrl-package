@@ -145,18 +145,7 @@ case $1 in
             fi
             spin()
             {
-            spinner=(
-                    '⠋'
-                    '⠙'
-                    '⠹'
-                    '⠸'
-                    '⠼'
-                    '⠴'
-                    '⠦'
-                    '⠧'
-                    '⠇'
-                    '⠏'
-                )
+            spinner="/|\\-/|\\-"
             while :
             do
                 for i in `seq 0 7`
