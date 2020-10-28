@@ -253,9 +253,8 @@ case $1 in
             echo "                                                                       ";
             echo " "
             echo "Enabled start-byob.sh"
-            echo "#1 Type 'newgrp docker', hit enter"
-            echo "#2 Type 'cd vrl-package', hit enter"
-            echo "#3 Type './start-byob.sh', hit enter"
+            echo "#1 Type 'sudo reboot now', hit enter"
+            echo "After reboot you can use './start-byob.sh'"
             cd ~/vrl-package
             ;;
         esac
