@@ -61,13 +61,6 @@ fortheimpatient() {
     wait $pid
     retc=$?
     bkset=0
-    bkspc=""
-    while [ $bkset -le $inset ]; do
-        bkspc="$bkspc\b"
-        bkset=$((bkset + 1))
-    done
-    echo -ne "$bkspc"
-    if [ $retc -ne 0 ]; then feedback 2 "$2 failed with errorcode: $retc -/- No details for you."; fi
 }
 if [ $(whoami) == "root" ]; then
     clear
@@ -175,8 +168,9 @@ case $1 in
             done
             }
             spin & SPIN_PID=$!
-            echo "Applying pre-perms to service files"
-            sed -i "s/REPLACE_THIS_USERNAME/$(whoami)/g" ~/vrl-package/byob.service
+            echo "Applying pre-perms to service files" \
+            ; sed -i "s/REPLACE_THIS_USERNAME/$(whoami)/g" ~/vrl-package/byob.service \
+            ; sed -i "s/SHELL_DIR/$(which sh)/g" ~/vrl-package/byob.service
             sudo cp ~/vrl-package/byob.service /etc/systemd/system/ \
             ; sudo cp ~/vrl-package/byob /usr/bin/ \
             ; sudo chown root:root /usr/bin/byob \
@@ -201,7 +195,6 @@ case $1 in
             echo "Sit back and enjoy a drink, this may take a while..."
             echo ""
             echo "Do not cancel..."
-            fortheimpatient $! "Pepe install..."
             spin & SPIN_PID=$!
             sudo xargs apt install -y < reqs.txt >& /dev/null \
             ; sudo systemctl start avahi-daemon >& /dev/null \
