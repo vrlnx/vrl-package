@@ -103,7 +103,18 @@ case $1 in
             if ! sudo apt update | grep "All packages are up to date"; then
                 spin()
                 {
-                spinner="/|\\-/|\\-"
+                spinner=(
+                    '⠋'
+                    '⠙'
+                    '⠹'
+                    '⠸'
+                    '⠼'
+                    '⠴'
+                    '⠦'
+                    '⠧'
+                    '⠇'
+                    '⠏'
+                )
                 while :
                 do
                     for i in `seq 0 7`
@@ -156,7 +167,18 @@ case $1 in
             fi
             spin()
             {
-            spinner="/|\\-/|\\-"
+            spinner=(
+                    '⠋'
+                    '⠙'
+                    '⠹'
+                    '⠸'
+                    '⠼'
+                    '⠴'
+                    '⠦'
+                    '⠧'
+                    '⠇'
+                    '⠏'
+                )
             while :
             do
                 for i in `seq 0 7`
