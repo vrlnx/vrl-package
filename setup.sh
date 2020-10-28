@@ -40,18 +40,7 @@ fortheimpatient() {
     echo -ne "  |$status\r"
     echo -n "| "
     inset=1
-    spinner=(
-        '⠋'
-        '⠙'
-        '⠹'
-        '⠸'
-        '⠼'
-        '⠴'
-        '⠦'
-        '⠧'
-        '⠇'
-        '⠏'
-    )
+    spinner="/|\\-/|\\-"
     while kill -0 $pid 2> /dev/null; do
         for state in ${spinner[@]}; do
             echo -ne "\b$state"
@@ -103,18 +92,7 @@ case $1 in
             if ! sudo apt update | grep "All packages are up to date"; then
                 spin()
                 {
-                spinner=(
-                    '⠋'
-                    '⠙'
-                    '⠹'
-                    '⠸'
-                    '⠼'
-                    '⠴'
-                    '⠦'
-                    '⠧'
-                    '⠇'
-                    '⠏'
-                )
+                spinner="/|\\-/|\\-"
                 while :
                 do
                     for i in `seq 0 7`
@@ -254,7 +232,7 @@ case $1 in
             echo " "
             echo "Enabled start-byob.sh"
             echo "#1 Type 'sudo reboot now', hit enter"
-            echo "After reboot you can use './start-byob.sh'"
+            echo "After reboot you can use './start-byob.sh"
             cd ~/vrl-package
             ;;
         esac
