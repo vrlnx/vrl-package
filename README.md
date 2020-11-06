@@ -1,8 +1,6 @@
-# vrl-package
+# Looking for the wiki? [Wiki link here!](https://github.com/vrlnx/vrl-package/wiki)
 
 ### This is not an solution, but rather an hack to make it just work.
-
-## Looking for the wiki? [Wiki link](https://github.com/vrlnx/vrl-package/wiki)
 
 VRL Package - A Carepackage for the BYOB Open Source project
 
