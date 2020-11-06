@@ -11,7 +11,7 @@
                                                        |___/      
 
 ```
-# Looking for the wiki? [Wiki link](https://github.com/vrlnx/vrl-package/wiki)
+# Looking for the wiki? [Wiki link here!](https://github.com/vrlnx/vrl-package/wiki)
 
 ### This is not an solution, but rather an hack to make it just work.
 
