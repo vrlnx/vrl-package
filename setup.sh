@@ -49,6 +49,7 @@ if [ $(whoami) == "root" ]; then
     echo "          DO NOT USE ROOT      DO NOT USE ROOT          DO NOT USE ROOT            ";
     exit
 fi
+export LC_ALL=C
 case $1 in
     install)
         clear
