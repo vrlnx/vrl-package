@@ -207,10 +207,8 @@ case $1 in
             echo "                                                                       ";
             echo " "
             echo "Enabled start-byob.sh"
-            echo "#1 Type 'newgrp docker', hit enter"
-            echo "#2 Type 'cd vrl-package', hit enter"
-            echo "#3 Type './start-byob.sh', hit enter"
-            cd ~/vrl-package
+            read -p "::: System will now reboot (Press Enter when ready)"
+            sudo reboot now
             ;;
         esac
         ;;
