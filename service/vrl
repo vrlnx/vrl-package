@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# VRL-Service: Trivial C2 system service
+# Easiest setup and mangement of BYOB C2 on Ubuntu
+# 
+# Heavily adapted from the byob.dev project and...
+# https://github.com/malwaredllc/byob/
+
+# timestamp: 07 Nov. 2020 00:24 CEST
+######## VARIABLES
+SUDO="sudo"
+vrlFilesDir="/usr/local/src/vrl"
+vrlServiceFile="/etc/systemd/system/vrl.service"
+vrlCommandFile="/usr/local/bin/vrl"
+byobGitUrl="https://github.com/vrlnx/byob.git"
+byobFileDir="${vrlFilesDir}/byob"
+say() {
+    echo "::: $@"
+}
+case $1 in
+    run|start)
+        say " Starting your ByoB server with vrl-package"
+        say
+        say " Open URL in browser: $HOSTNAME.local:5000"
+        sudo systemctl start vrl
+        ;;
+    halt|stop)
+        say " Halting your ByoB server with vrl-package"
+        sudo systemctl stop vrl
+        ;;
+    status)
+        sudo service vrl status
+        ;;
+    enable)
+        sudo systemctl enable vrl.service
+        ;;
+    disable)
+        sudo systemctl disable vrl.service
+        ;;
+    debug)
+        clear
+        say "Commands for vrl-package 'debug mode'"
+        say " 'vrl debug' - This help page"
+        say " 'vrl enable' - Enable vrl service so it start on server bootup"
+        say " 'vrl diable' - Diable vrl service from starting on server bootup"
+        say " 'vrl edit' - Edit vrl service"
+        say " 'vrl reload' - Reloads and apply chages to vrl service"
+        say " 'vrl update' - To get latest updates from vrl-package"
+        say " 'vrl uninstall' - Uninstall vrl-package"
+        say 
+        ;;
+    edit)
+        sudo nano /etc/systemd/system/vrl.service
+        ;;
+    reload)
+        sudo systemctl daemon-reload
+        ;;
+    update)
+        say
+        say "This feature is under construction."
+        say
+        ;;
+    uninstall)
+        read -p "::: Do you want to uninstall vrl-package [y/N]: " localAgreement
+        case $localAgreement in
+        y|Y)
+            cd
+            $SUDO rm -rf ${vrlFilesDir}
+            $SUDO rm -f ${vrlServiceFile}
+            $SUDO rm -f ${vrlCommandFile}
+            say "VRL-Package and Byob is uninstalled."
+            say "You can no longer run any 'vrl' command."
+            ;;
+        *)
+            say " Uninstall aborted!"
+            ;;
+        esac 
+        ;;
+    follow)
+        clear
+        watermark
+        journalctl -f _SYSTEMD_UNIT=vrl.service
+        ;;
+    help)
+        clear
+        say "Commands for vrl-package:"
+        say " 'vrl help' - This help page"
+        say " 'vrl debug' - Open debug help menu"
+        say " 'vrl follow' - Follow vrl service log"
+        say " 'vrl status' - Get vrl service status"
+        say " 'vrl start' - Start vrl service"
+        say " 'vrl stop' - Stop vrl service"
+        say
+        ;;
+    *)
+        say " Use 'vrl help' to get help"
+        say
+        ;;
+esac
