@@ -719,4 +719,4 @@ say() {
     echo "::: $@"
 }
 ######## END OF FILE
-main "$@"
+main
