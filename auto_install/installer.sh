@@ -116,8 +116,6 @@ __init__() {
     }
     
     osCheck() {
-        if [ $() = "Ubuntu" ]; then
-        fi
         # if lsb_release command is on their system
         if command -v lsb_release > /dev/null; then
 
