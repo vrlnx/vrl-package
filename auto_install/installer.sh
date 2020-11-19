@@ -32,8 +32,8 @@ BASE_DEPS=(git tar wget curl grep dnsutils net-tools bsdmainutils)
 INSTALLED_PACKAGES=()
 
 ######## URLs ########
-requiermentsPac=$(curl -L "https://raw.githubusercontent.com/vrlnx/vrl-package/${gitBranch}/archive/auto-list.txt")
-requiermentsPip=$(curl -L"https://raw.githubusercontent.com/vrlnx/vrl-package/${gitBranch}/archive/pip-list.txt")
+requiermentsPac="https://raw.githubusercontent.com/vrlnx/vrl-package/${gitBranch}/archive/auto-list.txt"
+requiermentsPip="https://raw.githubusercontent.com/vrlnx/vrl-package/${gitBranch}/archive/pip-list.txt"
 commandfileUrl="https://raw.githubusercontent.com/vrlnx/vrl-package/${gitBranch}/service/vrl"
 serviceUrl="https://raw.githubusercontent.com/vrlnx/vrl-package/${gitBranch}/service/vrl.serivce"
 
@@ -70,7 +70,7 @@ main() {
     preconfigurePackages
 
     # Install programms Byob needs
-    installDependentPackages ${requiermentsPac}
+    installDependentPackages $(curl -L ${requiermentsPac})
     
     # Adding vrl as a command
     installScripts
@@ -413,7 +413,7 @@ configureService(){
     python3 -m pip install -r requirements.txt > /dev/null & spinner $1 \
     ; cd ${vrlFilesDir}/vrl
     say "Installing general lacking requirements"
-    python3 -m pip install -r "${requiermentsPip}" > /dev/null & spinner $1
+    python3 -m pip install -r "$(curl -L ${requiermentsPip})" > /dev/null & spinner $1
     say "Configure Docker Container permissions"
     sudo usermod -aG docker $var_user  >& /dev/null \
     ; PATH=$PATH:$HOME/.local/bin >& /dev/null \
