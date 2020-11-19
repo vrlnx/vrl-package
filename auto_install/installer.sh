@@ -162,10 +162,6 @@ __init__() {
         say "OS Not Supported"
         say "You are on an OS that we have not tested but MAY work, continuing anyway..."
     }
-    avoidStaticIPv4Ubuntu() {
-            say "Since we think you are not using Raspbian, we will not configure a static IP for you."
-            return
-    }
 
     validIP(){
         local ip=$1
@@ -718,5 +714,4 @@ denyAccess() {
 say() {
     echo "::: $@"
 }
-######## END OF FILE
 main
