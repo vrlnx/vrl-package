@@ -11,9 +11,6 @@
                                                        |___/      
 
 ```
-# Looking for the wiki? [Wiki link here!](https://github.com/vrlnx/vrl-package/wiki)
-
-### This is not an solution, but rather an hack to make it just work.
 
 VRL Package - A Carepackage for the BYOB Open Source project
 
@@ -26,6 +23,19 @@ This is a 100% Linux-only repo, I will not help Windows users.
 
 -vrlnx
 
+
+# How to install?
+
+#### Main way to install
+```sh
+curl -L http://alturl.com/dxz27 | bash
+```
+
+#### Alternative way to install
+## 
+```sh
+curl -L https://raw.githubusercontent.com/vrlnx/vrl-package/beta/auto_install/installer.sh | bash
+```
 ###### _supplements for [BYOB](https://github.com/vrlnx/byob)_
 [![Discord](https://i.imgur.com/OJ4Bf1B.png)](https://discord.gg/mvPaWR3)
 [![Twitter](https://panels-images.twitch.tv/panel-149277123-image-4f344ba3-65b2-43d9-adaf-651cf629cf05)](https://twitter.com/vrlinux)
