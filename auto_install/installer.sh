@@ -194,7 +194,7 @@ pipConfig(){
 }
 byobSetup(){
     say "Installing required packages"
-    sudo xargs apt install -y < ${REQU_DEPS[@]} > /dev/null & spinner $!
+    installDependentPackages REQU_DEPS[@] > /dev/null & spinner $!
     
     say "Configuring .local mDNS"
     sudo systemctl start avahi-daemon &> /dev/null \
@@ -227,9 +227,9 @@ byobSetup(){
     sudo chown root:root -R ${byobFileDir} &> /dev/null
     
     say "Configuring services"
-    wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
-    wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
-    cat ${vrlServiceFile} | sed "s/$shell/$(which sh)/gm" | sed "s/$usrname/${USER_ME}/gm" | sed "s/$vrlFilesDir/${vrlFilesDir}/gm" | sed "s/$byobFileDir/${byobFileDir}/gm" > ${vrlServiceFile}
+    $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
+    $SUDO wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
+    $SUDO cat ${vrlServiceFile} | sed "s/$shell/$(which sh)/gm" | sed "s/$usrname/${USER_ME}/gm" | sed "s/$vrlFilesDir/${vrlFilesDir}/gm" | sed "s/$byobFileDir/${byobFileDir}/gm" > ${vrlServiceFile}
     say "done."
 }
 installDependentPackages(){
