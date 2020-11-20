@@ -228,10 +228,6 @@ pipConfig(){
     # ${PY_PIP-Install} pyHook==1.5.1\;sys.platform=='win32'
 }
 byobSetup(){
-
-    say "Installing required packages"
-    installDependentPackages REQU_DEPS[@] > /dev/null & spinner $!
-    
     # Passed
     say "Configuring .local mDNS"
     $SUDO systemctl start avahi-daemon &> /dev/null \
