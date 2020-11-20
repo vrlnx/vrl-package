@@ -4,6 +4,7 @@
 # curl -L https://raw.githubusercontent.com/vrlnx/vrl-package/beta/auto_install/installer.sh | bash
 #
 # Make sure you have `curl` installed
+
 ######## VARIABLES
 myPublicIp=$(dig +short myip.opendns.com @resolver1.opendns.com)
 gitBranch="beta"
@@ -16,7 +17,6 @@ tempsetupVarsFile="/tmp/setupVars.conf"
 
 # Dependencies that are required by the script
 BASE_DEPS=(git tar wget curl grep net-tools bsdmainutils)
-
 
 ######## URL #######
 commandfileUrl="https://raw.githubusercontent.com/vrlnx/vrl-package/${gitBranch}/service/vrl"
@@ -195,7 +195,7 @@ pipConfig(){
     pypiwin32==223;sys.platform=='win32'
     pyHook==1.5.1;sys.platform=='win32'
     )
-    
+
     for i in ${REQU_PIP}; do
     say "Installing $i"
     python3 -m pip install $i
