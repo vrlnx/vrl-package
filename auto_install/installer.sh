@@ -250,7 +250,7 @@ installDependentPackages(){
 		fi
 	done
 
-	local APTLOGFILE="$($SUDO mktemp)"
+	local APTLOGFILE="$(mktemp)"
 
 	if command -v debconf-apt-progress > /dev/null; then
         # shellcheck disable=SC2086
