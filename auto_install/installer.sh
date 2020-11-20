@@ -41,7 +41,7 @@ main(){
     rootCheck
     osCheck
     # Headpatting system, maybe it tells us something.
-    $SUDO updatePackageCache
+    updatePackageCache
     notifyPackageUpdatesAvailable
     # Welcome noobs
     welcomeDialogs
@@ -143,6 +143,16 @@ updatePackageCache(){
     python3-distutils
     python3-venv
     )
+    for i in ${REQU_DEPS}; do
+        which $i > /dev/null
+        local status=$?
+        if test $status -ne 0 then
+            say "Installing $i...";
+            installDependentPackages $i
+        else
+            echo "$i is installed already.";
+        fi
+    done
 }
 notifyPackageUpdatesAvailable(){
     # Let user know if they have outdated packages on their system and
@@ -195,10 +205,10 @@ pipConfig(){
         which $i > /dev/null
         local status=$?
         if test $status -ne 0 then
-            say "Installing $i..."
-            ${PY_PIP-Install} $i
+            say "Installing $i...";
+            ${PY_PIP-Install} $i;
         else
-            echo "$i is installed."
+            echo "$i is installed.";
         fi
     done
 
