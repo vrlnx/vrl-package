@@ -176,6 +176,20 @@ pipConfig(){
     flask-sqlalchemy
     flask-session
     wtforms
+    pyinstaller==3.6
+    mss==3.3.0
+    WMI==1.4.9
+    numpy==1.19.4
+    pyxhook==1.0.0
+    twilio==6.14.0
+    colorama==0.3.9
+    requests==2.20.0
+    pycryptodomex==3.8.1
+    py-cryptonight\>=0.2.4
+    git+https://github.com/jtgrassie/pyrx.git#egg=pyrx
+    opencv-python\;python_version\>'3'
+    pypiwin32==223\;sys.platform=='win32'
+    pyHook==1.5.1\;sys.platform=='win32'
     )
     for i in ${REQU_PIP}; do
         which $i > /dev/null
@@ -188,20 +202,20 @@ pipConfig(){
         fi
     done
 
-    ${PY_PIP-Install} pyinstaller==3.6 > /dev/null & spinner $!
-    ${PY_PIP-Install} mss==3.3.0 > /dev/null & spinner $!
-    ${PY_PIP-Install} WMI==1.4.9 > /dev/null & spinner $!
-    ${PY_PIP-Install} numpy==1.19.4 > /dev/null & spinner $!
-    ${PY_PIP-Install} pyxhook==1.0.0 > /dev/null & spinner $!
-    ${PY_PIP-Install} twilio==6.14.0 > /dev/null & spinner $!
-    ${PY_PIP-Install} colorama==0.3.9 > /dev/null & spinner $!
-    ${PY_PIP-Install} requests==2.20.0 > /dev/null & spinner $!
-    ${PY_PIP-Install} pycryptodomex==3.8.1 > /dev/null & spinner $!
-    ${PY_PIP-Install} py-cryptonight>=0.2.4 > /dev/null & spinner $!
-    ${PY_PIP-Install} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
-    ${PY_PIP-Install} opencv-python;python_version>'3' > /dev/null & spinner $!
-    ${PY_PIP-Install} pypiwin32==223;sys.platform=='win32'
-    ${PY_PIP-Install} pyHook==1.5.1;sys.platform=='win32'
+    # ${PY_PIP-Install} pyinstaller==3.6 > /dev/null & spinner $!
+    # ${PY_PIP-Install} mss==3.3.0 > /dev/null & spinner $!
+    # ${PY_PIP-Install} WMI==1.4.9 > /dev/null & spinner $!
+    # ${PY_PIP-Install} numpy==1.19.4 > /dev/null & spinner $!
+    # ${PY_PIP-Install} pyxhook==1.0.0 > /dev/null & spinner $!
+    # ${PY_PIP-Install} twilio==6.14.0 > /dev/null & spinner $!
+    # ${PY_PIP-Install} colorama==0.3.9 > /dev/null & spinner $!
+    # ${PY_PIP-Install} requests==2.20.0 > /dev/null & spinner $!
+    # ${PY_PIP-Install} pycryptodomex==3.8.1 > /dev/null & spinner $!
+    # ${PY_PIP-Install} py-cryptonight\>=0.2.4 > /dev/null & spinner $!
+    # ${PY_PIP-Install} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
+    # ${PY_PIP-Install} opencv-python\;python_version\>'3' > /dev/null & spinner $!
+    # ${PY_PIP-Install} pypiwin32==223\;sys.platform=='win32'
+    # ${PY_PIP-Install} pyHook==1.5.1\;sys.platform=='win32'
 }
 byobSetup(){
 
