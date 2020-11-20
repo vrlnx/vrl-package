@@ -141,6 +141,8 @@ updatePackageCache(){
     python3-distutils
     python3-venv
     )
+
+    # Issue 0015 - bash: line 150: syntax error near unexpected token 'else'
     for i in ${REQU_DEPS}; do
         which $i > /dev/null
         local status=$?
