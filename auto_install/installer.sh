@@ -30,6 +30,8 @@ UPDATE_PKG_CACHE="${PKG_MANAGER} update"
 PKG_INSTALL="${PKG_MANAGER} --yes --no-install-recommends install"
 PKG_COUNT="${PKG_MANAGER} -s -o Debug::NoLocking=true upgrade | grep -c ^Inst || true"
 
+PY_VER="python3"
+PY_PIP-Install="${PY_VER} -m pip install"
 # Override localization settings so the output is in English language.
 export LC_ALL=C
 
@@ -44,8 +46,11 @@ main(){
     # Welcome noobs
     welcomeDialogs
     say "Initiating install..."
+
     # Installing the absolute needed tools
+    # ::: Issue 0009 - Permissions Denied
     installDependentPackages BASE_DEPS[@]
+
     # Setting up byob with vrl-package
     byobSetup
     # Show them the final message
@@ -161,6 +166,7 @@ welcomeDialogs(){
     say "By using this you agree to vrl-package's TOS and Rules of Conduct"
 }
 pipConfig(){
+
     REQU_PIP=(
     flask
     flask_wtf
@@ -171,50 +177,62 @@ pipConfig(){
     flask-session
     wtforms
     )
-
     for i in ${REQU_PIP}; do
-    say "Installing $i"
-    python3 -m pip install $i > /dev/null & spinner $!
+        which $i > /dev/null
+        local status=$?
+        if test $status -ne 0 then
+            echo "Installing $i..."
+            ${PY_PIP-Install} $i
+        else
+            echo "$i is installed."
+        fi
     done
 
-    python3 -m pip install pyinstaller==3.6 > /dev/null & spinner $!
-    python3 -m pip install mss==3.3.0 > /dev/null & spinner $!
-    python3 -m pip install WMI==1.4.9 > /dev/null & spinner $!
-    python3 -m pip install numpy==1.19.4 > /dev/null & spinner $!
-    python3 -m pip install pyxhook==1.0.0 > /dev/null & spinner $!
-    python3 -m pip install twilio==6.14.0 > /dev/null & spinner $!
-    python3 -m pip install colorama==0.3.9 > /dev/null & spinner $!
-    python3 -m pip install requests==2.20.0 > /dev/null & spinner $!
-    python3 -m pip install pycryptodomex==3.8.1 > /dev/null & spinner $!
-    python3 -m pip install py-cryptonight>=0.2.4 > /dev/null & spinner $!
-    python3 -m pip install git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
-    python3 -m pip install opencv-python;python_version>'3' > /dev/null & spinner $!
-    python3 -m pip install pypiwin32==223;sys.platform=='win32'
-    python3 -m pip install pyHook==1.5.1;sys.platform=='win32'
+    ${PY_PIP-Install} pyinstaller==3.6 > /dev/null & spinner $!
+    ${PY_PIP-Install} mss==3.3.0 > /dev/null & spinner $!
+    ${PY_PIP-Install} WMI==1.4.9 > /dev/null & spinner $!
+    ${PY_PIP-Install} numpy==1.19.4 > /dev/null & spinner $!
+    ${PY_PIP-Install} pyxhook==1.0.0 > /dev/null & spinner $!
+    ${PY_PIP-Install} twilio==6.14.0 > /dev/null & spinner $!
+    ${PY_PIP-Install} colorama==0.3.9 > /dev/null & spinner $!
+    ${PY_PIP-Install} requests==2.20.0 > /dev/null & spinner $!
+    ${PY_PIP-Install} pycryptodomex==3.8.1 > /dev/null & spinner $!
+    ${PY_PIP-Install} py-cryptonight>=0.2.4 > /dev/null & spinner $!
+    ${PY_PIP-Install} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
+    ${PY_PIP-Install} opencv-python;python_version>'3' > /dev/null & spinner $!
+    ${PY_PIP-Install} pypiwin32==223;sys.platform=='win32'
+    ${PY_PIP-Install} pyHook==1.5.1;sys.platform=='win32'
 }
 byobSetup(){
+
     say "Installing required packages"
     installDependentPackages REQU_DEPS[@] > /dev/null & spinner $!
     
+    # Passed
     say "Configuring .local mDNS"
-    sudo systemctl start avahi-daemon &> /dev/null \
-    ; sudo systemctl enable avahi-daemon &> /dev/null
+    $SUDO systemctl start avahi-daemon &> /dev/null \
+    ; $SUDO systemctl enable avahi-daemon &> /dev/null
     
+    # Passed
     say "Configuring Docker Container Service"
-    sudo systemctl start docker &> /dev/null \
-    ; sudo systemctl enable docker &> /dev/null
+    $SUDO systemctl start docker &> /dev/null \
+    ; $SUDO systemctl enable docker &> /dev/null
     
+    # Passed
     say "Setting up Byob for vrl-package"
-    git -C ${byobFileDir} clone ${byobGitUrl} &> /dev/null
+    git -C ~/ clone ${byobGitUrl} &> /dev/null
+    $SUDO mv ~/byob ${byobFileDir}
     
+    # ::: Issue 0012 - No such file or directory
     say "Downloading Byob Python3 CLI requirements"
-    cd ${byobFileDir}/byob
+    cd ${byobFileDir}
     python3 ${byobFileDir}/byob/setup.py &> /dev/null
-    python3 -m pip install -r requirements.txt > /dev/null & spinner $!
-    
+    ${PY_PIP-Install} -r requirements.txt > /dev/null & spinner $!
+
+    # ::: Issue 0013 - No such file or directory
     say "Downloading Byob Python3 GUI requirements"
     cd ${byobFileDir}/web-gui/
-    python3 -m pip install -r requirements.txt > /dev/null & spinner $!
+    ${PY_PIP-Install} -r requirements.txt > /dev/null & spinner $!
     
     say "Installing general lacking requirements"
     cd ${vrlFilesDir}
@@ -227,7 +245,9 @@ byobSetup(){
     sudo chown root:root -R ${byobFileDir} &> /dev/null
     
     say "Configuring services"
+    $SUDO touch ${vrlCommandFile}
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
+    $SUDO touch ${vrlServiceFile}
     $SUDO wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
     $SUDO cat ${vrlServiceFile} | sed "s/$shell/$(which sh)/gm" | sed "s/$usrname/${USER_ME}/gm" | sed "s/$vrlFilesDir/${vrlFilesDir}/gm" | sed "s/$byobFileDir/${byobFileDir}/gm" > ${vrlServiceFile}
     say "done."
