@@ -36,6 +36,8 @@ export LC_ALL=C
 main(){
     # System Check
     clear
+
+    clear
     rootCheck
     osCheck
     # Headpatting system, maybe it tells us something.
@@ -66,6 +68,7 @@ rootCheck() {
         if [[ $(dpkg-query -s sudo) ]];then
             export SUDO="sudo"
             export SUDOE="sudo -E"
+            $SUDO say "Verification Complete"
         else
             say "Please install sudo."
             exit 1
@@ -231,6 +234,9 @@ pipConfig(){
     # ${PY_PIP-Install} pyHook==1.5.1\;sys.platform=='win32'
 }
 byobSetup(){
+
+    # ::: Issue 0023 - Make sure that vrl folder exsists
+    $SUDO mkdir ${vrlFilesDir}
     # Passed
     say "Configuring .local mDNS"
     $SUDO systemctl start avahi-daemon &> /dev/null \
@@ -244,7 +250,8 @@ byobSetup(){
     # Passed
     say "Setting up Byob for vrl-package"
     git -C ~/ clone ${byobGitUrl} &> /dev/null
-    $SUDO mv ~/byob ${byobFileDir}
+    # ::: Issue 0022 - No such file or directory - FIXED
+    $SUDO mv ~/byob ${vrlFilesDir}
     
     # ::: Issue 0012 - No such file or directory
     say "Downloading Byob Python3 CLI requirements"
@@ -287,7 +294,7 @@ installDependentPackages(){
 
 	for i in "${argArray1[@]}"; do
 		echo -n ":::    Checking for $i..."
-		if dpkg-query -W -f='${Status}' "${i}" 2>/dev/null | grep -q "ok installed"; then
+		if $SUDO dpkg-query -W -f='${Status}' "${i}" 2>/dev/null | grep -q "ok installed"; then
 			echo " already installed!"
 		else
 			echo " not installed!"
@@ -309,7 +316,7 @@ installDependentPackages(){
 	local FAILED=0
 
 	for i in "${TO_INSTALL[@]}"; do
-		if dpkg-query -W -f='${Status}' "${i}" 2>/dev/null | grep -q "ok installed"; then
+		if $SUDO dpkg-query -W -f='${Status}' "${i}" 2>/dev/null | grep -q "ok installed"; then
 			say "   Package $i successfully installed!"
 			# Add this package to the total list of packages that were actually installed by the script
 			INSTALLED_PACKAGES+=("${i}")
@@ -320,7 +327,7 @@ installDependentPackages(){
 	done
 
 	if [ "$FAILED" -gt 0 ]; then
-		cat "${APTLOGFILE}"
+		$SUDO cat "${APTLOGFILE}"
 		exit 1
 	fi
 }
@@ -353,8 +360,8 @@ spinner(){
 denyAccess() {
     say "::::::::::::::::::::::::::::: :::"
     say "  Looks like more reading     :::"        
-    say "      is needed...            :::"
-    say "      Exit completed...       :::"
+    say "  is needed...                :::"
+    say "                              :::"
     say "                              :::"
     say "      Access denied!          :::"
     say "::::::::::::::::::::::::::::: :::"
