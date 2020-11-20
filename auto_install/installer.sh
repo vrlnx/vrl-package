@@ -195,7 +195,7 @@ pipConfig(){
         which $i > /dev/null
         local status=$?
         if test $status -ne 0 then
-            echo "Installing $i..."
+            say "Installing $i..."
             ${PY_PIP-Install} $i
         else
             echo "$i is installed."
@@ -263,7 +263,7 @@ byobSetup(){
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
     $SUDO touch ${vrlServiceFile}
     $SUDO wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
-    $SUDO cat ${vrlServiceFile} | sed "s/$shell/$(which sh)/gm" | sed "s/$usrname/${USER_ME}/gm" | sed "s/$vrlFilesDir/${vrlFilesDir}/gm" | sed "s/$byobFileDir/${byobFileDir}/gm" > ${vrlServiceFile}
+    $SUDO cat ${vrlServiceFile} | sed -e "s/$shell/$(which sh)/g" | sed -e "s/$usrname/${USER_ME}/g" | sed -e "s/$vrlFilesDir/${vrlFilesDir}/g" | sed -e "s/$byobFileDir/${byobFileDir}/g" > ${vrlServiceFile}
     say "done."
 }
 installDependentPackages(){
