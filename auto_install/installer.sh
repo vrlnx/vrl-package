@@ -195,8 +195,11 @@ pipConfig(){
     pypiwin32==223;sys.platform=='win32'
     pyHook==1.5.1;sys.platform=='win32'
     )
-
-    python3 -m pip install ${REQU_PIP[@]}
+    for i in ${REQU_PIP}; do
+    say "Installing $i"
+    python3 -m pip install $i
+    done
+    
 }
 byobSetup(){
     say "Installing required packages"
