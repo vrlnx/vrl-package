@@ -46,7 +46,6 @@ case $1 in
         say " 'vrl reload' - Reloads and apply chages to vrl service"
         say " 'vrl update' - To get latest updates from vrl-package"
         say " 'vrl uninstall' - Uninstall vrl-package"
-        say 
         ;;
     edit)
         sudo nano /etc/systemd/system/vrl.service
@@ -67,6 +66,8 @@ case $1 in
             $SUDO rm -rf ${vrlFilesDir}
             $SUDO rm -f ${vrlServiceFile}
             $SUDO rm -f ${vrlCommandFile}
+            PATH=$PATH:$HOME/.local/bin &> /dev/null
+            sync
             say "VRL-Package and Byob is uninstalled."
             say "You can no longer run any 'vrl' command."
             ;;
@@ -89,10 +90,8 @@ case $1 in
         say " 'vrl status' - Get vrl service status"
         say " 'vrl start' - Start vrl service"
         say " 'vrl stop' - Stop vrl service"
-        say
         ;;
     *)
         say " Use 'vrl help' to get help"
-        say
         ;;
 esac

@@ -1,5 +1,5 @@
 [Unit]
-Description=BYOB Server - Open Source
+Description=VRL Server - Open Source
 After=network.target
 
 [Service]

@@ -8,7 +8,7 @@
 ######## VARIABLES
 myPublicIp=$(dig +short myip.opendns.com @resolver1.opendns.com)
 gitBranch="beta"
-vrlFilesDir="/usr/local/src/vrl"
+vrlFilesDir="/usr/local/src/vrl-package"
 vrlServiceFile="/etc/systemd/system/vrl.service"
 vrlCommandFile="/usr/local/bin/vrl"
 byobGitUrl="https://github.com/vrlnx/byob.git"
@@ -249,7 +249,7 @@ byobSetup(){
     say "Setting up Byob for vrl-package"
     git -C ~/ clone ${byobGitUrl} &> /dev/null
     # ::: Issue 0022 - No such file or directory - FIXED
-    $SUDO mv ~/byob ${vrlFilesDir}
+    $SUDO mv ~/byob ${vrlFilesDir}/
     
     # ::: Issue 0012 - No such file or directory
     say "Downloading Byob Python3 CLI requirements"
@@ -267,21 +267,25 @@ byobSetup(){
     cd ${vrlFilesDir}
     pipConfig > /dev/null & spinner $!
     
-    # ::: Issue 0019 -
+    # ::: Issue 0019 - making sure it can run in the 
     say "Configure Docker Container permissions"
     local USER_ME=$(whoami)
     sudo usermod -aG docker $USER_ME  &> /dev/null
     PATH=$PATH:$HOME/.local/bin &> /dev/null
     sudo chown root:root -R ${byobFileDir} &> /dev/null
     
-    # ::: Issue 0020 - 
+    # ::: Issue 0020 - Forgot to apply read and execute permissions
     say "Configuring services"
-    $SUDO touch ${vrlCommandFile}
+    
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
-    $SUDO touch ${vrlServiceFile}
-    $SUDO wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
-    $SUDO cat ${vrlServiceFile} | sed -e "s/$shell/$(which sh)/g" | sed -e "s/$usrname/${USER_ME}/g" | sed -e "s/$vrlFilesDir/${vrlFilesDir}/g" | sed -e "s/$byobFileDir/${byobFileDir}/g" > ${vrlServiceFile}
+    $SUDO chmod 755 ${vrlServiceFile}
+    # ::: Issue 0024 - Making sure that service files 
+    wget -O ~/vrl.service ${serviceUrl} > /dev/null & spinner $!
+    cat ~/vrl.service | sed "s/$shell/$(which sh)/g" | sed "s/$usrname/${USER_ME}/g" | sed "s/$vrlFilesDir/${vrlFilesDir}/g" | sed -e "s/$byobFileDir/${byobFileDir}/g" > ${vrlServiceFile}
+    $SUDO mv ~/vrl.service ${vrlServiceFile}
     say "done."
+    sleep 5
+    clear
 }
 installDependentPackages(){
 	declare -a TO_INSTALL=()
