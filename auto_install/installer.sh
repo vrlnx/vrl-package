@@ -30,8 +30,6 @@ UPDATE_PKG_CACHE="${PKG_MANAGER} update"
 PKG_INSTALL="${PKG_MANAGER} --yes --no-install-recommends install"
 PKG_COUNT="${PKG_MANAGER} -s -o Debug::NoLocking=true upgrade | grep -c ^Inst || true"
 
-PY_VER="python3"
-PY_PIP-Install="${PY_VER} -m pip install"
 # Override localization settings so the output is in English language.
 export LC_ALL=C
 
@@ -153,6 +151,8 @@ updatePackageCache(){
             echo "$i is installed already.";
         fi
     done
+    PY_VER="python3"
+    PY_PIP-Install="${PY_VER} -m pip install"
 }
 notifyPackageUpdatesAvailable(){
     # Let user know if they have outdated packages on their system and
