@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# VRL-Service: Trivial C2 system service
+# Easiest setup and mangement of BYOB C2 on Ubuntu
+# 
+# Heavily adapted from the byob.dev project and...
+# https://github.com/malwaredllc/byob/
+
+# timestamp: 07 Nov. 2020 00:24 CEST
+case $1 in
+    run|start)
+        echo "::: Starting your ByoB server with vrl-package"
+        echo ""
+        echo "::: Open URL in browser: ""$HOSTNAME"".local:5000"
+        sudo systemctl start vrl
+        ;;
+    halt|stop)
+        echo "::: Halting your ByoB server with vrl-package"
+        sudo systemctl stop vrl
+        ;;
+    status)
+        sudo service vrl status
+        ;;
+    enable)
+        sudo systemctl enable vrl.service
+        ;;
+    disable)
+        sudo systemctl disable vrl.service
+        ;;
+    debug)
+        clear
+        echo "Commands for vrl-package 'debug mode'"
+        echo "::: 'vrl debug' - This help page"
+        echo "::: 'vrl enable' - Enable vrl service so it start on server bootup"
+        echo "::: 'vrl diable' - Diable vrl service from starting on server bootup"
+        echo "::: 'vrl edit' - Edit vrl service"
+        echo "::: 'vrl reload' - Reloads and apply chages to vrl service"
+        echo "::: 'vrl update' - To get latest updates from vrl-package"
+        echo "::: 'vrl uninstall' - Uninstall vrl-package"
+        echo ":::"
+        ;;
+    edit)
+        sudo nano /etc/systemd/system/vrl.service
+        ;;
+    reload)
+        sudo systemctl daemon-reload
+        ;;
+    update)
+        source "~/.vrl/vrl-package/api/git"
+        cloneOrUpdateRepos
+        ;;
+    uninstall)
+        read -p "" localAgreement
+        case $localAgreement in
+        y|Y)
+            source "~/.vrl/vrl-package/automatic/uninstaller.sh"
+            ;;
+        *)
+            echo "::: Uninstall aborted!"
+            ;;
+        esac 
+        ;;
+    follow)
+        clear
+        watermark
+        journalctl -f _SYSTEMD_UNIT=vrl.service
+        ;;
+    help)
+        clear
+        echo "Commands for vrl-package:"
+        echo "::: 'vrl help' - This help page"
+        echo "::: 'vrl debug' - Open debug help menu"
+        echo "::: 'vrl follow' - Follow vrl service log"
+        echo "::: 'vrl status' - Get vrl service status"
+        echo "::: 'vrl start' - Start vrl service"
+        echo "::: 'vrl stop' - Stop vrl service"
+        echo ":::"
+        ;;
+    *)
+        echo "::: Use 'vrl help' to get help"
+        echo ":::"
+        ;;
+esac
