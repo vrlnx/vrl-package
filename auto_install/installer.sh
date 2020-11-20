@@ -146,7 +146,7 @@ updatePackageCache(){
         local status=$?
         if test $status -ne 0 then
             say "Installing $i...";
-            installDependentPackages $i
+            installDependentPackages $i;
         else
             echo "$i is installed already.";
         fi
