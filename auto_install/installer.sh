@@ -92,14 +92,14 @@ osCheck() {
         source /etc/os-release
         PLAT=$(awk '{print $1}' <<< "$NAME")
         VER="$VERSION_ID"
-        declare -A VER_MAP=(["18.04"]="bionic" ["19.04"]="dingo" ["20.04"]="focal" ["20.10"]="groovy")
+        declare -A VER_MAP=(["18.04"]="bionic" ["19.04"]="dingo" ["19.10"]="eoan" ["20.04"]="focal" ["20.10"]="groovy")
         OSCN=${VER_MAP["${VER}"]}
     fi
 
     case ${PLAT} in
         Raspbian|Kali|Ubuntu)
             case ${OSCN} in
-                bionic|dingo|focal|groovy)
+                bionic|dingo|eoan|focal|groovy)
                 :
                 ;;
                 *)
