@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 User=$usrname
-WorkingDirectory=/home/$usrname/byob/web-gui/
-ExecStart=$shell /home/$usrname/byob/web-gui/service.sh
+WorkingDirectory=$vrlFilesDir
+ExecStart=$shell $byobFileDir/web-gui/service.sh
 Restart=always
 RestartSec=5
 

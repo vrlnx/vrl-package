@@ -225,14 +225,17 @@ byobSetup(){
     say "Installing general lacking requirements"
     cd ${vrlFilesDir}
     pipConfig > /dev/null & spinner $!
-    wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
-    wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
     
     say "Configure Docker Container permissions"
     local USER_ME=$(whoami)
     sudo usermod -aG docker $USER_ME  &> /dev/null
     PATH=$PATH:$HOME/.local/bin &> /dev/null
     sudo chown root:root -R ${byobFileDir} &> /dev/null
+    
+    say "Configuring services"
+    wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
+    wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
+    cat ${vrlServiceFile} | sed "s/$shell/$(which sh)/gm" | sed "s/$usrname/${USER_ME}/gm" | sed "s/$vrlFilesDir/${vrlFilesDir}/gm" | sed "s/$byobFileDir/${byobFileDir}/gm" > ${vrlServiceFile}
     say "done."
 }
 installDependentPackages(){
