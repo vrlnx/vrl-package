@@ -35,24 +35,14 @@ export LC_ALL=C
 
 main(){
     # System Check
+    clear
     rootCheck
     osCheck
     # Headpatting system, maybe it tells us something.
-    updatePackageCache
+    $SUDO updatePackageCache
     notifyPackageUpdatesAvailable
     # Welcome noobs
     welcomeDialogs
-    read -p "::: Continue? [y/N]: " loc_r
-    case ${loc_r} in
-        y|Y)
-        :
-        ;;
-        *)
-        say "Halting install"
-        say "You did not agree to TOS and Rules of Conduct so install stopped."
-        exit 1
-        ;;
-    esac
     say "Initiating install..."
     # Installing the absolute needed tools
     installDependentPackages BASE_DEPS[@]
@@ -127,7 +117,7 @@ maybeOSSupport(){
     say "You are on an OS that we have not tested but MAY work, continuing anyway..."
 }
 updatePackageCache(){
-    ${UPDATE_PKG_CACHE} -qq
+    $SUDO ${UPDATE_PKG_CACHE} > /dev/null & spinner $!
 
     REQU_DEPS=(
     avahi-daemon
@@ -186,7 +176,7 @@ pipConfig(){
     say "Installing $i"
     python3 -m pip install $i > /dev/null & spinner $!
     done
-    
+
     python3 -m pip install pyinstaller==3.6 > /dev/null & spinner $!
     python3 -m pip install mss==3.3.0 > /dev/null & spinner $!
     python3 -m pip install WMI==1.4.9 > /dev/null & spinner $!
