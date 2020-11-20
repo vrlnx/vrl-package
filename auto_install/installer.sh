@@ -146,7 +146,7 @@ updatePackageCache(){
     for i in ${REQU_DEPS}; do
         which $i > /dev/null
         local status=$?
-        if ( test $status -ne 0 ); then
+        if $(test $status) -ne 0; then
             say "Installing $i...";
             installDependentPackages $i;
         else
@@ -256,16 +256,19 @@ byobSetup(){
     cd ${byobFileDir}/web-gui/
     ${PY_PIP-Install} -r requirements.txt > /dev/null & spinner $!
     
+    # ::: Issue 0017 - 
     say "Installing general lacking requirements"
     cd ${vrlFilesDir}
     pipConfig > /dev/null & spinner $!
     
+    # ::: Issue 0019 -
     say "Configure Docker Container permissions"
     local USER_ME=$(whoami)
     sudo usermod -aG docker $USER_ME  &> /dev/null
     PATH=$PATH:$HOME/.local/bin &> /dev/null
     sudo chown root:root -R ${byobFileDir} &> /dev/null
     
+    # ::: Issue 0020 - 
     say "Configuring services"
     $SUDO touch ${vrlCommandFile}
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
