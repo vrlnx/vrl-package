@@ -36,8 +36,6 @@ export LC_ALL=C
 main(){
     # System Check
     clear
-
-    clear
     rootCheck
     osCheck
     # Headpatting system, maybe it tells us something.
@@ -62,7 +60,7 @@ rootCheck() {
         say
         denyAccess
     else
-        say "sudo will be used for the install."
+        say "Verify your user."
         # Check if it is actually installed
         # If it isn't, exit because the install cannot complete
         if [[ $(dpkg-query -s sudo) ]];then
