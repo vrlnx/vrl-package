@@ -203,14 +203,15 @@ pipConfig(){
     pypiwin32==223\;sys.platform=='win32'
     pyHook==1.5.1\;sys.platform=='win32'
     )
+    # Issue 0021 - bash: line 152: syntax error near unexpected token 'else'
     for i in ${REQU_PIP}; do
         which $i > /dev/null
         local status=$?
-        if test $status -ne 0 then
+        if $(test $status) -ne 0; then
             say "Installing $i...";
             ${PY_PIP-Install} $i;
         else
-            echo "$i is installed.";
+            echo "$i is installed already.";
         fi
     done
 
