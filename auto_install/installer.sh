@@ -120,41 +120,41 @@ maybeOSSupport(){
     say "You are on an OS that we have not tested but MAY work, continuing anyway..."
 }
 updatePackageCache(){
-    $SUDO ${UPDATE_PKG_CACHE} > /dev/null & spinner $!
+$SUDO ${UPDATE_PKG_CACHE} > /dev/null & spinner $!
 
-    REQU_DEPS=(
-    avahi-daemon
-    gcc
-    cmake
-    neofetch
-    htop
-    upx-ucl
-    build-essential
-    zlib1g-dev
-    docker.io
-    python3
-    python3-pip
-    python3-opencv
-    python3-wheel
-    python3-setuptools
-    python3-dev
-    python3-distutils
-    python3-venv
-    )
+REQU_DEPS=(
+avahi-daemon
+gcc
+cmake
+neofetch
+htop
+upx-ucl
+build-essential
+zlib1g-dev
+docker.io
+python3
+python3-pip
+python3-opencv
+python3-wheel
+python3-setuptools
+python3-dev
+python3-distutils
+python3-venv
+)
 
-    # Issue 0015 - bash: line 150: syntax error near unexpected token 'else'
-    for i in ${REQU_DEPS}; do
-        which $i > /dev/null
-        local status=$?
-        if test $status -ne 0 then
-            say "Installing $i...";
-            installDependentPackages $i;
-        else
-            echo "$i is installed already.";
-        fi
-    done
-    PY_VER="python3"
-    PY_PIP-Install="${PY_VER} -m pip install"
+# Issue 0015 - bash: line 152: syntax error near unexpected token 'else'
+for i in ${REQU_DEPS}; do
+    which $i > /dev/null
+    local status=$?
+    if test $status -ne 0 then
+        say "Installing $i...";
+        installDependentPackages $i;
+    else
+        echo "$i is installed already.";
+    fi
+done
+PY_VER="python3"
+PY_PIP-Install="${PY_VER} -m pip install"
 }
 notifyPackageUpdatesAvailable(){
     # Let user know if they have outdated packages on their system and
