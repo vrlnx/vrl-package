@@ -179,28 +179,28 @@ pipConfig(){
     flask-login
     flask-sqlalchemy
     flask-session
-    pyinstaller==3.6
     wtforms
-    mss==3.3.0
-    WMI==1.4.9
-    numpy==1.19.4
-    pyxhook==1.0.0
-    twilio==6.14.0
-    colorama==0.3.9
-    requests==2.20.0
-    pycryptodomex==3.8.1
-    py-cryptonight>=0.2.4
-    git+https://github.com/jtgrassie/pyrx.git#egg=pyrx
-    opencv-python;python_version>'3'
-    pypiwin32==223;sys.platform=='win32'
-    pyHook==1.5.1;sys.platform=='win32'
     )
 
     for i in ${REQU_PIP}; do
     say "Installing $i"
-    python3 -m pip install $i
+    python3 -m pip install $i > /dev/null & spinner $!
     done
     
+    python3 -m pip install pyinstaller==3.6 > /dev/null & spinner $!
+    python3 -m pip install mss==3.3.0 > /dev/null & spinner $!
+    python3 -m pip install WMI==1.4.9 > /dev/null & spinner $!
+    python3 -m pip install numpy==1.19.4 > /dev/null & spinner $!
+    python3 -m pip install pyxhook==1.0.0 > /dev/null & spinner $!
+    python3 -m pip install twilio==6.14.0 > /dev/null & spinner $!
+    python3 -m pip install colorama==0.3.9 > /dev/null & spinner $!
+    python3 -m pip install requests==2.20.0 > /dev/null & spinner $!
+    python3 -m pip install pycryptodomex==3.8.1 > /dev/null & spinner $!
+    python3 -m pip install py-cryptonight>=0.2.4 > /dev/null & spinner $!
+    python3 -m pip install git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
+    python3 -m pip install opencv-python;python_version>'3' > /dev/null & spinner $!
+    python3 -m pip install pypiwin32==223;sys.platform=='win32'
+    python3 -m pip install pyHook==1.5.1;sys.platform=='win32'
 }
 byobSetup(){
     say "Installing required packages"
