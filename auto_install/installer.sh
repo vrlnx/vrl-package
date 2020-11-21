@@ -305,6 +305,7 @@ byobSetup(){
         say "You don't have permissions to build with Docker"
         say "Reboot! Run 'curl -L http://alturl.com/dxz27 | bash' again"
         exit 1
+    fi
 }
 installDependentPackages(){
 	declare -a TO_INSTALL=()
