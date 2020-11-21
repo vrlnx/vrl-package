@@ -21,7 +21,7 @@ case $1 in
     run|start)
         say " Starting your ByoB server with vrl-package"
         say
-        say " Open URL in browser: $HOSTNAME.local:5000"
+        say " Open URL in browser: '$HOSTNAME.local:5000'"
         sudo systemctl start vrl
         ;;
     halt|stop)
