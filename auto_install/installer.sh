@@ -89,9 +89,9 @@ osCheck() {
         declare -A VER_MAP=(["19.04"]="dingo" ["19.10"]="eoan" ["20.04"]="focal" ["20.10"]="groovy")
         OSCN=${VER_MAP["${VER}"]}
     fi
-
+    SUPPORTED_OS=(Raspbian Kali Ubuntu Pop)
     case ${PLAT} in
-        Raspbian|Kali|Ubuntu)
+        Raspbian|Kali|Ubuntu|Pop)
             case ${OSCN} in
                 dingo|eoan|focal|groovy)
                 :
@@ -112,7 +112,7 @@ osCheck() {
 noOSSupport(){
     say "Invalid OS detected"
     say "We have not been able to detect a supported OS."
-    say "Currently this installer supports Raspbian and Ubuntu."
+    say "Currently this installer supports ${SUPPORTED_OS}."
     say "For more details, check our documentation at https://github.com/vrlnx/vrl-package/wiki"
     exit 1
 }
