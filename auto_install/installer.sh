@@ -50,9 +50,7 @@ main(){
 
     # Installing the absolute needed tools
     # ::: Issue 0009 - Permissions Denied
-    for i in ${BASE_DEPS[@]}; do
-        $SUDO ${PKG_INSTALL} $i
-    done
+    installDependentPackages BASE_DEPS[@]
     # Setting up byob with vrl-package
     byobSetup
     # Show them the final message
