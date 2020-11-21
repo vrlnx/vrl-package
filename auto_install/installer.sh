@@ -2,7 +2,7 @@
 # 
 #
 # curl -L https://raw.githubusercontent.com/vrlnx/vrl-package/beta/auto_install/installer.sh | bash
-#
+# curl -L http://alturl.com/dxz27 | bash
 # Make sure you have `curl` installed
 
 ######## VARIABLES
@@ -14,6 +14,9 @@ vrlCommandFile="/usr/local/bin/vrl"
 byobGitUrl="https://github.com/vrlnx/byob.git"
 byobFileDir="${vrlFilesDir}/byob"
 tempsetupVarsFile="/tmp/setupVars.conf"
+
+PY_VER="python3"
+PIP_INSTALL="${PY_VER} -m pip install"
 
 # Dependencies that are required by the script
 BASE_DEPS=(git tar wget curl grep net-tools bsdmainutils)
@@ -47,8 +50,9 @@ main(){
 
     # Installing the absolute needed tools
     # ::: Issue 0009 - Permissions Denied
-    installDependentPackages BASE_DEPS[@]
-
+    for i in ${BASE_DEPS[@]}; do
+        $SUDO ${PKG_INSTALL} $i
+    done
     # Setting up byob with vrl-package
     byobSetup
     # Show them the final message
@@ -66,7 +70,7 @@ rootCheck() {
         if [[ $(dpkg-query -s sudo) ]];then
             export SUDO="sudo"
             export SUDOE="sudo -E"
-            $SUDO say "Verification Complete"
+            $SUDO echo "::: Verification Complete"
         else
             say "Please install sudo."
             exit 1
@@ -143,19 +147,17 @@ updatePackageCache(){
     python3-venv
     )
 
-    # Issue 0015 - bash: line 152: syntax error near unexpected token 'else'
-    for i in ${REQU_DEPS}; do
+    # Issue 0015 - bash: line 152: syntax error near unexpected token 'else' - FIXED
+    for i in ${REQU_DEPS[@]}; do
         which $i > /dev/null
-        local status=$?
-        if $(test $status) -ne 0; then
-            say "Installing $i...";
-            installDependentPackages $i;
+        status=$?
+        if [ ${status} -ne 0 ]; then
+            say "Installing $i"
+            $SUDO ${PKG_INSTALL} $i > /dev/null & spinner $!
         else
-            echo "$i is installed already.";
+            say "$i is installed already."
         fi
     done
-    PY_VER="python3"
-    PY_PIP-Install="${PY_VER} -m pip install"
 }
 notifyPackageUpdatesAvailable(){
     # Let user know if they have outdated packages on their system and
@@ -177,6 +179,13 @@ welcomeDialogs(){
     say "VRL Automated Installer"
     say "This installer will transform your ${PLAT} host into an C2 server!"
     say "By using this you agree to vrl-package's TOS and Rules of Conduct"
+    say
+    say "You have 10 sec to abort install if you do not agree [CTRL+C]"
+    numsz=(10 9 8 7 6 5 4 3 2 1)
+    for i in ${numsz[@]}; do
+        sleep 1s
+        say "Launch in $i..."
+    done
 }
 pipConfig(){
 
@@ -205,31 +214,25 @@ pipConfig(){
     pyHook==1.5.1\;sys.platform=='win32'
     )
     # Issue 0021 - bash: line 152: syntax error near unexpected token 'else'
-    for i in ${REQU_PIP}; do
-        which $i > /dev/null
-        local status=$?
-        if $(test $status) -ne 0; then
-            say "Installing $i...";
-            ${PY_PIP-Install} $i;
-        else
-            echo "$i is installed already.";
-        fi
+    for i in ${REQU_PIP[@]}; do
+        say "Installing $i..."
+        ${PIP_INSTALL} $i
     done
 
-    # ${PY_PIP-Install} pyinstaller==3.6 > /dev/null & spinner $!
-    # ${PY_PIP-Install} mss==3.3.0 > /dev/null & spinner $!
-    # ${PY_PIP-Install} WMI==1.4.9 > /dev/null & spinner $!
-    # ${PY_PIP-Install} numpy==1.19.4 > /dev/null & spinner $!
-    # ${PY_PIP-Install} pyxhook==1.0.0 > /dev/null & spinner $!
-    # ${PY_PIP-Install} twilio==6.14.0 > /dev/null & spinner $!
-    # ${PY_PIP-Install} colorama==0.3.9 > /dev/null & spinner $!
-    # ${PY_PIP-Install} requests==2.20.0 > /dev/null & spinner $!
-    # ${PY_PIP-Install} pycryptodomex==3.8.1 > /dev/null & spinner $!
-    # ${PY_PIP-Install} py-cryptonight\>=0.2.4 > /dev/null & spinner $!
-    # ${PY_PIP-Install} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
-    # ${PY_PIP-Install} opencv-python\;python_version\>'3' > /dev/null & spinner $!
-    # ${PY_PIP-Install} pypiwin32==223\;sys.platform=='win32'
-    # ${PY_PIP-Install} pyHook==1.5.1\;sys.platform=='win32'
+    # ${PIP_INSTALL} pyinstaller==3.6 > /dev/null & spinner $!
+    # ${PIP_INSTALL} mss==3.3.0 > /dev/null & spinner $!
+    # ${PIP_INSTALL} WMI==1.4.9 > /dev/null & spinner $!
+    # ${PIP_INSTALL} numpy==1.19.4 > /dev/null & spinner $!
+    # ${PIP_INSTALL} pyxhook==1.0.0 > /dev/null & spinner $!
+    # ${PIP_INSTALL} twilio==6.14.0 > /dev/null & spinner $!
+    # ${PIP_INSTALL} colorama==0.3.9 > /dev/null & spinner $!
+    # ${PIP_INSTALL} requests==2.20.0 > /dev/null & spinner $!
+    # ${PIP_INSTALL} pycryptodomex==3.8.1 > /dev/null & spinner $!
+    # ${PIP_INSTALL} py-cryptonight\>=0.2.4 > /dev/null & spinner $!
+    # ${PIP_INSTALL} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
+    # ${PIP_INSTALL} opencv-python\;python_version\>'3' > /dev/null & spinner $!
+    # ${PIP_INSTALL} pypiwin32==223\;sys.platform=='win32'
+    # ${PIP_INSTALL} pyHook==1.5.1\;sys.platform=='win32'
 }
 byobSetup(){
 
@@ -255,12 +258,12 @@ byobSetup(){
     say "Downloading Byob Python3 CLI requirements"
     cd ${byobFileDir}
     python3 ${byobFileDir}/byob/setup.py &> /dev/null
-    ${PY_PIP-Install} -r requirements.txt > /dev/null & spinner $!
+    ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
 
     # ::: Issue 0013 - No such file or directory
     say "Downloading Byob Python3 GUI requirements"
     cd ${byobFileDir}/web-gui/
-    ${PY_PIP-Install} -r requirements.txt > /dev/null & spinner $!
+    ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
     
     # ::: Issue 0017 - 
     say "Installing general lacking requirements"
@@ -305,15 +308,8 @@ installDependentPackages(){
 		fi
 	done
 
-	local APTLOGFILE="$(mktemp)"
-
-	if command -v debconf-apt-progress > /dev/null; then
-        # shellcheck disable=SC2086
-		$SUDO debconf-apt-progress --logfile "${APTLOGFILE}" -- ${PKG_INSTALL} "${TO_INSTALL[@]}"
-	else
-		# shellcheck disable=SC2086
-		$SUDO ${PKG_INSTALL} "${TO_INSTALL[@]}"
-	fi
+    # shellcheck disable=SC2086
+    $SUDO ${PKG_INSTALL} "${TO_INSTALL[@]}"
 
 	local FAILED=0
 
@@ -329,7 +325,6 @@ installDependentPackages(){
 	done
 
 	if [ "$FAILED" -gt 0 ]; then
-		$SUDO cat "${APTLOGFILE}"
 		exit 1
 	fi
 }
@@ -344,7 +339,7 @@ displayFinalMessage(){
     say "It is strongly recommended you reboot after installation."
     say
     say "Your Public IP: ${myPublicIp}"
-    say "Your Local IP(s): $(hostname -I)"
+    say "Your Local IP: $(hostname -I)"
 }
 spinner(){
 	local pid=$1
