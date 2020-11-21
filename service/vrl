@@ -7,6 +7,7 @@
 
 # timestamp: 07 Nov. 2020 00:24 CEST
 ######## VARIABLES
+myPublicIp=$(dig +short myip.opendns.com @resolver1.opendns.com)
 SUDO="sudo"
 vrlFilesDir="/usr/local/src/vrl"
 vrlServiceFile="/etc/systemd/system/vrl.service"
@@ -83,6 +84,8 @@ case $1 in
         ;;
     help)
         clear
+        say "Your Public IP: ${myPublicIp}"
+        say "Your Local IP: $(hostname -I)"
         say "Commands for vrl-package:"
         say " 'vrl help' - This help page"
         say " 'vrl debug' - Open debug help menu"

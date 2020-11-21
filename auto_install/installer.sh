@@ -280,6 +280,7 @@ byobSetup(){
     
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
     $SUDO chmod 755 ${vrlServiceFile}
+    $SUDO chmod 755 ${vrlCommandFile}
     # ::: Issue 0024 - Making sure that service files 
     wget -O ~/vrl.service ${serviceUrl} > /dev/null & spinner $!
     cat ~/vrl.service | sed "s/$shell/$(which sh)/g" | sed "s/$usrname/${USER_ME}/g" | sed "s/$vrlFilesDir/${vrlFilesDir}/g" | sed -e "s/$byobFileDir/${byobFileDir}/g" > ${vrlServiceFile}
@@ -287,6 +288,23 @@ byobSetup(){
     say "done."
     sleep 5
     clear
+
+    # ::: Issue 0025 - Make sure to build Docker containers
+    # Build Docker images
+    if [ $(groups | grep -w "docker") -eq 0 ]; do
+        say "Building Docker images - this will take a while, please be patient..."
+        say
+        cd ${byobFileDir}/web-gui/docker-pyinstaller1
+        say "Building amd64 for Mac and Linux enviorment"
+        docker build -f Dockerfile-py3-amd64 -t nix-amd64 . > /dev/null & spinner $!
+        say "Building i386 for Mac and Linux enviorment"
+        docker build -f Dockerfile-py3-i386 -t nix-i386 . > /dev/null & spinner $!
+        say "Building x32 for Windows enviorment"
+        docker build -f Dockerfile-py3-win32 -t win-x32 . > /dev/null & spinner $!
+    else
+        say "You don't have permissions to build with Docker"
+        say "Reboot! Run 'curl -L http://alturl.com/dxz27 | bash' again"
+        exit 1
 }
 installDependentPackages(){
 	declare -a TO_INSTALL=()
@@ -336,8 +354,6 @@ displayFinalMessage(){
     say "Thank you for using VRL-Package."
     say "It is strongly recommended you reboot after installation."
     say
-    say "Your Public IP: ${myPublicIp}"
-    say "Your Local IP: $(hostname -I)"
 }
 spinner(){
 	local pid=$1
