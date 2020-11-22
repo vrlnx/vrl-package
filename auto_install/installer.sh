@@ -76,6 +76,7 @@ rootCheck() {
     fi
 }
 osCheck() {
+    SUPPORTED_OS=(Ubuntu Pop Raspbian Kali)
     # if lsb_release command is on their system
     if command -v lsb_release > /dev/null; then
 
@@ -91,9 +92,15 @@ osCheck() {
         declare -A VER_MAP=(["19.04"]="dingo" ["19.10"]="eoan" ["20.04"]="focal" ["20.10"]="groovy")
         OSCN=${VER_MAP["${VER}"]}
     fi
-    SUPPORTED_OS=(Raspbian Kali Ubuntu Pop)
+    
+    compactSupport(){
+        for i in ${SUPPORTED_OS[@]}; do
+            SUPPORTED_OS_PACK+="$i|"
+        done
+        return $SUPPORTED_OS_PACK | sed "s/|$//"
+    }
     case ${PLAT} in
-        Raspbian|Kali|Ubuntu|Pop)
+        $(compactSupport $SUPPORTED_OS[@]))
             case ${OSCN} in
                 dingo|eoan|focal|groovy)
                 :
