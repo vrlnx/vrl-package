@@ -16,7 +16,7 @@ byobFileDir="${vrlFilesDir}/byob"
 tempsetupVarsFile="/tmp/setupVars.conf"
 
 PY_VER="python3"
-PIP_INSTALL="${PY_VER} -m pip install"
+PIP_INSTALL="${PY_VER} -m pip --no-warn-script-location install"
 
 # Dependencies that are required by the script
 BASE_DEPS=(git tar wget curl grep net-tools bsdmainutils)
@@ -214,7 +214,7 @@ pipConfig(){
     # Issue 0021 - bash: line 152: syntax error near unexpected token 'else'
     for i in ${REQU_PIP[@]}; do
         say "Installing $i..."
-        ${PIP_INSTALL} $i
+        ${PIP_INSTALL} $i --no-warn-script-location
     done
 
     # ${PIP_INSTALL} pyinstaller==3.6 > /dev/null & spinner $!
@@ -255,7 +255,7 @@ byobSetup(){
     # ::: Issue 0012 - No such file or directory
     say "Downloading Byob Python3 CLI requirements"
     cd ${byobFileDir}
-    python3 ${byobFileDir}/byob/setup.py &> /dev/null
+    python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
     ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
 
     # ::: Issue 0013 - No such file or directory
