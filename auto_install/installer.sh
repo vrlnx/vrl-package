@@ -101,7 +101,7 @@ osCheck() {
         return
     }
     case ${PLAT} in
-        compactSupport)
+        $(compactSupport))
             case ${OSCN} in
                 dingo|eoan|focal|groovy)
                 :
