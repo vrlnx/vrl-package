@@ -215,7 +215,7 @@ pipConfig(){
     # Issue 0021 - bash: line 152: syntax error near unexpected token 'else'
     for i in ${REQU_PIP[@]}; do
         say "Installing $i..."
-        ${PIP_INSTALL} $i --no-warn-script-location
+        ${PIP_INSTALL} --no-warn-script-location $i
     done
 
     # ${PIP_INSTALL} pyinstaller==3.6 > /dev/null & spinner $!
