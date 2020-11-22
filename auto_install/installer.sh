@@ -70,7 +70,7 @@ rootCheck() {
     fi
 }
 osCheck() {
-    SUPPORTED_OS=(Ubuntu Pop Raspbian Kali)
+    SUPPORTED_OS=(Ubuntu Pop)
     # if lsb_release command is on their system
     if command -v lsb_release > /dev/null; then
 
@@ -88,7 +88,7 @@ osCheck() {
     fi
     
     case ${PLAT} in
-        Ubuntu|Pop|Raspbian|Kali)
+        Ubuntu|Pop)
             case ${OSCN} in
                 dingo|eoan|focal|groovy)
                 :
