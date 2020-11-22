@@ -16,7 +16,7 @@ byobFileDir="${vrlFilesDir}/byob"
 tempsetupVarsFile="/tmp/setupVars.conf"
 
 PY_VER="python3"
-PIP_INSTALL="${PY_VER} -m pip --no-warn-script-location install"
+PIP_INSTALL="${PY_VER} -m pip install --no-warn-script-location"
 
 # Dependencies that are required by the script
 BASE_DEPS=(git tar wget curl grep net-tools bsdmainutils)
