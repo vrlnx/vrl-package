@@ -147,16 +147,7 @@ updatePackageCache(){
     )
 
     # Issue 0015 - bash: line 152: syntax error near unexpected token 'else' - FIXED
-    for i in ${REQU_DEPS[@]}; do
-        which $i > /dev/null
-        status=$?
-        if [ ${status} -ne 0 ]; then
-            say "Installing $i"
-            $SUDO ${PKG_INSTALL} $i > /dev/null & spinner $!
-        else
-            say "$i is installed already."
-        fi
-    done
+    installDependentPackages REQU_DEPS[@]
 }
 notifyPackageUpdatesAvailable(){
     # Let user know if they have outdated packages on their system and
