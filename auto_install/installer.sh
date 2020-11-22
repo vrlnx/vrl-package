@@ -93,15 +93,8 @@ osCheck() {
         OSCN=${VER_MAP["${VER}"]}
     fi
     
-    compactSupport(){
-        for i in ${SUPPORTED_OS[@]}; do
-            SUPPORTED_OS_PACK+="$i|"
-        done
-        echo $SUPPORTED_OS_PACK | sed "s/|$//"
-        return
-    }
     case ${PLAT} in
-        $(compactSupport))
+        Ubuntu|Pop|Raspbian|Kali)
             case ${OSCN} in
                 dingo|eoan|focal|groovy)
                 :
