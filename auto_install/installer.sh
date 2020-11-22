@@ -37,23 +37,17 @@ PKG_COUNT="${PKG_MANAGER} -s -o Debug::NoLocking=true upgrade | grep -c ^Inst ||
 export LC_ALL=C
 
 main(){
-    # System Check
     clear
     rootCheck
     osCheck
-    # Headpatting system, maybe it tells us something.
-    updatePackageCache
-    notifyPackageUpdatesAvailable
-    # Welcome noobs
     welcomeDialogs
     say "Initiating install..."
-
-    # Installing the absolute needed tools
-    # ::: Issue 0009 - Permissions Denied
+    sleep 1
+    updatePackageCache
     installDependentPackages BASE_DEPS[@]
-    # Setting up byob with vrl-package
+    installDependentPackages REQU_DEPS[@]
+    notifyPackageUpdatesAvailable
     byobSetup
-    # Show them the final message
     displayFinalMessage
 }
 rootCheck() {
@@ -147,7 +141,6 @@ updatePackageCache(){
     )
 
     # Issue 0015 - bash: line 152: syntax error near unexpected token 'else' - FIXED
-    installDependentPackages REQU_DEPS[@]
 }
 notifyPackageUpdatesAvailable(){
     # Let user know if they have outdated packages on their system and
@@ -225,50 +218,42 @@ pipConfig(){
     # ${PIP_INSTALL} pyHook==1.5.1\;sys.platform=='win32'
 }
 byobSetup(){
-
-    # ::: Issue 0023 - Make sure that vrl folder exsists
-    $SUDO mkdir ${vrlFilesDir}
-    # Passed
+    [ ! -d "${vrlFilesDir}" ] && $SUDO mkdir ${vrlFilesDir} || say "${vrlFilesDir} already exist"
+    
     say "Configuring .local mDNS"
     $SUDO systemctl start avahi-daemon &> /dev/null \
     ; $SUDO systemctl enable avahi-daemon &> /dev/null
     
-    # Passed
     say "Configuring Docker Container Service"
     $SUDO systemctl start docker &> /dev/null \
     ; $SUDO systemctl enable docker &> /dev/null
     
-    # Passed
     say "Setting up Byob for vrl-package"
+    cd ${vrlFilesDir}
     git -C ~/ clone ${byobGitUrl} &> /dev/null
-    # ::: Issue 0022 - No such file or directory - FIXED
     $SUDO mv ~/byob ${vrlFilesDir}/
+    [ ! -d "${byobFileDir}" ] && say "[ ERROR ] LOC: ${byobFileDir} does not exsist. Failed to install!" && exit 1 || say "[ OK ] LOC: ${byobFileDir}"
     
-    # ::: Issue 0012 - No such file or directory
     say "Downloading Byob Python3 CLI requirements"
     cd ${byobFileDir}
     python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
     say "Applying Python3 CLI requirements"
     ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
 
-    # ::: Issue 0013 - No such file or directory
     say "Downloading Byob Python3 GUI requirements"
     cd ${byobFileDir}/web-gui/
     ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
     
-    # ::: Issue 0017 - 
     say "Installing general lacking requirements"
     cd ${vrlFilesDir}
     pipConfig > /dev/null & spinner $!
     
-    # ::: Issue 0019 - making sure it can run in the 
     say "Configure Docker Container permissions"
     local USER_ME=$(whoami)
     sudo usermod -aG docker $USER_ME  &> /dev/null
     PATH=$PATH:$HOME/.local/bin &> /dev/null
     sudo chown root:root -R ${byobFileDir} &> /dev/null
     
-    # ::: Issue 0020 - Forgot to apply read and execute permissions
     say "Configuring services"
     
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
@@ -313,8 +298,6 @@ byobSetup(){
 installDependentPackages(){
 	declare -a TO_INSTALL=()
 
-	# Install packages passed in via argument array
-	# No spinner - conflicts with set -e
 	declare -a argArray1=("${!1}")
 
 	for i in "${argArray1[@]}"; do
@@ -323,12 +306,10 @@ installDependentPackages(){
 			echo " already installed!"
 		else
 			echo " not installed!"
-			# Add this package to the list of packages in the argument array that need to be installed
 			TO_INSTALL+=("${i}")
 		fi
 	done
 
-    # shellcheck disable=SC2086
     $SUDO ${PKG_INSTALL} "${TO_INSTALL[@]}"
 
 	local FAILED=0
@@ -336,7 +317,6 @@ installDependentPackages(){
 	for i in "${TO_INSTALL[@]}"; do
 		if $SUDO dpkg-query -W -f='${Status}' "${i}" 2>/dev/null | grep -q "ok installed"; then
 			say "   Package $i successfully installed!"
-			# Add this package to the total list of packages that were actually installed by the script
 			INSTALLED_PACKAGES+=("${i}")
 		else
 			say "   Failed to install $i!"
