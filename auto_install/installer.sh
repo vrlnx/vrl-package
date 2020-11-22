@@ -114,7 +114,7 @@ osCheck() {
 noOSSupport(){
     say "Invalid OS detected"
     say "We have not been able to detect a supported OS."
-    say "Currently this installer supports ${SUPPORTED_OS}."
+    say "Currently this installer supports ${SUPPORTED_OS[@]}."
     say "For more details, check our documentation at https://github.com/vrlnx/vrl-package/wiki"
     exit 1
 }
