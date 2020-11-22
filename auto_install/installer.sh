@@ -97,10 +97,11 @@ osCheck() {
         for i in ${SUPPORTED_OS[@]}; do
             SUPPORTED_OS_PACK+="$i|"
         done
-        return $SUPPORTED_OS_PACK | sed "s/|$//"
+        echo $SUPPORTED_OS_PACK | sed "s/|$//"
+        return
     }
     case ${PLAT} in
-        $(compactSupport $SUPPORTED_OS[@]))
+        compactSupport)
             case ${OSCN} in
                 dingo|eoan|focal|groovy)
                 :
