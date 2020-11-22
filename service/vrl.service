@@ -3,9 +3,9 @@ Description=VRL Server - Open Source
 After=network.target
 
 [Service]
-User=$usrname
-WorkingDirectory=$vrlFilesDir
-ExecStart=$shell $byobFileDir/web-gui/service.sh
+User=root
+WorkingDirectory=/usr/local/src/vrl-package/byob
+ExecStart=/usr/bin/env bash /usr/local/src/vrl-package/byob/web-gui/service.sh
 Restart=always
 RestartSec=5
 

@@ -215,7 +215,7 @@ pipConfig(){
     # Issue 0021 - bash: line 152: syntax error near unexpected token 'else'
     for i in ${REQU_PIP[@]}; do
         say "Installing $i..."
-        ${PIP_INSTALL} --no-warn-script-location $i
+        ${PIP_INSTALL} $i > /dev/null & spinner $!
     done
 
     # ${PIP_INSTALL} pyinstaller==3.6 > /dev/null & spinner $!
@@ -281,15 +281,24 @@ byobSetup(){
     say "Configuring services"
     
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
-    $SUDO chmod 755 ${vrlServiceFile}
     $SUDO chmod 755 ${vrlCommandFile}
-    # ::: Issue 0024 - Making sure that service files 
-    wget -O ~/vrl.service ${serviceUrl} > /dev/null & spinner $!
-    cat ~/vrl.service | sed "s/$shell/$(which sh)/g" | sed "s/$usrname/${USER_ME}/g" | sed "s/$vrlFilesDir/${vrlFilesDir}/g" | sed -e "s/$byobFileDir/${byobFileDir}/g" > ${vrlServiceFile}
-    $SUDO mv ~/vrl.service ${vrlServiceFile}
-    say "done."
-    sleep 5
-    clear
+    serviceFiles(){
+        cd ~
+        $SUDO wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
+        $SUDO chmod 755 "${vrlServiceFile}"
+        say "done."
+        sleep 2
+        clear
+    }
+    # ::: Issue 0024 - Making sure that service files
+    if [ -d "${vrlFilesDir}" ]; then
+        serviceFiles
+    else
+        $SUDO mkdir ${vrlFilesDir}
+        serviceFiles
+    fi
+    
+    
 
     # ::: Issue 0025 - Make sure to build Docker containers
     # Build Docker images

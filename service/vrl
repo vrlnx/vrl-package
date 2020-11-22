@@ -9,7 +9,7 @@
 ######## VARIABLES
 myPublicIp=$(dig +short myip.opendns.com @resolver1.opendns.com)
 SUDO="sudo"
-vrlFilesDir="/usr/local/src/vrl"
+vrlFilesDir="/usr/local/src/vrl-package"
 vrlServiceFile="/etc/systemd/system/vrl.service"
 vrlCommandFile="/usr/local/bin/vrl"
 byobGitUrl="https://github.com/vrlnx/byob.git"
