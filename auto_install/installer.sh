@@ -256,6 +256,7 @@ byobSetup(){
     say "Downloading Byob Python3 CLI requirements"
     cd ${byobFileDir}
     python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
+    say "Applying Python3 CLI requirements"
     ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
 
     # ::: Issue 0013 - No such file or directory
