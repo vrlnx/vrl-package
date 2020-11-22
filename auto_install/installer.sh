@@ -291,7 +291,8 @@ byobSetup(){
 
     # ::: Issue 0025 - Make sure to build Docker containers
     # Build Docker images
-    if [ $(groups | grep -w "docker") -eq 0 ]; then
+    local checkDocker=$(groups | grep -w "docker")
+    if [ "${checkDocker}" = "docker" ]; then
         say "Building Docker images - this will take a while, please be patient..."
         say
         cd ${byobFileDir}/web-gui/docker-pyinstaller1
