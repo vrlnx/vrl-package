@@ -229,11 +229,11 @@ byobSetup(){
         cd ${byobFileDir}/byob
         ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
         say "Applying Python3 CLI requirements"
-        $SUDO python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
+        $SUDO ${PY_VER} ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
 
         say "Downloading Byob Python3 GUI requirements"
         cd ${byobFileDir}/web-gui/
-        ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
+        $SUDO ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
 
         return say "Byob managed"
     }
