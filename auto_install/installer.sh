@@ -102,9 +102,6 @@ osCheck() {
         noOSSupport
         ;;
     esac
-
-    echo "PLAT=${PLAT}"
-    echo "OSCN=${OSCN}"
 }
 noOSSupport(){
     say "Invalid OS detected"
