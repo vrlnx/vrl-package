@@ -178,20 +178,6 @@ pipConfig(){
     flask-sqlalchemy
     flask-session
     wtforms
-    pyinstaller==3.6
-    mss==3.3.0
-    WMI==1.4.9
-    numpy==1.19.4
-    pyxhook==1.0.0
-    twilio==6.14.0
-    colorama==0.3.9
-    requests==2.20.0
-    pycryptodomex==3.8.1
-    py-cryptonight\>=0.2.4
-    git+https://github.com/jtgrassie/pyrx.git#egg=pyrx
-    opencv-python\;python_version\>'3'
-    pypiwin32==223\;sys.platform=='win32'
-    pyHook==1.5.1\;sys.platform=='win32'
     )
     # Issue 0021 - bash: line 152: syntax error near unexpected token 'else'
     for i in ${REQU_PIP[@]}; do
@@ -199,20 +185,20 @@ pipConfig(){
         ${PIP_INSTALL} $i > /dev/null & spinner $!
     done
 
-    # ${PIP_INSTALL} pyinstaller==3.6 > /dev/null & spinner $!
-    # ${PIP_INSTALL} mss==3.3.0 > /dev/null & spinner $!
-    # ${PIP_INSTALL} WMI==1.4.9 > /dev/null & spinner $!
-    # ${PIP_INSTALL} numpy==1.19.4 > /dev/null & spinner $!
-    # ${PIP_INSTALL} pyxhook==1.0.0 > /dev/null & spinner $!
-    # ${PIP_INSTALL} twilio==6.14.0 > /dev/null & spinner $!
-    # ${PIP_INSTALL} colorama==0.3.9 > /dev/null & spinner $!
-    # ${PIP_INSTALL} requests==2.20.0 > /dev/null & spinner $!
-    # ${PIP_INSTALL} pycryptodomex==3.8.1 > /dev/null & spinner $!
-    # ${PIP_INSTALL} py-cryptonight\>=0.2.4 > /dev/null & spinner $!
-    # ${PIP_INSTALL} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
-    # ${PIP_INSTALL} opencv-python\;python_version\>'3' > /dev/null & spinner $!
-    # ${PIP_INSTALL} pypiwin32==223\;sys.platform=='win32'
-    # ${PIP_INSTALL} pyHook==1.5.1\;sys.platform=='win32'
+    ${PIP_INSTALL} pyinstaller==3.6 > /dev/null & spinner $!
+    ${PIP_INSTALL} mss==3.3.0 > /dev/null & spinner $!
+    ${PIP_INSTALL} WMI==1.4.9 > /dev/null & spinner $!
+    ${PIP_INSTALL} numpy==1.19.4 > /dev/null & spinner $!
+    ${PIP_INSTALL} pyxhook==1.0.0 > /dev/null & spinner $!
+    ${PIP_INSTALL} twilio==6.14.0 > /dev/null & spinner $!
+    ${PIP_INSTALL} colorama==0.3.9 > /dev/null & spinner $!
+    ${PIP_INSTALL} requests==2.20.0 > /dev/null & spinner $!
+    ${PIP_INSTALL} pycryptodomex==3.8.1 > /dev/null & spinner $!
+    ${PIP_INSTALL} py-cryptonight>=0.2.4 > /dev/null & spinner $!
+    ${PIP_INSTALL} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
+    ${PIP_INSTALL} opencv-python;python_version>'3' > /dev/null & spinner $!
+    ${PIP_INSTALL} pypiwin32==223;sys.platform=='win32'
+    ${PIP_INSTALL} pyHook==1.5.1;sys.platform=='win32'
 }
 byobSetup(){
     managevrl(){
@@ -246,7 +232,7 @@ byobSetup(){
         say "Downloading Byob Python3 GUI requirements"
         cd ${byobFileDir}/web-gui/
         ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
-        
+
         return say "Byob managed"
     }
     [ ! -d "${vrlFilesDir}" ] && $SUDO mkdir ${vrlFilesDir} || say "${vrlFilesDir} already exist"
@@ -256,15 +242,17 @@ byobSetup(){
     say "Configure Docker Container permissions"
     local USER_ME=$(whoami)
     $SUDO usermod -aG docker $USER_ME  &> /dev/null
+    say "Source PATH"
+    sleep 1
     PATH=$PATH:$HOME/.local/bin &> /dev/null
-    $SUDO chown root:root -R ${byobFileDir} &> /dev/null
+    say "Change owner of: ${vrlFilesDir}"
+    sleep 1
+    $SUDO chown root:root -R ${vrlFilesDir} &> /dev/null
 
     say "Configuring services"
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
     $SUDO chmod 755 ${vrlCommandFile}
-    [ $? -eq 0 ] && exit 1
     serviceFiles(){
-        cd ~
         $SUDO wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
         $SUDO chmod 755 "${vrlServiceFile}"
         say "done."
@@ -273,12 +261,13 @@ byobSetup(){
     }
     # ::: Issue 0024 - Making sure that service files
     if [ -d "${vrlFilesDir}" ]; then
+        $SUDO rm -rf ${vrlFilesDir}
         serviceFiles
     else
         $SUDO mkdir ${vrlFilesDir}
+        say "Creating "
         serviceFiles
     fi
-    [ $? -eq 0 ] && exit 1
     
     # ::: Issue 0025 - Make sure to build Docker containers
     # Build Docker images
@@ -298,6 +287,8 @@ byobSetup(){
         say "Reboot! Run 'curl -L http://alturl.com/dxz27 | bash' again"
         exit 1
     fi
+    $SUDO rm -rf ~/byob ~/requirements.txt
+    
 }
 installDependentPackages(){
 	declare -a TO_INSTALL=()
@@ -333,6 +324,7 @@ installDependentPackages(){
 	fi
 }
 displayFinalMessage(){
+    cd ~
     say "Installation Complete!"
     say "Run 'vrl help' to see what else you can do!"
     say
