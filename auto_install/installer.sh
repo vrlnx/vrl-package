@@ -185,20 +185,18 @@ pipConfig(){
         $SUDO ${PIP_INSTALL} $i > /dev/null & spinner $!
     done
 
-    $SUDO ${PIP_INSTALL} pyinstaller==3.6 > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} mss==3.3.0 > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} WMI==1.4.9 > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} numpy==1.19.4 > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} pyxhook==1.0.0 > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} twilio==6.14.0 > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} colorama==0.3.9 > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} requests==2.20.0 > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} pycryptodomex==3.8.1 > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} py-cryptonight>=0.2.4 > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} opencv-python;python_version>'3' > /dev/null & spinner $!
-    $SUDO ${PIP_INSTALL} pypiwin32==223;sys.platform=='win32'
-    $SUDO ${PIP_INSTALL} pyHook==1.5.1;sys.platform=='win32'
+    $($SUDO ${PIP_INSTALL} pyinstaller==3.6) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} mss==3.3.0) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} WMI==1.4.9) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} numpy==1.19.4) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} pyxhook==1.0.0) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} twilio==6.14.0) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} colorama==0.3.9) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} requests==2.20.0) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} pycryptodomex==3.8.1) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} py-cryptonight>=0.2.4) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx) > /dev/null & spinner $!
+    $($SUDO ${PIP_INSTALL} opencv-python;python_version>'3') > /dev/null & spinner $!
 }
 byobSetup(){
     managevrl(){
