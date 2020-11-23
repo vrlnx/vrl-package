@@ -182,23 +182,23 @@ pipConfig(){
     # Issue 0021 - bash: line 152: syntax error near unexpected token 'else'
     for i in ${REQU_PIP[@]}; do
         say "Installing $i..."
-        ${PIP_INSTALL} $i > /dev/null & spinner $!
+        $SUDO ${PIP_INSTALL} $i > /dev/null & spinner $!
     done
 
-    ${PIP_INSTALL} pyinstaller==3.6 > /dev/null & spinner $!
-    ${PIP_INSTALL} mss==3.3.0 > /dev/null & spinner $!
-    ${PIP_INSTALL} WMI==1.4.9 > /dev/null & spinner $!
-    ${PIP_INSTALL} numpy==1.19.4 > /dev/null & spinner $!
-    ${PIP_INSTALL} pyxhook==1.0.0 > /dev/null & spinner $!
-    ${PIP_INSTALL} twilio==6.14.0 > /dev/null & spinner $!
-    ${PIP_INSTALL} colorama==0.3.9 > /dev/null & spinner $!
-    ${PIP_INSTALL} requests==2.20.0 > /dev/null & spinner $!
-    ${PIP_INSTALL} pycryptodomex==3.8.1 > /dev/null & spinner $!
-    ${PIP_INSTALL} py-cryptonight>=0.2.4 > /dev/null & spinner $!
-    ${PIP_INSTALL} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
-    ${PIP_INSTALL} opencv-python;python_version>'3' > /dev/null & spinner $!
-    ${PIP_INSTALL} pypiwin32==223;sys.platform=='win32'
-    ${PIP_INSTALL} pyHook==1.5.1;sys.platform=='win32'
+    $SUDO ${PIP_INSTALL} pyinstaller==3.6 > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} mss==3.3.0 > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} WMI==1.4.9 > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} numpy==1.19.4 > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} pyxhook==1.0.0 > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} twilio==6.14.0 > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} colorama==0.3.9 > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} requests==2.20.0 > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} pycryptodomex==3.8.1 > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} py-cryptonight>=0.2.4 > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} opencv-python;python_version>'3' > /dev/null & spinner $!
+    $SUDO ${PIP_INSTALL} pypiwin32==223;sys.platform=='win32'
+    $SUDO ${PIP_INSTALL} pyHook==1.5.1;sys.platform=='win32'
 }
 byobSetup(){
     managevrl(){
@@ -215,7 +215,6 @@ byobSetup(){
         say "Installing general lacking requirements"
         cd ${vrlFilesDir}
         pipConfig > /dev/null & spinner $!
-        return say "VRL-Package achieved"
     }
     manageByob(){
         say "Setting up Byob for vrl-package"
@@ -234,8 +233,6 @@ byobSetup(){
         say "Downloading Byob Python3 GUI requirements"
         cd ${byobFileDir}/web-gui/
         $SUDO ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
-
-        return say "Byob managed"
     }
     [ ! -d "${vrlFilesDir}" ] && $SUDO mkdir ${vrlFilesDir} || say "${vrlFilesDir} already exist"
     managevrl
