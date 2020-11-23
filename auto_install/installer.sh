@@ -215,43 +215,49 @@ pipConfig(){
     # ${PIP_INSTALL} pyHook==1.5.1\;sys.platform=='win32'
 }
 byobSetup(){
+    managevrl(){
+        say "Configuring .local mDNS"
+        $SUDO systemctl start avahi-daemon &> /dev/null
+        $SUDO systemctl enable avahi-daemon &> /dev/null
+        say "Enabled avahi-daemon on Boot"
+
+        say "Configuring Docker Container Service"
+        $SUDO systemctl start docker &> /dev/null
+        $SUDO systemctl enable docker &> /dev/null
+        say "Enabled Docker on Boot"
+        
+        say "Installing general lacking requirements"
+        cd ${vrlFilesDir}
+        pipConfig > /dev/null & spinner $!
+        return say "VRL-Package achieved"
+    }
+    manageByob(){
+        say "Setting up Byob for vrl-package"
+        cd ${vrlFilesDir}
+        $SUDO git clone ${byobGitUrl} &> /dev/null
+        [ ! -d "${byobFileDir}" ] && say "[ ERROR ] LOC: ${byobFileDir} does not exsist. Failed to install!" && exit 1 || say "[ OK ] LOC: ${byobFileDir}"
+        
+        say "Downloading Byob Python3 CLI requirements"
+        cd ${byobFileDir}/byob
+        ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
+        say "Applying Python3 CLI requirements"
+        python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
+
+        say "Downloading Byob Python3 GUI requirements"
+        cd ${byobFileDir}/web-gui/
+        ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
+        
+        return say "Byob managed"
+    }
     [ ! -d "${vrlFilesDir}" ] && $SUDO mkdir ${vrlFilesDir} || say "${vrlFilesDir} already exist"
-    
-    say "Configuring .local mDNS"
-    $SUDO systemctl start avahi-daemon &> /dev/null
-    $SUDO systemctl enable avahi-daemon &> /dev/null
-    say "Enabled avahi-daemon on Boot"
-
-    say "Configuring Docker Container Service"
-    $SUDO systemctl start docker &> /dev/null
-    $SUDO systemctl enable docker &> /dev/null
-    say "Enabled Docker on Boot"
-
-    say "Setting up Byob for vrl-package"
-    cd ${vrlFilesDir}
-    git -C ~/ clone ${byobGitUrl} &> /dev/null
-    $SUDO mv ~/byob ${vrlFilesDir}/
-    [ ! -d "${byobFileDir}" ] && say "[ ERROR ] LOC: ${byobFileDir} does not exsist. Failed to install!" && exit 1 || say "[ OK ] LOC: ${byobFileDir}"
-    
-    say "Downloading Byob Python3 CLI requirements"
-    cd ${byobFileDir}/byob
-    ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
-    say "Applying Python3 CLI requirements"
-    python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
-
-    say "Downloading Byob Python3 GUI requirements"
-    cd ${byobFileDir}/web-gui/
-    ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
-
-    say "Installing general lacking requirements"
-    cd ${vrlFilesDir}
-    pipConfig > /dev/null & spinner $!
+    managevrl
+    manageByob
 
     say "Configure Docker Container permissions"
     local USER_ME=$(whoami)
-    sudo usermod -aG docker $USER_ME  &> /dev/null
+    $SUDO usermod -aG docker $USER_ME  &> /dev/null
     PATH=$PATH:$HOME/.local/bin &> /dev/null
-    sudo chown root:root -R ${byobFileDir} &> /dev/null
+    $SUDO chown root:root -R ${byobFileDir} &> /dev/null
 
     say "Configuring services"
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
