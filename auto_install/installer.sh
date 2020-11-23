@@ -179,7 +179,6 @@ pipConfig(){
     flask-session
     wtforms
     )
-    # Issue 0021 - bash: line 152: syntax error near unexpected token 'else'
     for i in ${REQU_PIP[@]}; do
         say "Installing $i..."
         $SUDO ${PIP_INSTALL} $i > /dev/null & spinner $!
