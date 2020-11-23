@@ -238,24 +238,20 @@ byobSetup(){
     ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
     say "Applying Python3 CLI requirements"
     python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
-    [ $? -eq 0 ] && exit 1
 
     say "Downloading Byob Python3 GUI requirements"
     cd ${byobFileDir}/web-gui/
     ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
-    [ $? -eq 0 ] && exit 1
 
     say "Installing general lacking requirements"
     cd ${vrlFilesDir}
     pipConfig > /dev/null & spinner $!
-    [ $? -eq 0 ] && exit 1
 
     say "Configure Docker Container permissions"
     local USER_ME=$(whoami)
     sudo usermod -aG docker $USER_ME  &> /dev/null
     PATH=$PATH:$HOME/.local/bin &> /dev/null
     sudo chown root:root -R ${byobFileDir} &> /dev/null
-    [ $? -eq 0 ] && exit 1
 
     say "Configuring services"
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
