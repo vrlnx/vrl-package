@@ -237,10 +237,10 @@ byobSetup(){
     [ ! -d "${byobFileDir}" ] && say "[ ERROR ] LOC: ${byobFileDir} does not exsist. Failed to install!" && exit 1 || say "[ OK ] LOC: ${byobFileDir}"
     
     say "Downloading Byob Python3 CLI requirements"
-    cd ${byobFileDir}
-    python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
-    say "Applying Python3 CLI requirements"
+    cd ${byobFileDir}/byob
     ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
+    say "Applying Python3 CLI requirements"
+    python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
     [ $? -eq 0 ] && exit 1
 
     say "Downloading Byob Python3 GUI requirements"
