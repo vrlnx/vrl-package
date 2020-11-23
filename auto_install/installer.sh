@@ -221,14 +221,14 @@ byobSetup(){
     [ ! -d "${vrlFilesDir}" ] && $SUDO mkdir ${vrlFilesDir} || say "${vrlFilesDir} already exist"
     
     say "Configuring .local mDNS"
-    $SUDO systemctl start avahi-daemon &> /dev/null \
-    ; $SUDO systemctl enable avahi-daemon &> /dev/null
-    [ $? -eq 0 ] && exit 1
-    
+    $SUDO systemctl start avahi-daemon &> /dev/null
+    $SUDO systemctl enable avahi-daemon &> /dev/null
+    say "Enabled avahi-daemon on Boot"
+
     say "Configuring Docker Container Service"
-    $SUDO systemctl start docker &> /dev/null \
-    ; $SUDO systemctl enable docker &> /dev/null
-    [ $? -eq 0 ] && exit 1
+    $SUDO systemctl start docker &> /dev/null
+    $SUDO systemctl enable docker &> /dev/null
+    say "Enabled Docker on Boot"
 
     say "Setting up Byob for vrl-package"
     cd ${vrlFilesDir}
@@ -239,7 +239,6 @@ byobSetup(){
     say "Downloading Byob Python3 CLI requirements"
     cd ${byobFileDir}
     python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
-    [ $? -eq 0 ] && exit 1
     say "Applying Python3 CLI requirements"
     ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
     [ $? -eq 0 ] && exit 1
