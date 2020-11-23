@@ -221,13 +221,15 @@ byobSetup(){
         say "Setting up Byob for vrl-package"
         cd ${vrlFilesDir}
         $SUDO git clone ${byobGitUrl} &> /dev/null
+        sleep 1
+        $SUDO chown root:root -R ${vrlFilesDir} &> /dev/null
         [ ! -d "${byobFileDir}" ] && say "[ ERROR ] LOC: ${byobFileDir} does not exsist. Failed to install!" && exit 1 || say "[ OK ] LOC: ${byobFileDir}"
-        
+
         say "Downloading Byob Python3 CLI requirements"
         cd ${byobFileDir}/byob
         ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
         say "Applying Python3 CLI requirements"
-        python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
+        $SUDO python3 ${byobFileDir}/byob/setup.py > /dev/null & spinner $!
 
         say "Downloading Byob Python3 GUI requirements"
         cd ${byobFileDir}/web-gui/
@@ -247,7 +249,7 @@ byobSetup(){
     PATH=$PATH:$HOME/.local/bin &> /dev/null
     say "Change owner of: ${vrlFilesDir}"
     sleep 1
-    $SUDO chown root:root -R ${vrlFilesDir} &> /dev/null
+    
 
     say "Configuring services"
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
