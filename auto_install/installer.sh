@@ -23,13 +23,13 @@ BASE_DEPS=(git tar wget curl grep net-tools bsdmainutils)
 
 ######## URL #######
 commandfileUrl="https://raw.githubusercontent.com/vrlnx/vrl-package/${gitBranch}/service/vrl"
-serviceUrl="https://raw.githubusercontent.com/vrlnx/vrl-package/${gitBranch}/service/vrl.serivce"
+serviceUrl="https://raw.githubusercontent.com/vrlnx/vrl-package/${gitBranch}/service/vrl.service"
 
 ######## PKG Vars ########
 PKG_MANAGER="apt"
 PKG_CACHE="/var/lib/apt/lists/"
 ### FIXME: quoting UPDATE_PKG_CACHE and PKG_INSTALL hangs the script, shellcheck SC2086
-UPDATE_PKG_CACHE="${PKG_MANAGER} update"
+UPDATE_PKG_CACHE="${PKG_MANAGER} update -qq"
 PKG_INSTALL="${PKG_MANAGER} --yes --no-install-recommends install"
 PKG_COUNT="${PKG_MANAGER} -s -o Debug::NoLocking=true upgrade | grep -c ^Inst || true"
 
@@ -115,7 +115,7 @@ maybeOSSupport(){
     say "You are on an OS that we have not tested but MAY work, continuing anyway..."
 }
 updatePackageCache(){
-    $SUDO ${UPDATE_PKG_CACHE} > /dev/null & spinner $!
+    $SUDO ${UPDATE_PKG_CACHE}
 
     REQU_DEPS=(
     avahi-daemon
@@ -144,7 +144,7 @@ notifyPackageUpdatesAvailable(){
     # advise them to run a package update at soonest possible.
     say
     echo -n "::: Checking ${PKG_MANAGER} for upgraded packages...."
-    updatesToInstall=$(eval "${PKG_COUNT}")
+    updatesToInstall=$(eval "${PKG_COUNT}" &> /dev/null)
     echo " done!"
     say
     if [[ ${updatesToInstall} -eq "0" ]]; then
@@ -156,20 +156,20 @@ notifyPackageUpdatesAvailable(){
     fi
 }
 welcomeDialogs(){
-    say "VRL Automated Installer"
+    clear
+    say "VRL Installer - Automated"
     say "This installer will transform your ${PLAT} host into an C2 server!"
     say "By using this you agree to vrl-package's TOS and Rules of Conduct"
     say
     say "You have 10 sec to abort install if you do not agree [CTRL+C]"
     numsz=(10 9 8 7 6 5 4 3 2 1)
     for i in ${numsz[@]}; do
-        sleep 1s
-        say "Launch in $i..."
+        sleep 1
+        echo -en "\r\e[KLaunch in $i..."
     done
 }
 pipConfig(){
-
-    REQU_PIP=(
+    local REQU_PIP=(
     flask
     flask_wtf
     flask_mail
@@ -178,24 +178,23 @@ pipConfig(){
     flask-sqlalchemy
     flask-session
     wtforms
+    pyinstaller==3.6
+    mss==3.3.0
+    WMI==1.4.9
+    numpy==1.19.3
+    pyxhook==1.0.0
+    twilio==6.14.0
+    colorama
+    requests==2.20.0
+    pycryptodomex==3.8.1
+    py-cryptonight
+    opencv-python
+    git+https://github.com/jtgrassie/pyrx.git#egg=pyrx
     )
     for i in ${REQU_PIP[@]}; do
         say "Installing $i..."
         $SUDO ${PIP_INSTALL} $i > /dev/null & spinner $!
     done
-
-    $($SUDO ${PIP_INSTALL} pyinstaller==3.6) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} mss==3.3.0) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} WMI==1.4.9) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} numpy==1.19.4) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} pyxhook==1.0.0) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} twilio==6.14.0) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} colorama==0.3.9) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} requests==2.20.0) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} pycryptodomex==3.8.1) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} py-cryptonight>=0.2.4) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} git+https://github.com/jtgrassie/pyrx.git#egg=pyrx) > /dev/null & spinner $!
-    $($SUDO ${PIP_INSTALL} opencv-python;python_version>'3') > /dev/null & spinner $!
 }
 byobSetup(){
     managevrl(){
@@ -231,7 +230,7 @@ byobSetup(){
         cd ${byobFileDir}/web-gui/
         $SUDO ${PIP_INSTALL} -r requirements.txt > /dev/null & spinner $!
     }
-    [ ! -d "${vrlFilesDir}" ] && $SUDO mkdir ${vrlFilesDir} || say "${vrlFilesDir} already exist"
+    [ ! -d "${vrlFilesDir}" ] && $SUDO mkdir ${vrlFilesDir} && say "[ OK ] - Creating vrl folder" || echo "WARNING - ${vrlFilesDir} already exist!" && say "Removing old folder" && $SUDO rm -rf ${vrlFilesDir} && $SUDO mkdir ${vrlFilesDir}
     managevrl
     manageByob
 
@@ -245,25 +244,16 @@ byobSetup(){
     sleep 1
     
 
-    say "Configuring services"
+    say "Configuring command services"
     $SUDO wget -O ${vrlCommandFile} ${commandfileUrl} > /dev/null & spinner $!
     $SUDO chmod 755 ${vrlCommandFile}
-    serviceFiles(){
-        $SUDO wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
-        $SUDO chmod 755 "${vrlServiceFile}"
-        say "done."
-        sleep 2
-        clear
-    }
-    # ::: Issue 0024 - Making sure that service files
-    if [ -d "${vrlFilesDir}" ]; then
-        $SUDO rm -rf ${vrlFilesDir}
-        serviceFiles
-    else
-        $SUDO mkdir ${vrlFilesDir}
-        say "Creating "
-        serviceFiles
-    fi
+    
+    say "Configuring system services"
+    $SUDO wget -O ${vrlServiceFile} ${serviceUrl} > /dev/null & spinner $!
+    $SUDO chmod 755 "${vrlServiceFile}"
+
+    say "done."
+    sleep 2
     
     # ::: Issue 0025 - Make sure to build Docker containers
     # Build Docker images
@@ -301,7 +291,7 @@ installDependentPackages(){
 		fi
 	done
 
-    $SUDO ${PKG_INSTALL} "${TO_INSTALL[@]}"
+    $SUDO ${PKG_INSTALL} "${TO_INSTALL[@]}" &> /dev/null
 
 	local FAILED=0
 
